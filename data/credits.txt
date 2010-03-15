@@ -1,0 +1,20 @@
+From http://www.wavsource.com:
+  blip.wav
+  boing.wav
+  car_skid.wav
+  cannon_x.wav
+  clang_x.wav
+  door_creak2.wav
+  hammer_anvil3.wav
+  hit_with_frying_pan_y.wav
+  metal_crunch.wav
+  phasers3.wav
+
+From wav-sounds.com
+  engine.wav (derived from boatsteam.wav)
+
+From http://www.naturesongs.com
+  cricket1.wav
+    (Copyright Doug Von Gausig, 1997-2007,
+    non-commercial use granted freely)
+
