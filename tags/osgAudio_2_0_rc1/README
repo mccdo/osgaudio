@@ -1,0 +1,123 @@
+/**
+ * OpenSceneGraph Audio Library, osgAudio
+ * Original osgAL, Copyright (C) 2004 VRlab, Umeå University
+ * Copyright (C) 2010 Chris Hanson, AlphaPixel, LLC
+ *
+ * OsgAudio requires all of the following libraries:
+ *              OpenSceneGraph (http://www.openscenegraph.org), 
+ *
+ * OsgAudio requires one of the following libraries:
+ *              OpenAL++ http://sourceforge.net/projects/alpp/
+ *                OpenAL++ dependencies:
+ *                  OpenAL http://connect.creativelabs.com/openal/default.aspx
+ *                  freeALUT http://connect.creativelabs.com/openal/Downloads/Forms/AllItems.aspx?RootFolder=/openal/Downloads/ALUT
+ *                  OggVorbis (libogg, libvorbis) http://xiph.org/downloads/
+ *              FMOD Ex (no dependencies) http://www.fmod.org/
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
+ */
+
+OpenSceneGraph Audio Library - osgAudio is a small library for adding 3D sound support to the
+open source scenegraph OpenSceneGraph.
+
+By adding a SoundNode to the scene a sound can be made following the transformation of the parents.
+
+
+Dependencies:
+
+OpenSceneGraph (and OpenThreads) Currently tested with 2.9.6 and later, should work with
+earlier versions too.
+
+One of the two backends:
+
+FMOD Backend Dependencies
+FMOD Ex Programmers API (tested with Version: 4.28.07)
+http://www.fmod.org/index.php/download#FMODExProgrammersAPI
+The fmodex.dll will need to present at runtime.
+
+
+OpenAL Backend
+OpenAL 1.1 SDK and ALUT are needed when compiling:
+from http://connect.creativelabs.com/openal/Downloads/Forms/AllItems.aspx
+http://connect.creativelabs.com/openal/Downloads/OpenAL11CoreSDK.zip
+http://connect.creativelabs.com/openal/Downloads/ALUT/freealut-1.1.0-src.zip
+http://connect.creativelabs.com/openal/Downloads/ALUT/freealut-1.1.0-bin.zip
+The OpenAL++ abstraction layer is included with osgAudio.
+LibOGG (1.1.4) and LibVorbis (1.2.3): http://xiph.org/downloads/
+http://downloads.xiph.org/releases/ogg/libogg-1.1.4.zip
+http://downloads.xiph.org/releases/vorbis/libvorbis-1.2.3.zip
+
+OpenAL runtime distribution must be installed at runtime:
+from http://connect.creativelabs.com/openal/Downloads/Forms/AllItems.aspx
+oalinst	(Summer 2009 Version 2.0.7.0, http://connect.creativelabs.com/openal/Downloads/oalinst.zip  
+
+
+
+
+
+
+
+Build under Linux:
+
+Untested. CMake files should be portable to Linux.
+
+
+Build under Windows:
+
+OpenAL Audio subsystem:
+Due to missing version information in the OpenAL header files,
+a macro named OPENAL_VERSION was introduced.
+Under unix, this is managed automatically from the content of the
+OpenAL header files (in configure.in).
+Unfortunately there is no such mechanism in windows.
+Therefore the OpenAL version has to be determined manually (check configure.in)
+and set in include/openalpp/windowsstuff
+Default is OPENAL_VERSION == 2007 (latest).
+
+LibOGG and LibVorbis (including vorbisfile) must be built prior to building osgAudio+openAL++.
+
+FMOD:
+No special steps.
+
+Common:
+Navigate to the osgAudio folder within CMake and
+configure all necessary paths, then generate build files for your development tools.
+
+
+CMake settings:
+All the boolean user-controlled options are prefixed with 0_ to force CMake to sort them
+to the top of the list. One of either 0_ENABLE_SUBSYSTEM_OPENAL or 0_ENABLE_SUBSYSTEM_FMOD
+should be checked, but not both.
+0_BUILD_EXAMPLES_OSGAUDIO builds the high-level OSG-integrated demo examples and is recommended.
+0_BUILD_EXAMPLES_OSGAUDIO_LOWLEVEL builds the low-level non-OSG-dependent examples that mimic the
+  original OpenAL++ low-level examples, but use the osgAudio abstraction layer. Recommended.
+0_BUILD_EXAMPLES_OPENALPP builds the original low-level non-OSG-dependent examples that use the
+  OpenAL++ API directly and not the osgAudio abstraction layer. These will only build if you compile
+  with the OpenAL++ backend enabled. Recommended if you build with OpenAL++
+
+Unimplemented:
+Audio recording, live audio input streams, and grouped audio sources are unimplemented in FMOD. Some
+more esoteric settings (such as reverb) may not be implemented in FMOD if a mapping between the
+original functionality and FMOD's API couldn't be found.
+
+Testing:
+  If you are building for OpenAL++, first test the OpenAL++ low-level examples (example_oalpp_*).
+  If you are using FMOD, or if that step passes, then test the osgAudio low-level example/demo
+  programs (example_osgaudiolow_*). When those run ok, try the osgAudio high-level OSG-integrated
+  examples (example_osgaudio_*).
+
+Contact:
+Chris 'Xenon' Hanson, AlphaPixel, LLC. Xenon@alphapixel.com
+

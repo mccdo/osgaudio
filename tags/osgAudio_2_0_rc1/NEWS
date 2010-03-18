@@ -1,0 +1,154 @@
+NEWS
+*010110, Chris Hanson
+  - Forked project to osgAudio, began refactoring and FMOD support.
+
+Events pertaining to osgAL:
+* 071227, Anders Backman
+  - Added ambient music example to osgal.cpp key 'm' toggles music play.
+  - Removed Event class (Block in OpenThreads replaces it).
+  - Minor thread changes. Should be refactored really.
+  
+* 070912, Loic Dachary
+  - Update autotools files and pkgconfig files
+* 070802, Anders Backman, Daniel Sjölie
+  - Updating to support the new osg 2.0 release.
+  - Removed dependency of Producer, now using core osg::Viewer
+  - New policy for deleting Ref counted objects require a call to:
+		
+		if (osg::Referenced::getDeleteHandler()) {
+			osg::Referenced::getDeleteHandler()->setNumFramesToRetainObjects(0);
+			osg::Referenced::getDeleteHandler()->flushAll();
+		}
+		
+  	before calling SoundManager::Shutdown(), otherwise objects are not deleted within the scope of main() which can
+  	cause problems during shutdown of OpenAL.
+  - Fixed bug causing sound not playing when reading from .osg file.
+  - Added key "streamFileName" to make it possible to play .ogg files specified from a .osg file.
+
+* 061221, Anders Backman
+  - Added SoundState::setEnable()/getEnable() to make it possible to stop a SoundState from making any sound at all.
+  
+* 061220, Anders Backman
+  - Using callbacks when initializing OGG, which seems to work a lot better. In VC8
+  using non-callback version of OGG crasches on most of my computers.
+  play_ogg and multlple_oggStreams now works fine on my computer.
+  
+* 061119, Anders Backman
+  - Defaulting to VisualStudio 8 under Windows. 
+    Older project files are still available but will not be updated from now on.
+
+* 061115, Loic Dachary
+  - Numerous Unix fixes including fixing build system for linux.
+  - Added OPENAL_VERSION in configure.in to make it possible
+  to use various versions of OpenAL together with OpenAL++
+  - Windows specification of OPENAL_VERSION can be found in openalpp/windowsstuff.h
+  
+* 061008, Anders Backman
+  - Fixed numerous bugs in streaming code.
+  - Restructured the strange copying of Streams/Samples in constructors of Source class.
+  - Using more consistent reference pointing
+  - Got rid of crasch bug if Sources remained unallocated.
+  - Added "menus" to capture demo and playOgg demo.
+  - Fixed problem with attaching new streams to a playing source.
+
+
+* Version 0.5
+  061004 Updated code:
+  - Updated code for streaming ogg-files.
+    Using less CPU. Although a few calls to sleep() could cause problems when using very small buffers, 
+    but in practice it shouldnt be a problem.
+  - Added capture functionality to make it possible to capture sound through the input devices
+    available. This results in a stream that can be fed into a HW-source, just as any other stream.
+  - Added capture example and multiple_oggstreams example.
+  - Renamed play_stream to playOgg
+  - Still not tested under Linux (underway though).
+
+* 060815 Merged OpenAL++ and osgAL to simplify the buildprocess.
+  - Removed .h for all header files.
+  - Renamed header files to Uppercase similar to osgAL.
+  
+* 051208 Added  stopAllSources() method to SoundManager
+* 051114 Moved updating the processing of queued SoundStates into a separate method: processQueuedSoundStates()
+
+* 050525 Patch form Alberto Jaspe (videaLAB / University of La Coruña)
+  - Several miscelaneus bugfixes.
+  - Added support for reading/writing from/to osg files.
+  - Important bugfixes in doppler issues.
+  - Using just one update frequency for listener and sources, in SoundManager.
+  - Using a state for clamp function for max velocites in both listener and sources,
+    disabled by default.
+  - Replaced the FilePath Manager for the osgDB support.
+  - Added a new example called osgalviewer, that acts like osgviewer, but with some features oriented to treat with Sound Nodes.
+  - Compiled and tested with OSG 0.9.9.
+
+* 050208 Patch from Loic Dachary applied. Mostly buildstuff.
+
+* 050113 Fixed bug in SoundManager. Crash during call to shutdown if there were soundstates 
+  left in the active queue
+
+* 041110
+  - 041110 OpenAL++ now uses its own ref_ptr, this means that the responsibility of
+    deleting Sources Samples etc. have been resolved. 
+  - A new example osgalmultiple example demonstrates this.
+  - A few method have changed semantics:
+
+     //The last argument now specifies if getSample()/getStream() should add any found and loaded samples/streams
+     //to the cache for faster access later on.
+     SoundManager::getSample(const std::string& path, bool add_to_cache=true );
+     SoundManager::getStream(const std::string& path, bool add_to_cache=true );
+
+     SoundManager::clearSampleCache()
+     SoundManager::clearStreamCache()
+
+     now takes care of cleaning the caches.
+
+  - SoundManager::clean() is deprecated and replaced by the method shutdown().
+    shutdown must be called prior to end of main() function. Otherwise OpenAL will cause
+    problems during deallocation of sources later on.
+
+
+* 040621 Fixed bug in SoundRoot. Now uses correct modelview matrix.
+
+
+OpenAL++ news before the merge of osgAL and OpenAL++:
+-------------------------------------------------------
+2005-11-14 Anders Backman
+Added playstream example to be able to play ogg files from cmd-line.
+
+2005-03-23 Dewitt Colclough [dewitt@twcny.rr.com]
+Added seek() method to move in ogg streams.
+Major stability, memory leak fix for streaming ogg files.
+Fixed pause() method when streaming.
+
+
+2005-02-07 Anders Backman
+Minor patches applied to buildsystem
+
+2005-01-21 Anders Backman:
+Changed default device to NULL when initializing OpenAL. This is regarded to be Best quality/performance. (See OpenAL website)
+
+2004-11-23 Anders Backman:
+Added contructor to Sample taking raw data as parameter directly.
+
+2004-11-10 Anders Backman:
+Major revision. Added referenced (smart) pointers to clean up the 
+responsibility of new/delete policy. This means that it is now not possible to create any instances of 
+Source, Streams, Sample, FileStreams at the stack. THey have to be created on the heap (using new).
+This is to avoid memory polution. Whenever possible a osg::ref_ptr<> should be used to 
+store the allocated objects.
+This ensures a clean and stable memory handling. See the examples for the changes.
+Several methods now have pointer to a class instead of a reference to a class as arguments.
+
+For example: pSource->setSound(pSample)
+
+A bug in the FileStream class is fixed, playing ogg files using certain sound cards under windows was known to cause crashes. This should now work. Linux is still an issue, as openal is not thread safe under linux. 
+Whenever OpenAL have stable ogg support, it will be working in OpenAL++
+rewind, pause, is still unstable for streaming sounds. start() and stop() method should work just fine.
+This in total, makes openal++ more stable and more useful than ever.
+
+
+
+2004-09-23 Anders Backman:
+Small fixes for the filestreaming class. 
+Changed the play method in sourcebase to not use array of linked sources.
+

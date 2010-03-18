@@ -1,0 +1,358 @@
+Group {
+  UniqueID Group_0
+  DataVariance DYNAMIC
+  nodeMask 0xffffffff
+  cullingActive TRUE
+  num_children 3
+  PositionAttitudeTransform {
+    UniqueID PositionAttitudeTransform_1
+    DataVariance DYNAMIC
+    nodeMask 0xffffffff
+    cullingActive TRUE
+    referenceFrame RELATIVE
+    position 0 0 0
+    attitude 0 0 0.0667315 0.997771
+    scale 1 1 1
+    pivotPoint 0 0 0
+    num_children 1
+    Group {
+      DataVariance DYNAMIC
+      name "house.ac"
+      nodeMask 0xffffffff
+      cullingActive TRUE
+      num_children 1
+      Group {
+        DataVariance DYNAMIC
+        name "box"
+        nodeMask 0xffffffff
+        cullingActive TRUE
+        num_children 1
+        Geode {
+          DataVariance DYNAMIC
+          name "box"
+          nodeMask 0xffffffff
+          cullingActive TRUE
+          num_drawables 1
+          Geometry {
+            DataVariance DYNAMIC
+            StateSet {
+              DataVariance STATIC
+              rendering_hint DEFAULT_BIN
+              renderBinMode INHERIT
+              GL_CULL_FACE OFF
+              GL_LIGHTING ON
+              GL_BLEND OFF
+              Material {
+                DataVariance STATIC
+                ColorMode OFF
+                ambientColor 0.2 0.2 0.2 1
+                diffuseColor 1 0 0 1
+                specularColor 0.5 0.5 0.5 1
+                emissionColor 0 0 0 1
+                shininess 10
+              }
+            }
+            useDisplayList TRUE
+            useVertexBufferObjects FALSE
+            PrimitiveSets 24
+            {
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                0 1 2 3 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                4 5 6 7 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                8 9 10 11 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                12 13 14 15 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                16 17 18 19 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                20 21 22 23 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                24 25 26 27 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                28 29 30 31 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                32 33 34 35 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                36 37 38 39 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                40 41 42 43 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                44 45 46 47 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                48 49 50 51 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                52 53 54 55 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                56 57 58 59 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                60 61 62 63 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                64 65 66 67 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                68 69 70 71 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                72 73 74 75 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                76 77 78 79 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                80 81 82 83 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                84 85 86 87 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                88 89 90 91 
+              }
+              DrawElementsUShort TRIANGLE_FAN 4
+              {
+                92 93 94 95 
+              }
+            }
+            VertexArray Vec3Array 96
+            {
+              -5.74612 -5.42076 -5.43721
+              -5.74612 4.2488 -5.43721
+              -2.86558 1.83141 -5.43721
+              -2.86558 -3.00337 -5.43721
+              -5.74612 4.2488 -5.43721
+              5.77606 4.2488 -5.43721
+              2.89552 1.83141 -5.43721
+              -2.86558 1.83141 -5.43721
+              5.77606 4.2488 -5.43721
+              5.77606 -5.42076 -5.43721
+              2.89552 -3.00337 -5.43721
+              2.89552 1.83141 -5.43721
+              5.77606 -5.42076 -5.43721
+              -5.74612 -5.42076 -5.43721
+              -2.86558 -3.00337 -5.43721
+              2.89552 -3.00337 -5.43721
+              5.77606 4.2488 5.50863
+              5.77606 -5.42076 5.50863
+              5.77606 -3.00337 2.77217
+              5.77606 1.83141 2.77217
+              5.77606 -5.42076 5.50863
+              5.77606 -5.42076 -5.43721
+              5.77606 -3.00337 -2.70075
+              5.77606 -3.00337 2.77217
+              5.77606 -5.42076 -5.43721
+              5.77606 4.2488 -5.43721
+              5.77606 1.83141 -2.70075
+              5.77606 -3.00337 -2.70075
+              5.77606 4.2488 -5.43721
+              5.77606 4.2488 5.50863
+              5.77606 1.83141 2.77217
+              5.77606 1.83141 -2.70075
+              5.77606 -5.42076 5.50863
+              5.77606 4.2488 5.50863
+              2.89552 1.83141 5.50863
+              2.89552 -3.00337 5.50863
+              5.77606 4.2488 5.50863
+              -5.74612 4.2488 5.50863
+              -2.86558 1.83141 5.50863
+              2.89552 1.83141 5.50863
+              -5.74612 4.2488 5.50863
+              -5.74612 -5.42076 5.50863
+              -2.86558 -3.00337 5.50863
+              -2.86558 1.83141 5.50863
+              -5.74612 -5.42076 5.50863
+              5.77606 -5.42076 5.50863
+              2.89552 -3.00337 5.50863
+              -2.86558 -3.00337 5.50863
+              -5.74612 -5.42076 5.50863
+              -5.74612 4.2488 5.50863
+              -5.74612 1.83141 2.77217
+              -5.74612 -3.00337 2.77217
+              -5.74612 4.2488 5.50863
+              -5.74612 4.2488 -5.43721
+              -5.74612 1.83141 -2.70075
+              -5.74612 1.83141 2.77217
+              -5.74612 4.2488 -5.43721
+              -5.74612 -5.42076 -5.43721
+              -5.74612 -3.00337 -2.70075
+              -5.74612 1.83141 -2.70075
+              -5.74612 -5.42076 -5.43721
+              -5.74612 -5.42076 5.50863
+              -5.74612 -3.00337 2.77217
+              -5.74612 -3.00337 -2.70075
+              -5.74612 4.2488 -5.43721
+              -5.74612 4.2488 5.50863
+              -2.86558 4.2488 2.77217
+              -2.86558 4.2488 -2.70075
+              -5.74612 4.2488 5.50863
+              5.77606 4.2488 5.50863
+              2.89552 4.2488 2.77217
+              -2.86558 4.2488 2.77217
+              5.77606 4.2488 5.50863
+              5.77606 4.2488 -5.43721
+              2.89552 4.2488 -2.70075
+              2.89552 4.2488 2.77217
+              5.77606 4.2488 -5.43721
+              -5.74612 4.2488 -5.43721
+              -2.86558 4.2488 -2.70075
+              2.89552 4.2488 -2.70075
+              -5.74612 -5.42076 5.50863
+              -5.74612 -5.42076 -5.43721
+              -2.86558 -5.42076 -2.70075
+              -2.86558 -5.42076 2.77217
+              -5.74612 -5.42076 -5.43721
+              5.77606 -5.42076 -5.43721
+              2.89552 -5.42076 -2.70075
+              -2.86558 -5.42076 -2.70075
+              5.77606 -5.42076 -5.43721
+              5.77606 -5.42076 5.50863
+              2.89552 -5.42076 2.77217
+              2.89552 -5.42076 -2.70075
+              5.77606 -5.42076 5.50863
+              -5.74612 -5.42076 5.50863
+              -2.86558 -5.42076 2.77217
+              2.89552 -5.42076 2.77217
+            }
+            NormalBinding PER_PRIMITIVE
+            NormalArray Vec3Array 24
+            {
+              0 0 -1
+              0 0 -1
+              0 0 -1
+              0 0 -1
+              1 0 0
+              1 0 0
+              1 0 0
+              1 0 0
+              0 0 1
+              0 0 1
+              0 0 1
+              0 0 1
+              -1 0 0
+              -1 0 0
+              -1 0 0
+              -1 0 0
+              0 1 0
+              0 1 0
+              0 1 0
+              0 1 0
+              0 -1 0
+              0 -1 0
+              0 -1 0
+              0 -1 0
+            }
+          }
+        }
+      }
+    }
+  }
+  osgAudio::SoundRoot {
+    UniqueID SoundRoot_2
+    DataVariance DYNAMIC
+    nodeMask 0xffffffff
+    cullingActive FALSE
+    updateEnable TRUE
+  }
+  PositionAttitudeTransform {
+    UniqueID PositionAttitudeTransform_3
+    DataVariance DYNAMIC
+    nodeMask 0xffffffff
+    cullingActive TRUE
+    referenceFrame RELATIVE
+    position 0 0 0
+    attitude 0 0 0 1
+    scale 1 1 1
+    pivotPoint 0 0 0
+    num_children 2
+    Geode {
+      DataVariance DYNAMIC
+      nodeMask 0xffffffff
+      cullingActive TRUE
+      num_drawables 1
+      ShapeDrawable {
+        DataVariance DYNAMIC
+        Sphere {
+          DataVariance DYNAMIC
+          Center 0 0 0
+          Radius 0.5
+        }
+        useDisplayList TRUE
+        useVertexBufferObjects FALSE
+        color 1 1 1 1
+        TessellationHints {
+          DataVariance DYNAMIC
+          detailRatio 0.5
+          createFaces TRUE FALSE
+          createNormals TRUE
+          createTextureCoords FALSE
+          createParts TRUE TRUE TRUE
+        }
+      }
+    }
+    osgAL::SoundNode {
+      DataVariance DYNAMIC
+      nodeMask 0xffffffff
+      cullingActive FALSE
+      osgAL::SoundState {
+        DataVariance DYNAMIC
+        name "a.wav"
+        fileName "a.wav"
+        playing TRUE
+        gain 1
+        looping TRUE
+        ambient FALSE
+        relative FALSE
+        referenceDistance 10
+        maxDistance 100
+        rolloffFactor 1
+        pitch 1
+        occludeDampingFactor 0.5
+        occludeScale 1
+      }
+      osgAL::OccludeCallback {
+        DataVariance DYNAMIC
+        Use Group_0
+        nearThreshold 0.55
+      }
+    }
+  }
+}

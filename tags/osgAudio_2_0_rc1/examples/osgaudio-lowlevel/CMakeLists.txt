@@ -1,0 +1,139 @@
+#########################################
+# Capture
+SET(EXE_NAME example_osgaudiolow_capture)
+
+ADD_EXECUTABLE( ${EXE_NAME} capture.cpp )
+add_definitions( -D_CONSOLE )
+
+INCLUDE_WITH_VARIABLES( ${EXE_NAME} ${SUBSYSTEM_INCLUDES} )
+INCLUDE_DIRECTORIES( ${OSG_INCLUDE_DIRS} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${OSG_LIBRARIES} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${SUBSYSTEM_TARGET_LINKS} osgAudio)
+SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
+IF(MSVC_IDE)
+	# Ugly workaround to remove the "/debug" or "/release" in each output
+	SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES PREFIX "../")
+ENDIF()
+
+INSTALL_EXAMPLE( ${EXE_NAME} )
+
+
+#########################################
+# Moving
+SET(EXE_NAME example_osgaudiolow_moving)
+
+ADD_EXECUTABLE( ${EXE_NAME} moving.cpp )
+add_definitions( -D_CONSOLE )
+
+INCLUDE_WITH_VARIABLES( ${EXE_NAME} ${SUBSYSTEM_INCLUDES} )
+INCLUDE_DIRECTORIES( ${OSG_INCLUDE_DIRS} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${OSG_LIBRARIES} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${SUBSYSTEM_TARGET_LINKS} osgAudio)
+SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
+IF(MSVC_IDE)
+	# Ugly workaround to remove the "/debug" or "/release" in each output
+	SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES PREFIX "../")
+ENDIF()
+
+INSTALL_EXAMPLE( ${EXE_NAME} )
+
+
+#########################################
+# Multiple
+SET(EXE_NAME example_osgaudiolow_multiple)
+
+ADD_EXECUTABLE( ${EXE_NAME} multiple.cpp )
+add_definitions( -D_CONSOLE )
+
+INCLUDE_WITH_VARIABLES( ${EXE_NAME} ${SUBSYSTEM_INCLUDES} )
+INCLUDE_DIRECTORIES( ${OSG_INCLUDE_DIRS} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${OSG_LIBRARIES} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${SUBSYSTEM_TARGET_LINKS} osgAudio)
+SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
+IF(MSVC_IDE)
+	# Ugly workaround to remove the "/debug" or "/release" in each output
+	SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES PREFIX "../")
+ENDIF()
+
+INSTALL_EXAMPLE( ${EXE_NAME} )
+
+
+#########################################
+# multiple_oggstreams
+SET(EXE_NAME example_osgaudiolow_multiple_oggstreams)
+
+ADD_EXECUTABLE( ${EXE_NAME} multiple_oggstreams.cpp )
+add_definitions( -D_CONSOLE )
+
+INCLUDE_WITH_VARIABLES( ${EXE_NAME} ${SUBSYSTEM_INCLUDES} )
+INCLUDE_DIRECTORIES( ${OSG_INCLUDE_DIRS} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${OSG_LIBRARIES} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${SUBSYSTEM_TARGET_LINKS} osgAudio)
+SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
+IF(MSVC_IDE)
+	# Ugly workaround to remove the "/debug" or "/release" in each output
+	SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES PREFIX "../")
+ENDIF()
+
+INSTALL_EXAMPLE( ${EXE_NAME} )
+
+
+#########################################
+# playOgg
+SET(EXE_NAME example_osgaudiolow_playOgg)
+
+ADD_EXECUTABLE( ${EXE_NAME} playOgg.cpp )
+add_definitions( -D_CONSOLE )
+
+INCLUDE_WITH_VARIABLES( ${EXE_NAME} ${SUBSYSTEM_INCLUDES} )
+INCLUDE_DIRECTORIES( ${OSG_INCLUDE_DIRS} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${OSG_LIBRARIES} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${SUBSYSTEM_TARGET_LINKS} osgAudio)
+SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
+IF(MSVC_IDE)
+	# Ugly workaround to remove the "/debug" or "/release" in each output
+	SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES PREFIX "../")
+ENDIF()
+
+INSTALL_EXAMPLE( ${EXE_NAME} )
+
+
+#########################################
+# simple
+SET(EXE_NAME example_osgaudiolow_simple)
+
+ADD_EXECUTABLE( ${EXE_NAME} simple.cpp )
+add_definitions( -D_CONSOLE )
+
+INCLUDE_WITH_VARIABLES( ${EXE_NAME} ${SUBSYSTEM_INCLUDES} )
+INCLUDE_DIRECTORIES( ${OSG_INCLUDE_DIRS} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${OSG_LIBRARIES} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${SUBSYSTEM_TARGET_LINKS} osgAudio)
+SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
+IF(MSVC_IDE)
+	# Ugly workaround to remove the "/debug" or "/release" in each output
+	SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES PREFIX "../")
+ENDIF()
+
+INSTALL_EXAMPLE( ${EXE_NAME} )
+
+
+#########################################
+# testfstream
+SET(EXE_NAME example_osgaudiolow_testfstream)
+
+ADD_EXECUTABLE( ${EXE_NAME} testfstream.cpp )
+add_definitions( -D_CONSOLE )
+
+INCLUDE_WITH_VARIABLES( ${EXE_NAME} ${SUBSYSTEM_INCLUDES} )
+INCLUDE_DIRECTORIES( ${OSG_INCLUDE_DIRS} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${OSG_LIBRARIES} )
+TARGET_LINK_LIBRARIES( ${EXE_NAME} ${SUBSYSTEM_TARGET_LINKS} osgAudio)
+SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
+IF(MSVC_IDE)
+	# Ugly workaround to remove the "/debug" or "/release" in each output
+	SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES PREFIX "../")
+ENDIF()
+
+INSTALL_EXAMPLE( ${EXE_NAME} )
+
