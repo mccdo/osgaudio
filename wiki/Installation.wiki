@@ -1,0 +1,41 @@
+#summary Installation instructions for osgAudio
+
+= Introduction =
+
+osgAudio requires [http://www.openscenegraph.org OpenSceneGraph]
+
+osgAudio needs one audio subsystem compiled in. Currently [http://connect.creativelabs.com/openal/default.aspx OpenAL] and [http://www.fmod.org/ FMOD] are supported.
+
+= Details =
+
+== Dependencies ==
+
+OpenAL subsystem:
+  * [http://connect.creativelabs.com/openal/default.aspx OpenAL]
+   * Portable low level sound library. Similar to OpenGL.
+  * OpenAL also depends on OggVorbis.
+  * [http://connect.creativelabs.com/openal/Downloads/Forms/AllItems.aspx freeALUT]
+   * !RootFolder=/openal/Downloads/ALUT
+   * Utility library for OpenAL
+  * [http://www.vorbis.com/ OggVorbis]
+   * Portable library for reading/writing ogg/vorbis files, which are similar to MP3 in quality and compression, but FREE.
+   * Both the libogg and libvorbis libraries are required.
+
+== Download ==
+
+To build osgAudio you first need to download and install !OpenSceneGraph as well as the dependencies for your chosen audio subsystem.
+
+== Cross-platform build (using CMake) ==
+
+These instructions should work for a large range of platforms:
+  * Download and unzip or install [http://www.cmake.org CMake].
+  * Follow CMake guides to prepare project files (Such as makefiles, MS-VisualC++ project files...). Basically :
+   * Run the GUI or the command line to configure
+   * Change cache values (Using the GUI or in CMakeCache.txt) according to what is necessary
+   * Repeat until everything is okay
+   * Generate project files
+  * Compile using your favorite compiler/IDE.
+
+== Other platforms == 
+
+osgAudio has not been tested on other platforms than Linux and Windows. If you get it to work on another platform, contact me with information on how you did, and I'll add information to this file. Also be sure to tell me about any necessary changes to get it to work.
