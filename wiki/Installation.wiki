@@ -40,8 +40,7 @@ These instructions should work for a large range of platforms:
   * All the boolean user-controlled options are prefixed with 0_ to force CMake to sort them to the top of the list. One of either 0_ENABLE_SUBSYSTEM_OPENAL or 0_ENABLE_SUBSYSTEM_FMOD should be checked, but not both.
   * 0_BUILD_EXAMPLES_OSGAUDIO builds the high-level OSG-integrated demo examples and is recommended.
   * 0_BUILD_EXAMPLES_OSGAUDIO_LOWLEVEL builds the low-level non-OSG-dependent examples that mimic the original OpenAL++ low-level examples, but use the osgAudio abstraction layer. Recommended.
-  * 0_BUILD_EXAMPLES_OPENALPP builds the original low-level non-OSG-dependent examples that use the OpenAL++ API directly and not the osgAudio abstraction layer. These will only build if you compile
-  with the OpenAL++ backend enabled. Recommended if you build with OpenAL++.
+  * 0_BUILD_EXAMPLES_OPENALPP builds the original low-level non-OSG-dependent examples that use the OpenAL++ API directly and not the osgAudio abstraction layer. These will only build if you compile with the OpenAL++ backend enabled. Recommended if you build with OpenAL++.
 
 == Unimplemented ==
 Audio recording, live audio input streams, and grouped audio sources are unimplemented in FMOD. Some
