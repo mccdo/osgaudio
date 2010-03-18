@@ -13,7 +13,7 @@ osgAudio needs one audio subsystem compiled in. Currently [http://connect.creati
 OpenAL subsystem:
   * [http://connect.creativelabs.com/openal/default.aspx OpenAL]
    * Portable low level sound library. Similar to OpenGL.
-  * OpenAL also depends on OggVorbis.
+  * OpenAL also depends on !OggVorbis.
   * [http://connect.creativelabs.com/openal/Downloads/Forms/AllItems.aspx freeALUT]
    * !RootFolder=/openal/Downloads/ALUT
    * Utility library for OpenAL
