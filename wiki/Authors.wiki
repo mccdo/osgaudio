@@ -2,11 +2,11 @@
 
 = Introduction =
 
-These are the authors of osgAudio. We would like to thank the original authors of osgAL for letting us continue on with osgAL.
+These are the authors of osgAudio. We would like to thank the original authors of osgAL for letting us begin osgAudio from osgAL.
 
 = Authors =
 
-  * Chris 'Xenon' Hanson, AlphaPixel, LLC - Conversion to osgAudio, FMOD support
+  * Chris 'Xenon' Hanson, !AlphaPixel, LLC - Conversion to osgAudio, FMOD support
   * Anders Backman, VRlab 2004
   * Alberto Jaspe, videaLAB, University of La CoruÒa 
   * Tomas H‰m‰l‰, VRlab, 2002
