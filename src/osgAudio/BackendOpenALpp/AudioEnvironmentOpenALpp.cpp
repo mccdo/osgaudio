@@ -66,7 +66,7 @@ AudioEnvironment::AudioEnvironment(int frequency,int refresh) throw (InitError)
 
 AudioEnvironment::~AudioEnvironment()
 {
-	if(_openalppAudioEnvironment)
+	if(_openalppAudioEnvironment.valid())
 	{
 		_openalppAudioEnvironment = NULL; // deletes it
 	} // if
