@@ -1,7 +1,5 @@
 #summary Authors of osgAudio and its tie back to osgAL
 
-= Authors =
-
 These are the authors of osgAudio. We would like to thank the original authors of osgAL for letting us begin osgAudio from osgAL.
 
   * Chris 'Xenon' Hanson, !AlphaPixel, LLC - Conversion to osgAudio, FMOD support
