@@ -1,12 +1,11 @@
 #summary Authors of osgAudio and its tie back to osgAL
 
-= Introduction =
+= Authors =
 
 These are the authors of osgAudio. We would like to thank the original authors of osgAL for letting us begin osgAudio from osgAL.
 
-= Authors =
-
   * Chris 'Xenon' Hanson, !AlphaPixel, LLC - Conversion to osgAudio, FMOD support
+  * Paul Martz, Skew Matrix Software
   * Anders Backman, VRlab 2004
   * Alberto Jaspe, videaLAB, University of La CoruÒa 
   * Tomas H‰m‰l‰, VRlab, 2002
