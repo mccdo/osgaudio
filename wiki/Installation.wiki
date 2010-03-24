@@ -37,7 +37,7 @@ These instructions should work for a large range of platforms:
   * Compile using your favorite compiler/IDE.
 
 === CMake settings ===
-  * All the boolean user-controlled options are prefixed with 0_ to force CMake to sort them to the top of the list. One of either {{{0_ENABLE_SUBSYSTEM_OPENAL}}} or {{{0_ENABLE_SUBSYSTEM_FMOD}}} should be checked, but not both.
+  * All the boolean user-controlled options are prefixed with {{{0_}}} to force CMake to sort them to the top of the list. One of either {{{0_ENABLE_SUBSYSTEM_OPENAL}}} or {{{0_ENABLE_SUBSYSTEM_FMOD}}} should be checked, but not both.
   * {{{0_BUILD_EXAMPLES_OSGAUDIO}}} builds the high-level OSG-integrated demo examples and is recommended.
   * {{{0_BUILD_EXAMPLES_OSGAUDIO_LOWLEVEL}}} builds the low-level non-OSG-dependent examples that mimic the original OpenAL++ low-level examples, but use the osgAudio abstraction layer. Recommended.
   * {{{0_BUILD_EXAMPLES_OPENALPP}}} builds the original low-level non-OSG-dependent examples that use the OpenAL++ API directly and not the osgAudio abstraction layer. These will only build if you compile with the OpenAL++ backend enabled. Recommended if you build with OpenAL++.
@@ -48,8 +48,8 @@ more esoteric settings (such as reverb) may not be implemented in FMOD if a mapp
 original functionality and FMOD's API couldn't be found.
 
 == Testing ==
-If you are building for OpenAL++, first test the OpenAL++ low-level examples (example_oalpp_*).
-If you are using FMOD, or if that step passes, then test the osgAudio low-level example/demo programs (example_osgaudiolow_*). When those run ok, try the osgAudio high-level OSG-integrated examples (example_osgaudio_*).
+If you are building for OpenAL++, first test the OpenAL++ low-level examples ({{{example_oalpp_*}}}).
+If you are using FMOD, or if that step passes, then test the osgAudio low-level example/demo programs ({{{example_osgaudiolow_*}}}). When those run ok, try the osgAudio high-level OSG-integrated examples ({{{example_osgaudio_*}}}).
 
 == Other platforms == 
 
