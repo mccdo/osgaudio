@@ -21,6 +21,9 @@ OpenAL subsystem:
    * Portable library for reading/writing ogg/vorbis files, which are similar to MP3 in quality and compression, but FREE.
    * Both the libogg and libvorbis libraries are required.
 
+FMOD subsystem:
+  * [http://www.fmod.org/index.php/download FMOD Ex]
+
 == Download ==
 
 To build *osgAudio* you first need to download and install !OpenSceneGraph as well as the dependencies for your chosen audio subsystem.
@@ -43,9 +46,7 @@ These instructions should work for a large range of platforms:
   * {{{0_BUILD_EXAMPLES_OPENALPP}}} builds the original low-level non-OSG-dependent examples that use the OpenAL++ API directly and not the *osgAudio* abstraction layer. These will only build if you compile with the OpenAL++ backend enabled. Recommended if you build with OpenAL++.
 
 == Unimplemented ==
-Audio recording, live audio input streams, and grouped audio sources are unimplemented in FMOD. Some
-more esoteric settings (such as reverb) may not be implemented in FMOD if a mapping between the
-original functionality and FMOD's API couldn't be found.
+Audio recording, live audio input streams, and grouped audio sources are unimplemented in FMOD. Some more esoteric settings (such as reverb) may not be implemented in FMOD if a mapping between the original functionality and FMOD's API couldn't be found.
 
 == Testing ==
 If you are building for OpenAL++, first test the OpenAL++ low-level examples ({{{example_oalpp_*}}}).
