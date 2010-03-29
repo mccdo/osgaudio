@@ -10,6 +10,8 @@
 
 == Dependencies ==
 
+Compatible versions of OSG: v2.6.1, v2.8.1, v2.8.2, and v2.8.3.
+
 OpenAL subsystem:
   * [http://connect.creativelabs.com/openal/default.aspx OpenAL]
    * Portable low level sound library. Similar to OpenGL.
