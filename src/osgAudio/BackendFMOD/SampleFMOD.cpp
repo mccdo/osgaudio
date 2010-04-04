@@ -54,7 +54,8 @@ void Sample::createSampleFromFilename(const std::string& filename ) throw (FileE
 	{
 		if(createResult == FMOD_ERR_FILE_BAD || createResult == FMOD_ERR_FILE_NOTFOUND)
 		{
-			throw NameError("Error loading file or File not found.");
+            std::string exep = "Error loading file or file not found " + filename;
+			throw NameError( exep );
 		} // if
 		else
 		{
