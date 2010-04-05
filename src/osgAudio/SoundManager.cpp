@@ -397,7 +397,6 @@ Sample* SoundManager::getSample( const std::string& path, bool add_to_cache )
 		found = true;
 		osg::notify(osg::INFO) << "SoundManager::getSample(): Found " << path << " in cache" << std::endl;
 		sample = new Sample(*(smi->second));
-
 	}
 	else {
 		osg::notify(osg::INFO) << "SoundManager::getSample(): Cache miss for " << path << ". Loading from file..." << std::endl;
@@ -410,9 +409,9 @@ Sample* SoundManager::getSample( const std::string& path, bool add_to_cache )
 				return 0;
 			}
 
-			sample = new Sample(new_path.c_str());
+			sample = new Sample(new_path);
 		}
-		catch(osgAudio::FileError & e) {
+		catch(osgAudio::Error& e) {
 			// We cannot call delete sample directly
 			osg::notify(osg::NOTICE) << e.what() << std::endl;
 			osg::ref_ptr<Sample> s = sample;
