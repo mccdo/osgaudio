@@ -93,6 +93,7 @@ namespace osgAudio
 	private:
 		// the actual FMOD datatype
 		FMOD::Sound *_FMODSound;
+		std::string _internalFullPath;
 
 		// actual create implementation
 		void createSampleFromFilename(const std::string& filename ) throw (FileError,NameError);
