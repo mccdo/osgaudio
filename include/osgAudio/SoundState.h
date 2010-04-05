@@ -304,10 +304,13 @@ public:
 		void setSource(Source *source); 
 
 		/// Return the Source for this SoundState
+		Source *getSource() { return m_source.get(); }
+
+		/// Return the const Source for this SoundState
 		const Source *getSource() const { return m_source.get(); }
 
 		/// Release the Source that is allocated for this SoundState
-		void releaseSource(); 
+		void releaseSource();
 
 
 		/*! Performs the actual modification to the allocated Source.
