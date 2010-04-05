@@ -62,6 +62,7 @@ void Sample::createSampleFromFilename(const std::string& filename ) throw (FileE
 			throw FileError("Unknown error opening Sample file.");
 		} // else
 	} // if
+	_internalFullPath = filename;
 } // Sample::createSampleFromFilename
 
 
@@ -76,10 +77,7 @@ Sample::Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq) throw (File
 */
 
 std::string Sample::getFilename() const {
-	char filenameBuffer[1024];
-	filenameBuffer[0] = 0;
-	if(_FMODSound) _FMODSound->getName(filenameBuffer, 1024);
-	return filenameBuffer; // converts to std::string
+	return _internalFullPath;
 }
 
 
