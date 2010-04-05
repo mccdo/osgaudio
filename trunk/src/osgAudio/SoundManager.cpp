@@ -389,7 +389,7 @@ void SoundManager::resetSource(Source *source)
 Sample* SoundManager::getSample( const std::string& path, bool add_to_cache )
 {
 
-	Sample *sample=0;
+	osg::ref_ptr<Sample> sample;
 	SampleMap::iterator smi;
 	smi = m_sample_cache.find(path);
 	bool found=false;
@@ -401,22 +401,15 @@ Sample* SoundManager::getSample( const std::string& path, bool add_to_cache )
 	else {
 		osg::notify(osg::INFO) << "SoundManager::getSample(): Cache miss for " << path << ". Loading from file..." << std::endl;
 
-		try {
-			// Cache miss, load the file:
-			std::string new_path = osgDB::findDataFile(path);
-			if (new_path.empty()) {
-				osg::notify(osg::INFO) << "SoundManager::getSample(): Unable to find requested file: " << path << std::endl;
-				return 0;
-			}
+		// Cache miss, load the file:
+		std::string new_path = osgDB::findDataFile(path);
+		if (new_path.empty()) {
+			osg::notify(osg::INFO) << "SoundManager::getSample(): Unable to find requested file: " << path << std::endl;
+			return 0;
+		}
 
-			sample = new Sample(new_path);
-		}
-		catch(osgAudio::Error& e) {
-			// We cannot call delete sample directly
-			osg::notify(osg::NOTICE) << e.what() << std::endl;
-			osg::ref_ptr<Sample> s = sample;
-			sample = 0;
-		}
+		sample = new Sample(new_path);
+
 		// if the loading of the model was successful, store the sample in the cache
 		// except if the user have indicated that it shouldn't be added to the cache
 		if (sample && add_to_cache) {
@@ -424,7 +417,7 @@ Sample* SoundManager::getSample( const std::string& path, bool add_to_cache )
 		}
 	}
 
-	return sample;
+	return sample.release();
 }
 
 
