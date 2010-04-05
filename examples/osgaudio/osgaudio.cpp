@@ -284,7 +284,9 @@ osg::Node* createMovingModel(const osg::Vec3& center, float radius)
 osg::ref_ptr<osgAudio::SoundNode> createSound(const std::string& file)
 {
 	// Create a sample, load a .wav file.
-	osgAudio::Sample *sample = new osgAudio::Sample(file.c_str());
+	//osgAudio::Sample *sample = new osgAudio::Sample(file.c_str());
+    osg::ref_ptr<osgAudio::Sample> sampleorig = osgAudio::SoundManager::instance()->getSample(file.c_str(), true); // we don't ever use this one, it just fills the cache
+	osg::ref_ptr<osgAudio::Sample> sample = osgAudio::SoundManager::instance()->getSample(file.c_str(), true); // test caching and copy constructor
 
 	// Create a named sound state.
 	osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState("glider");
