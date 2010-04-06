@@ -360,7 +360,7 @@ void SoundManager::processQueuedSoundStates()
 	// Go through the queue until there are either no events left or no more soundsources.
 	// For each SoundEvent, allocate a source and call apply for it with its soundsource
 	// also, when getting it from the queue, add it to a list of active SoundStates.
-	SoundState *state=0;
+	osg::ref_ptr< SoundState > state;
 
 	while(m_available_soundsources.size() && m_sound_state_queue.size()) {
 		state = m_sound_state_queue.top().getState();
@@ -368,9 +368,8 @@ void SoundManager::processQueuedSoundStates()
 		Source *source = getSource(state->getPriority());
 		state->setSource(source);
 		state->apply();
-		m_active_sound_states.push_back(state);
+		m_active_sound_states.push_back(state.get());
 		//std::cerr << "Adding m_active_sound_states size: " << m_active_sound_states.size() << std::endl;
-
 	}
 }
 
@@ -404,7 +403,7 @@ Sample* SoundManager::getSample( const std::string& path, bool add_to_cache )
 		// Cache miss, load the file:
 		std::string new_path = osgDB::findDataFile(path);
 		if (new_path.empty()) {
-			osg::notify(osg::INFO) << "SoundManager::getSample(): Unable to find requested file: " << path << std::endl;
+			osg::notify(osg::WARN) << "SoundManager::getSample(): Unable to find requested file: " << path << std::endl;
 			return 0;
 		}
 
@@ -413,7 +412,7 @@ Sample* SoundManager::getSample( const std::string& path, bool add_to_cache )
 		// if the loading of the model was successful, store the sample in the cache
 		// except if the user have indicated that it shouldn't be added to the cache
 		if (sample && add_to_cache) {
-			m_sample_cache.insert(SampleMapValType(path, sample));
+			m_sample_cache.insert(SampleMapValType(path, sample.get()));
 		}
 	}
 
