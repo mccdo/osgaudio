@@ -27,7 +27,7 @@
 
 std::string osgAudio::getVersion()
 {
-	return "0.7";
+	return "2.0.0";
 }
 
 
