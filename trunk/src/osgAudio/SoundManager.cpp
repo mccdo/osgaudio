@@ -302,20 +302,18 @@ void SoundManager::releaseSource(Source *source)
 
 	// Check if this source is one of the active sources, then remove it from the list
 	// if active sources
-	ActiveSourceVector::iterator smi;
-	for(smi=m_active_soundsources.begin(); smi != m_active_soundsources.end(); smi++)
+    for(ActiveSourceVector::iterator smi=m_active_soundsources.begin(); smi != m_active_soundsources.end(); smi++){
 		if (smi->second == source) {
-			//      resetSource(smi->second);
-			//std::cerr << "releaseSource" << "m_active_soundsources.size() Before erase: " << m_active_soundsources.size() << std::endl;
+			//resetSource(smi->second);
 			m_active_soundsources.erase(smi);
-			//std::cerr << "releaseSource" << "m_active_soundsources.size() After erase: " << m_active_soundsources.size() << std::endl;
 			break;
 		}
+    }
 
-		// Return it back to the pool of available sources
-		// I should probably loop over to make sure we're not adding it twice
-		m_available_soundsources.push_back(source);
-		//warning("releaseSource") << "Avail sources:  " << m_available_soundsources.size() << std::endl;
+    // Return it back to the pool of available sources
+    // I should probably loop over to make sure we're not adding it twice
+    m_available_soundsources.push_back(source);
+    //warning("releaseSource") << "Avail sources:  " << m_available_soundsources.size() << std::endl;
 }
 
 
@@ -326,15 +324,15 @@ void SoundManager::update()
 	// finished playing, then move the SoundState back to the SoundStateFlyWeight.
 	SoundStateVector::iterator ssv;
 
-	for(ssv = m_active_sound_states.begin(); ssv != m_active_sound_states.end(); ssv++) {
+	for(SoundStateVector::iterator ssv = m_active_sound_states.begin(); ssv != m_active_sound_states.end(); ) {
 		if (!(*ssv)->isActive()) {
 			(*ssv)->releaseSource();
 			m_sound_state_FlyWeight->releaseSoundState((*ssv).get());    
 			ssv = m_active_sound_states.erase(ssv);
-			//std::cerr << "Removing m_active_sound_states size: " << m_active_sound_states.size() << std::endl;
-			if (ssv == m_active_sound_states.end())
-				break;
 		}
+        else{
+            ssv++;
+        }
 	}
 
 	processQueuedSoundStates();
@@ -349,8 +347,7 @@ void SoundManager::update()
 
 void SoundManager::stopAllSources()
 {
-	SourceVector::iterator it=m_soundsources.begin(); 
-	for(;it != m_soundsources.end(); it++) {
+	for(SourceVector::iterator it=m_soundsources.begin();it != m_soundsources.end(); it++) {
 		(*it)->stop();
 	}
 }
@@ -369,8 +366,13 @@ void SoundManager::processQueuedSoundStates()
 		state->setSource(source);
 		state->apply();
 		m_active_sound_states.push_back(state.get());
-		//std::cerr << "Adding m_active_sound_states size: " << m_active_sound_states.size() << std::endl;
+		//osg::notify(osg::INFO) << "Adding m_active_sound_states size: " << m_active_sound_states.size() << std::endl;
+        //osg::notify(osg::INFO) << "Available sources size: " << m_available_soundsources.size() << std::endl;
 	}
+    
+    if( !m_available_soundsources.size() ) {
+        osg::notify(osg::WARN) << "SoundManager::processQueuedSoundStates(): There are no more sources to be allocated." << std::endl;
+    }    
 }
 
 void SoundManager::resetSource(Source *source)
