@@ -87,6 +87,8 @@ AudioEnvironment::~AudioEnvironment()
 	// reference count the _system singleton
 	if(_system)
 	{
+        _system->close();
+
 		_system->release();
 		_system = NULL;
 	} // if
