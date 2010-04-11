@@ -147,9 +147,8 @@ void SoundManager::shutdown()
 	m_sample_cache.clear();
 	m_stream_cache.clear();
 	m_listener=0;
-	m_sound_environment=0;
-
 	m_sound_state_FlyWeight=0;
+	m_sound_environment=0;
 
 	m_initialized=false;
 
