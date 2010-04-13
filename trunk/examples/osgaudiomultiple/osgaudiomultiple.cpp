@@ -75,7 +75,6 @@ osg::AnimationPath* createAnimationPath(const osg::Vec3& center,float radius,dou
 
         yaw += yaw_delta;
         time += time_delta;
-
     }
     return animationPath;    
 }
@@ -231,205 +230,199 @@ osg::Node* createModel()
 
 int main( int argc, char **argv )
 {
-  
-  osg::notify(osg::WARN) << "\n\n" << osgAudio::getLibraryName() << " demo" << std::endl;
-  osg::notify(osg::WARN) << "Version: " << osgAudio::getVersion() << "\n\n" << std::endl;
+    osg::notify(osg::WARN) << "\n\n" << osgAudio::getLibraryName() << " demo" << std::endl;
+    osg::notify(osg::WARN) << "Version: " << osgAudio::getVersion() << "\n\n" << std::endl;
 
-  osg::notify(osg::WARN) << "Demonstrates how to create and destroy soundsources on the fly" << std::endl;
-
-
-  try {
-    // use an ArgumentParser object to manage the program arguments.
-    osg::ArgumentParser arguments(&argc,argv);
-
-    // set up the usage document, in case we need to print out how to use this program.
-    arguments.getApplicationUsage()->setDescription(arguments.getApplicationName()+" demonstrates the use of the osgAudio toolkit for spatial sound.");
-    arguments.getApplicationUsage()->setCommandLineUsage(arguments.getApplicationName()+" [options] filename ...");
-    arguments.getApplicationUsage()->addCommandLineOption("-h or --help","Display this information");
-
-    // initialize the viewer.
-    osgViewer::Viewer viewer(arguments);
-
-		osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> keyswitchManipulator = new osgGA::KeySwitchMatrixManipulator;
-		keyswitchManipulator->addMatrixManipulator( '1', "Trackball", new osgGA::TrackballManipulator() );
-		viewer.setCameraManipulator( keyswitchManipulator.get() );
+    osg::notify(osg::WARN) << "Demonstrates how to create and destroy soundsources on the fly" << std::endl;
 
 
-		// add the window size toggle handler
-		viewer.addEventHandler(new osgViewer::WindowSizeHandler);
+    try {
+        // use an ArgumentParser object to manage the program arguments.
+        osg::ArgumentParser arguments(&argc,argv);
 
-		// add the stats handler
-		viewer.addEventHandler(new osgViewer::StatsHandler);
+        // set up the usage document, in case we need to print out how to use this program.
+        arguments.getApplicationUsage()->setDescription(arguments.getApplicationName()+" demonstrates the use of the osgAudio toolkit for spatial sound.");
+        arguments.getApplicationUsage()->setCommandLineUsage(arguments.getApplicationName()+" [options] filename ...");
+        arguments.getApplicationUsage()->addCommandLineOption("-h or --help","Display this information");
 
-		// add the help handler
-		viewer.addEventHandler(new osgViewer::HelpHandler(arguments.getApplicationUsage()));
+        // initialize the viewer.
+        osgViewer::Viewer viewer(arguments);
 
-    // get details on keyboard and mouse bindings used by the viewer.
-    viewer.getUsage(*arguments.getApplicationUsage());
-
-    // if user request help write it out to cout.
-    if (arguments.read("-h") || arguments.read("--help"))
-    {
-        arguments.getApplicationUsage()->write(std::cout);
-        return 1;
-    }
-
-    // any option left unread are converted into errors to write out later.
-    arguments.reportRemainingOptionsAsUnrecognized();
-
-	  arguments.getApplicationUsage()->addKeyboardMouseBinding("RETURN", "Play a sound");
+        osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> keyswitchManipulator = new osgGA::KeySwitchMatrixManipulator;
+        keyswitchManipulator->addMatrixManipulator( '1', "Trackball", new osgGA::TrackballManipulator() );
+        viewer.setCameraManipulator( keyswitchManipulator.get() );
 
 
-    // report any errors if they have occured when parsing the program aguments.
-    if (arguments.errors())
-    {
-        arguments.writeErrorMessages(std::cout);
-        return 1;
-    }
+        // add the window size toggle handler
+        viewer.addEventHandler(new osgViewer::WindowSizeHandler);
 
-    int num_hw_soundsources = 10;
-    osgAudio::SoundManager::instance()->init(num_hw_soundsources);
-    osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance);
-    osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(1);
+        // add the stats handler
+        viewer.addEventHandler(new osgViewer::StatsHandler);
 
-    // load the nodes from the commandline arguments.
-    osg::Node* model = createModel();
-    if (!model)
-    {
-        return 1;
-    }
-    
-    // tilt the scene so the default eye position is looking down on the model.
-    osg::MatrixTransform* rootnode = new osg::MatrixTransform;
-    rootnode->setMatrix(osg::Matrix::rotate(osg::inDegrees(30.0f),1.0f,0.0f,0.0f));
-    rootnode->addChild(model);
+        // add the help handler
+        viewer.addEventHandler(new osgViewer::HelpHandler(arguments.getApplicationUsage()));
+
+        // get details on keyboard and mouse bindings used by the viewer.
+        viewer.getUsage(*arguments.getApplicationUsage());
+
+        // if user request help write it out to cout.
+        if (arguments.read("-h") || arguments.read("--help"))
+        {
+            arguments.getApplicationUsage()->write(std::cout);
+            return 1;
+        }
+
+        // any option left unread are converted into errors to write out later.
+        arguments.reportRemainingOptionsAsUnrecognized();
+        arguments.getApplicationUsage()->addKeyboardMouseBinding("RETURN", "Play a sound");
+
+        // report any errors if they have occured when parsing the program aguments.
+        if (arguments.errors())
+        {
+            arguments.writeErrorMessages(std::cout);
+            return 1;
+        }
+
+        int num_hw_soundsources = 10;
+        osgAudio::SoundManager::instance()->init(num_hw_soundsources);
+        osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance);
+        osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(1);
+
+        // load the nodes from the commandline arguments.
+        osg::Node* model = createModel();
+        if (!model)
+        {
+            return 1;
+        }
+
+        // tilt the scene so the default eye position is looking down on the model.
+        osg::MatrixTransform* rootnode = new osg::MatrixTransform;
+        rootnode->setMatrix(osg::Matrix::rotate(osg::inDegrees(30.0f),1.0f,0.0f,0.0f));
+        rootnode->addChild(model);
 
 
-    // Make use of a few sound samples
-    std::vector<std::string> wave_vector;
-    wave_vector.push_back("a.wav");
-    wave_vector.push_back("high-e.wav");
-    wave_vector.push_back("low-e.wav");
+        // Make use of a few sound samples
+        std::vector<std::string> wave_vector;
+        wave_vector.push_back("a.wav");
+        wave_vector.push_back("high-e.wav");
+        wave_vector.push_back("low-e.wav");
 
 
-    // Create ONE (only one, otherwise the transformation of the listener and update for SoundManager will be
-    // called several times, which is not catastrophic, but unnecessary) 
-    // SoundRoot that will make sure the listener is updated and
-    // to keep the internal state of the SoundManager updated
-    // This could also be done manually, this is just a handy way of doing it.
-    osg::ref_ptr<osgAudio::SoundRoot> sound_root = new osgAudio::SoundRoot;
-  
-    
-    // The position in the scenegraph of this node is not important.
-    // Just as long as the cull traversal should be called after any changes to the SoundManager are made.
-    rootnode->addChild(sound_root.get());
+        // Create ONE (only one, otherwise the transformation of the listener and update for SoundManager will be
+        // called several times, which is not catastrophic, but unnecessary) 
+        // SoundRoot that will make sure the listener is updated and
+        // to keep the internal state of the SoundManager updated
+        // This could also be done manually, this is just a handy way of doing it.
+        osg::ref_ptr<osgAudio::SoundRoot> sound_root = new osgAudio::SoundRoot;
 
 
-    // Create a transformation node onto we will attach a soundnode
-    osg::ref_ptr<osg::PositionAttitudeTransform> sound_transform = new osg::PositionAttitudeTransform;
-    rootnode->addChild(sound_transform.get());
-    sound_transform->setPosition(osg::Vec3(0,-100,50));
+        // The position in the scenegraph of this node is not important.
+        // Just as long as the cull traversal should be called after any changes to the SoundManager are made.
+        rootnode->addChild(sound_root.get());
 
-    // Create a sphere so we can "see" the sound
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-    osg::TessellationHints* hints = new osg::TessellationHints;
-    hints->setDetailRatio(0.5f);
-    geode->addDrawable(new osg::ShapeDrawable(new osg::Sphere(osg::Vec3(0.0f,0.0f,0.0f),1),hints));
-    sound_transform->addChild(geode.get());
+
+        // Create a transformation node onto we will attach a soundnode
+        osg::ref_ptr<osg::PositionAttitudeTransform> sound_transform = new osg::PositionAttitudeTransform;
+        rootnode->addChild(sound_transform.get());
+        sound_transform->setPosition(osg::Vec3(0,-100,50));
+
+        // Create a sphere so we can "see" the sound
+        osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+        osg::TessellationHints* hints = new osg::TessellationHints;
+        hints->setDetailRatio(0.5f);
+        geode->addDrawable(new osg::ShapeDrawable(new osg::Sphere(osg::Vec3(0.0f,0.0f,0.0f),1),hints));
+        sound_transform->addChild(geode.get());
 #ifdef USE_SOUNDNODE
-    osg::ref_ptr<osgAudio::SoundNode> sound_node = new osgAudio::SoundNode;
-    sound_transform->addChild(sound_node.get());
+        osg::ref_ptr<osgAudio::SoundNode> sound_node = new osgAudio::SoundNode;
+        sound_transform->addChild(sound_node.get());
 #else
-    osg::ref_ptr< osgAudio::SoundUpdateCB > soundCB = new osgAudio::SoundUpdateCB;
-    geode->setUpdateCallback( soundCB.get() );
+        osg::ref_ptr< osgAudio::SoundUpdateCB > soundCB = new osgAudio::SoundUpdateCB;
+        geode->setUpdateCallback( soundCB.get() );
 #endif
 
-    osg::Timer_t curr, start = osg::Timer::instance()->tick();
-    double interval = 2; // 2 seconds interval
-    unsigned int n = 0;
+        osg::Timer_t curr, start = osg::Timer::instance()->tick();
+        double interval = 2; // 2 seconds interval
+        unsigned int n = 0;
 
-    // run optimization over the scene graph
-    osgUtil::Optimizer optimizer;
-    optimizer.optimize(rootnode);
-     
-    // set the scene to render
-    viewer.setSceneData(rootnode);
-  
-    // create the windows and run the threads.
-    viewer.realize();
+        // run optimization over the scene graph
+        osgUtil::Optimizer optimizer;
+        optimizer.optimize(rootnode);
+         
+        // set the scene to render
+        viewer.setSceneData(rootnode);
 
-    osgViewer::Viewer::Windows windows;
-    viewer.getWindows(windows);
-    windows[0]->setWindowRectangle( 10, 10, 1024, 768 );
-    windows[0]->setWindowDecoration( true );
+        // create the windows and run the threads.
+        viewer.realize();
 
+        osgViewer::Viewer::Windows windows;
+        viewer.getWindows(windows);
+        windows[0]->setWindowRectangle( 10, 10, 1024, 768 );
+        windows[0]->setWindowDecoration( true );
 
-    while( !viewer.done() )
-    {
-      // wait for all cull and draw threads to complete.
-//      viewer.sync();
-  
-      // update the scene by traversing it with the the update visitor which will
-      // call all node update callbacks and animations.
-  //    viewer.update();
+        while( !viewer.done() )
+        {
+            // wait for all cull and draw threads to complete.
+            //viewer.sync();
 
-      // For every interval seconds, we will remove the current soundstate and create a new one,
-      // with the next sample sounds
-      curr = osg::Timer::instance()->tick();
-      if (osg::Timer::instance()->delta_s(start, curr) > interval) 
-      {
-        start = curr;
+            // update the scene by traversing it with the the update visitor which will
+            // call all node update callbacks and animations.
+            //viewer.update();
 
-        std::string file = wave_vector[n%wave_vector.size()];
+            // For every interval seconds, we will remove the current soundstate and create a new one,
+            // with the next sample sounds
+            curr = osg::Timer::instance()->tick();
+            if (osg::Timer::instance()->delta_s(start, curr) > interval) 
+            {
+                start = curr;
 
-        osgAudio::SoundManager::instance()->removeSoundState(file);
+                std::string file = wave_vector[n%wave_vector.size()];
 
-        n++;
-        // Create a sample, load a .wav file.
-        file = wave_vector[n%wave_vector.size()];
-        bool add_to_cache = true;
-        osg::ref_ptr<osgAudio::Sample> sample = osgAudio::SoundManager::instance()->getSample(file.c_str(), add_to_cache);
-        osg::notify(osg::WARN) << "Loading sample: " << file << std::endl;
+                osgAudio::SoundManager::instance()->removeSoundState(file);
 
-        // Create a new soundstate, give it the name of the file we loaded.
-        osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState(file);
-        sound_state->setSample(sample.get());
-        sound_state->setGain(1.0f);
-        sound_state->setReferenceDistance(60);
-        sound_state->setRolloffFactor(3);
-        sound_state->setPlay(true);
-        sound_state->setLooping(true);
+                n++;
+                // Create a sample, load a .wav file.
+                file = wave_vector[n%wave_vector.size()];
+                bool add_to_cache = true;
+                osg::ref_ptr<osgAudio::Sample> sample = osgAudio::SoundManager::instance()->getSample(file.c_str(), add_to_cache);
+                osg::notify(osg::WARN) << "Loading sample: " << file << std::endl;
 
-        // Allocate a hardware soundsource to this soundstate (priority 10)
-        sound_state->allocateSource(10, false);
+                // Create a new soundstate, give it the name of the file we loaded.
+                osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState(file);
+                sound_state->setSample(sample.get());
+                sound_state->setGain(1.0f);
+                sound_state->setReferenceDistance(60);
+                sound_state->setRolloffFactor(3);
+                sound_state->setPlay(true);
+                sound_state->setLooping(true);
 
-        // Add the soundstate to the sound manager, so we can find it later on if we want to
-        osgAudio::SoundManager::instance()->addSoundState(sound_state.get());
+                // Allocate a hardware soundsource to this soundstate (priority 10)
+                sound_state->allocateSource(10, false);
 
-        sound_state->apply();
+                // Add the soundstate to the sound manager, so we can find it later on if we want to
+                osgAudio::SoundManager::instance()->addSoundState(sound_state.get());
+
 #ifdef USE_SOUNDNODE
-        sound_node->setSoundState(sound_state.get());
+                sound_node->setSoundState(sound_state.get());
 #else
-        soundCB->setSoundState( sound_state.get() );
+                soundCB->setSoundState( sound_state.get() );
 #endif
-      }
+            }
 
-      // fire off the cull and draw traversals of the scene.
-      viewer.frame();
+            // fire off the cull and draw traversals of the scene.
+            viewer.frame();
+        }
     }
-}
-  catch (std::exception& e) {
-    osg::notify(osg::WARN) << "Caught: " << e.what() << std::endl;
-  }
-  // Very important to call this before end of main.
-  // Otherwise OpenAL will do all sorts of strange things after end of main
-  // in the destructor of soundmanager.
-	if (osg::Referenced::getDeleteHandler()) {
-		osg::Referenced::getDeleteHandler()->setNumFramesToRetainObjects(0);
-		osg::Referenced::getDeleteHandler()->flushAll();
-	}
+    catch (std::exception& e) {
+        osg::notify(osg::WARN) << "Caught: " << e.what() << std::endl;
+    }
+    // Very important to call this before end of main.
+    // Otherwise OpenAL will do all sorts of strange things after end of main
+    // in the destructor of soundmanager.
+    if (osg::Referenced::getDeleteHandler()) {
+        osg::Referenced::getDeleteHandler()->setNumFramesToRetainObjects(0);
+        osg::Referenced::getDeleteHandler()->flushAll();
+    }
 
-	osgAudio::SoundManager::instance()->shutdown();
-  return 0;
-
+    osgAudio::SoundManager::instance()->shutdown();
+    return 0;
 }

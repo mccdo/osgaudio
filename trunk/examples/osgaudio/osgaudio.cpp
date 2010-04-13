@@ -50,33 +50,33 @@ osg::ref_ptr<osgAudio::SoundNode> createSound(const std::string& file);
 
 class KeyboardHandler: public osgGA::GUIEventHandler {
 public:
-	KeyboardHandler(osgAudio::SoundState *state): m_sound_state(state) {}
+    KeyboardHandler(osgAudio::SoundState *state): m_sound_state(state) {}
 
-	bool handle(const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter &)
-	{
-		if (ea.getEventType() == osgGA::GUIEventAdapter::KEYDOWN) {
-			if (ea.getKey() == 32) {
+    bool handle(const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter &)
+    {
+        if (ea.getEventType() == osgGA::GUIEventAdapter::KEYDOWN) {
+            if (ea.getKey() == 32) {
 
-				// Now push the soundstate to the queue so it will be played.
-				// Set any of the parameters that will be activated when it 
-				// is head of the queue when the sound manager processes the soundstates later on.
+                // Now push the soundstate to the queue so it will be played.
+                // Set any of the parameters that will be activated when it 
+                // is head of the queue when the sound manager processes the soundstates later on.
 
-				// Get the current position of the listener
-				float x,y,z;
-				osgAudio::SoundManager::instance()->getListener()->getPosition(x,y,z);
-				// Place this sound state at the position of the listener
-				m_sound_state->setPosition(osg::Vec3(x,y,z));
+                // Get the current position of the listener
+                float x,y,z;
+                osgAudio::SoundManager::instance()->getListener()->getPosition(x,y,z);
+                // Place this sound state at the position of the listener
+                m_sound_state->setPosition(osg::Vec3(x,y,z));
 
-				m_sound_state->setPlay(true); // It will play!
-				m_sound_state->setPitch(1); 
+                m_sound_state->setPlay(true); // It will play!
+                m_sound_state->setPitch(1); 
 
-				// Now push the event to the sound manager so it can play it whenever this
-				// event reaches the top of the queue. A higher priority will move it to the top
-				// faster!
-				int priority = 10;
-				osgAudio::SoundManager::instance()->pushSoundEvent(m_sound_state.get(), priority);
-				return true;
-			}
+                // Now push the event to the sound manager so it can play it whenever this
+                // event reaches the top of the queue. A higher priority will move it to the top
+                // faster!
+                int priority = 10;
+                osgAudio::SoundManager::instance()->pushSoundEvent(m_sound_state.get(), priority);
+                return true;
+            }
       else if (ea.getKey() == 'm') {
 
         // Toggle looping ambient music
@@ -110,365 +110,364 @@ public:
 
         return true;
       }
-		}
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 private:
-	osg::ref_ptr<osgAudio::SoundState> m_sound_state;
+    osg::ref_ptr<osgAudio::SoundState> m_sound_state;
 };
 
 
 
 osg::AnimationPath* createAnimationPath(const osg::Vec3& center,float radius,double looptime)
 {
-	// set up the animation path 
-	osg::AnimationPath* animationPath = new osg::AnimationPath;
-	animationPath->setLoopMode(osg::AnimationPath::LOOP);
+    // set up the animation path 
+    osg::AnimationPath* animationPath = new osg::AnimationPath;
+    animationPath->setLoopMode(osg::AnimationPath::LOOP);
 
-	int numSamples = 40;
-	float yaw = 0.0f;
-	float yaw_delta = 2.0f*osg::PI/((float)numSamples-1.0f);
-	float roll = osg::inDegrees(30.0f);
+    int numSamples = 40;
+    float yaw = 0.0f;
+    float yaw_delta = 2.0f*osg::PI/((float)numSamples-1.0f);
+    float roll = osg::inDegrees(30.0f);
 
-	double time=0.0f;
-	double time_delta = looptime/(double)numSamples;
-	for(int i=0;i<numSamples;++i)
-	{
-		osg::Vec3 position(center+osg::Vec3(sinf(yaw)*radius,cosf(yaw)*radius,0.0f));
-		osg::Quat rotation(osg::Quat(roll,osg::Vec3(0.0,1.0,0.0))*osg::Quat(-(yaw+osg::inDegrees(90.0f)),osg::Vec3(0.0,0.0,1.0)));
+    double time=0.0f;
+    double time_delta = looptime/(double)numSamples;
+    for(int i=0;i<numSamples;++i)
+    {
+        osg::Vec3 position(center+osg::Vec3(sinf(yaw)*radius,cosf(yaw)*radius,0.0f));
+        osg::Quat rotation(osg::Quat(roll,osg::Vec3(0.0,1.0,0.0))*osg::Quat(-(yaw+osg::inDegrees(90.0f)),osg::Vec3(0.0,0.0,1.0)));
 
-		animationPath->insert(time,osg::AnimationPath::ControlPoint(position,rotation));
+        animationPath->insert(time,osg::AnimationPath::ControlPoint(position,rotation));
 
-		yaw += yaw_delta;
-		time += time_delta;
+        yaw += yaw_delta;
+        time += time_delta;
 
-	}
-	return animationPath;    
+    }
+    return animationPath;    
 }
 
 osg::Node* createBase(const osg::Vec3& center,float radius)
 {
 
-	int numTilesX = 10;
-	int numTilesY = 10;
+    int numTilesX = 10;
+    int numTilesY = 10;
 
-	float width = 2*radius;
-	float height = 2*radius;
+    float width = 2*radius;
+    float height = 2*radius;
 
-	osg::Vec3 v000(center - osg::Vec3(width*0.5f,height*0.5f,0.0f));
-	osg::Vec3 dx(osg::Vec3(width/((float)numTilesX),0.0,0.0f));
-	osg::Vec3 dy(osg::Vec3(0.0f,height/((float)numTilesY),0.0f));
+    osg::Vec3 v000(center - osg::Vec3(width*0.5f,height*0.5f,0.0f));
+    osg::Vec3 dx(osg::Vec3(width/((float)numTilesX),0.0,0.0f));
+    osg::Vec3 dy(osg::Vec3(0.0f,height/((float)numTilesY),0.0f));
 
-	// fill in vertices for grid, note numTilesX+1 * numTilesY+1...
-	osg::Vec3Array* coords = new osg::Vec3Array;
-	int iy;
-	for(iy=0;iy<=numTilesY;++iy)
-	{
-		for(int ix=0;ix<=numTilesX;++ix)
-		{
-			coords->push_back(v000+dx*(float)ix+dy*(float)iy);
-		}
-	}
+    // fill in vertices for grid, note numTilesX+1 * numTilesY+1...
+    osg::Vec3Array* coords = new osg::Vec3Array;
+    int iy;
+    for(iy=0;iy<=numTilesY;++iy)
+    {
+        for(int ix=0;ix<=numTilesX;++ix)
+        {
+            coords->push_back(v000+dx*(float)ix+dy*(float)iy);
+        }
+    }
 
-	//Just two colours - black and white.
-	osg::Vec4Array* colors = new osg::Vec4Array;
-	colors->push_back(osg::Vec4(1.0f,1.0f,1.0f,1.0f)); // white
-	colors->push_back(osg::Vec4(0.0f,0.0f,0.0f,1.0f)); // black
-	int numColors=colors->size();
-
-
-	int numIndicesPerRow=numTilesX+1;
-	osg::UByteArray* coordIndices = new osg::UByteArray; // assumes we are using less than 256 points...
-	osg::UByteArray* colorIndices = new osg::UByteArray;
-	for(iy=0;iy<numTilesY;++iy)
-	{
-		for(int ix=0;ix<numTilesX;++ix)
-		{
-			// four vertices per quad.
-			coordIndices->push_back(ix    +(iy+1)*numIndicesPerRow);
-			coordIndices->push_back(ix    +iy*numIndicesPerRow);
-			coordIndices->push_back((ix+1)+iy*numIndicesPerRow);
-			coordIndices->push_back((ix+1)+(iy+1)*numIndicesPerRow);
-
-			// one color per quad
-			colorIndices->push_back((ix+iy)%numColors);
-		}
-	}
+    //Just two colours - black and white.
+    osg::Vec4Array* colors = new osg::Vec4Array;
+    colors->push_back(osg::Vec4(1.0f,1.0f,1.0f,1.0f)); // white
+    colors->push_back(osg::Vec4(0.0f,0.0f,0.0f,1.0f)); // black
+    int numColors=colors->size();
 
 
-	// set up a single normal
-	osg::Vec3Array* normals = new osg::Vec3Array;
-	normals->push_back(osg::Vec3(0.0f,0.0f,1.0f));
+    int numIndicesPerRow=numTilesX+1;
+    osg::UByteArray* coordIndices = new osg::UByteArray; // assumes we are using less than 256 points...
+    osg::UByteArray* colorIndices = new osg::UByteArray;
+    for(iy=0;iy<numTilesY;++iy)
+    {
+        for(int ix=0;ix<numTilesX;++ix)
+        {
+            // four vertices per quad.
+            coordIndices->push_back(ix    +(iy+1)*numIndicesPerRow);
+            coordIndices->push_back(ix    +iy*numIndicesPerRow);
+            coordIndices->push_back((ix+1)+iy*numIndicesPerRow);
+            coordIndices->push_back((ix+1)+(iy+1)*numIndicesPerRow);
+
+            // one color per quad
+            colorIndices->push_back((ix+iy)%numColors);
+        }
+    }
 
 
-	osg::Geometry* geom = new osg::Geometry;
-	geom->setVertexArray(coords);
-	geom->setVertexIndices(coordIndices);
+    // set up a single normal
+    osg::Vec3Array* normals = new osg::Vec3Array;
+    normals->push_back(osg::Vec3(0.0f,0.0f,1.0f));
 
-	geom->setColorArray(colors);
-	geom->setColorIndices(colorIndices);
-	geom->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
 
-	geom->setNormalArray(normals);
-	geom->setNormalBinding(osg::Geometry::BIND_OVERALL);
+    osg::Geometry* geom = new osg::Geometry;
+    geom->setVertexArray(coords);
+    geom->setVertexIndices(coordIndices);
 
-	geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS,0,coordIndices->size()));
+    geom->setColorArray(colors);
+    geom->setColorIndices(colorIndices);
+    geom->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
 
-	osg::Geode* geode = new osg::Geode;
-	geode->addDrawable(geom);
+    geom->setNormalArray(normals);
+    geom->setNormalBinding(osg::Geometry::BIND_OVERALL);
 
-	return geode;
+    geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS,0,coordIndices->size()));
+
+    osg::Geode* geode = new osg::Geode;
+    geode->addDrawable(geom);
+
+    return geode;
 }
 
 osg::Node* createMovingModel(const osg::Vec3& center, float radius)
 {
-	float animationLength = 10.0f;
+    float animationLength = 10.0f;
 
-	osg::AnimationPath* animationPath = createAnimationPath(center,radius,animationLength);
+    osg::AnimationPath* animationPath = createAnimationPath(center,radius,animationLength);
 
-	osg::Group* model = new osg::Group;
+    osg::Group* model = new osg::Group;
 
-	osg::Node* glider = osgDB::readNodeFile("glider.osg");
-	if (glider)
-	{
-		const osg::BoundingSphere& bs = glider->getBound();
+    osg::Node* glider = osgDB::readNodeFile("glider.osg");
+    if (glider)
+    {
+        const osg::BoundingSphere& bs = glider->getBound();
 
-		osg::BoundingSphere::value_type size = radius/bs.radius()*0.3f;
-		osg::MatrixTransform* positioned = new osg::MatrixTransform;
-		positioned->setDataVariance(osg::Object::STATIC);
-		positioned->setMatrix(osg::Matrix::translate(-bs.center())*
-			osg::Matrix::scale(size,size,size)*
-			osg::Matrix::rotate(osg::inDegrees(-90.0f),0.0f,0.0f,1.0f));
+        osg::BoundingSphere::value_type size = radius/bs.radius()*0.3f;
+        osg::MatrixTransform* positioned = new osg::MatrixTransform;
+        positioned->setDataVariance(osg::Object::STATIC);
+        positioned->setMatrix(osg::Matrix::translate(-bs.center())*
+            osg::Matrix::scale(size,size,size)*
+            osg::Matrix::rotate(osg::inDegrees(-90.0f),0.0f,0.0f,1.0f));
 
-		positioned->addChild(glider);
+        positioned->addChild(glider);
 
-		// Create a sound node
-		osg::ref_ptr<osgAudio::SoundNode> sound_node = createSound("bee.wav");
+        // Create a sound node
+        osg::ref_ptr<osgAudio::SoundNode> sound_node = createSound("bee.wav");
 
-		// Add the sound node
-		positioned->addChild(sound_node.get());
+        // Add the sound node
+        positioned->addChild(sound_node.get());
 
-		osg::PositionAttitudeTransform* xform = new osg::PositionAttitudeTransform;    
-		xform->setUpdateCallback(new osg::AnimationPathCallback(animationPath,0.0,1.0));
-		xform->addChild(positioned);
+        osg::PositionAttitudeTransform* xform = new osg::PositionAttitudeTransform;    
+        xform->setUpdateCallback(new osg::AnimationPathCallback(animationPath,0.0,1.0));
+        xform->addChild(positioned);
 
-		model->addChild(xform);
-	}
+        model->addChild(xform);
+    }
 
-	osg::Node* cessna = osgDB::readNodeFile("cessna.osg");
-	if (cessna)
-	{
-		const osg::BoundingSphere& bs = cessna->getBound();
+    osg::Node* cessna = osgDB::readNodeFile("cessna.osg");
+    if (cessna)
+    {
+        const osg::BoundingSphere& bs = cessna->getBound();
 
-		osg::BoundingSphere::value_type size = radius/bs.radius()*0.3f;
-		osg::MatrixTransform* positioned = new osg::MatrixTransform;
-		positioned->setDataVariance(osg::Object::STATIC);
-		positioned->setMatrix(osg::Matrix::translate(-bs.center())*
-			osg::Matrix::scale(size,size,size)*
-			osg::Matrix::rotate(osg::inDegrees(180.0f),0.0f,0.0f,1.0f));
+        osg::BoundingSphere::value_type size = radius/bs.radius()*0.3f;
+        osg::MatrixTransform* positioned = new osg::MatrixTransform;
+        positioned->setDataVariance(osg::Object::STATIC);
+        positioned->setMatrix(osg::Matrix::translate(-bs.center())*
+            osg::Matrix::scale(size,size,size)*
+            osg::Matrix::rotate(osg::inDegrees(180.0f),0.0f,0.0f,1.0f));
 
-		positioned->addChild(cessna);
+        positioned->addChild(cessna);
 
-		osg::MatrixTransform* xform = new osg::MatrixTransform;
-		xform->setUpdateCallback(new osg::AnimationPathCallback(animationPath,0.0f,2.0));
-		xform->addChild(positioned);
+        osg::MatrixTransform* xform = new osg::MatrixTransform;
+        xform->setUpdateCallback(new osg::AnimationPathCallback(animationPath,0.0f,2.0));
+        xform->addChild(positioned);
 
-		model->addChild(xform);
-	}
+        model->addChild(xform);
+    }
 
-	return model;
+    return model;
 }
 
 osg::ref_ptr<osgAudio::SoundNode> createSound(const std::string& file)
 {
-	// Create a sample, load a .wav file.
-	//osgAudio::Sample *sample = new osgAudio::Sample(file.c_str());
+    // Create a sample, load a .wav file.
+    //osgAudio::Sample *sample = new osgAudio::Sample(file.c_str());
     osg::ref_ptr<osgAudio::Sample> sampleorig = osgAudio::SoundManager::instance()->getSample(file.c_str(), true); // we don't ever use this one, it just fills the cache
-	osg::ref_ptr<osgAudio::Sample> sample = osgAudio::SoundManager::instance()->getSample(file.c_str(), true); // test caching and copy constructor
+    osg::ref_ptr<osgAudio::Sample> sample = osgAudio::SoundManager::instance()->getSample(file.c_str(), true); // test caching and copy constructor
 
-	// Create a named sound state.
-	osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState("glider");
+    // Create a named sound state.
+    osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState("glider");
 
-	// Let the soundstate use the sample we just created
-	sound_state->setSample(sample);
+    // Let the soundstate use the sample we just created
+    sound_state->setSample(sample);
 
-	// Set its gain (volume) to 0.9
-	sound_state->setGain(0.9f);
+    // Set its gain (volume) to 0.9
+    sound_state->setGain(0.9f);
 
-	// Set its pitch to 1 (normal speed)
-	sound_state->setPitch(1);
+    // Set its pitch to 1 (normal speed)
+    sound_state->setPitch(1);
 
-	// Make it play
-	sound_state->setPlay(true);
+    // Make it play
+    sound_state->setPlay(true);
 
-	// The sound should loop over and over again
-	sound_state->setLooping(true);
+    // The sound should loop over and over again
+    sound_state->setLooping(true);
 
-	// Allocate a hardware soundsource to this soundstate (priority 10)
-	//
-	sound_state->allocateSource(10, false);
+    // Allocate a hardware soundsource to this soundstate (priority 10)
+    //
+    sound_state->allocateSource(10, false);
 
-	// At 40 the gain will be half of full!
-	sound_state->setReferenceDistance(70);
-	sound_state->setRolloffFactor(4);
-	sound_state->apply();
+    // At 40 the gain will be half of full!
+    sound_state->setReferenceDistance(70);
+    sound_state->setRolloffFactor(4);
 
-	// Add the soundstate to the sound manager, so we can find it later on if we want to
-	osgAudio::SoundManager::instance()->addSoundState(sound_state.get());
+    // Add the soundstate to the sound manager, so we can find it later on if we want to
+    osgAudio::SoundManager::instance()->addSoundState(sound_state.get());
 
-	// Create a sound node and attach the soundstate to it.
-	osg::ref_ptr<osgAudio::SoundNode> sound = new osgAudio::SoundNode;
-	sound->setSoundState(sound_state.get());
+    // Create a sound node and attach the soundstate to it.
+    osg::ref_ptr<osgAudio::SoundNode> sound = new osgAudio::SoundNode;
+    sound->setSoundState(sound_state.get());
 
-	return sound;
+    return sound;
 }
 
 
 
 osg::Node* createModel()
 {
-	osg::Vec3 center(0.0f,0.0f,0.0f);
-	float radius = 100.0f;
+    osg::Vec3 center(0.0f,0.0f,0.0f);
+    float radius = 100.0f;
 
-	osg::Group* root = new osg::Group;
+    osg::Group* root = new osg::Group;
 
-	root->addChild(createMovingModel(center,radius*0.8f));
+    root->addChild(createMovingModel(center,radius*0.8f));
 
-	root->addChild(createBase(center-osg::Vec3(0.0f,0.0f,radius*0.5),radius));
+    root->addChild(createBase(center-osg::Vec3(0.0f,0.0f,radius*0.5),radius));
 
-	return root;
+    return root;
 }
 
 
 int main( int argc, char **argv )
 {
 
-	osg::notify(osg::WARN) << "\n\n" << osgAudio::getLibraryName() << " demo" << std::endl;
-	osg::notify(osg::WARN) << "Version: " << osgAudio::getVersion() << "\n\n" << std::endl;
-	osg::notify(osg::WARN) << "\nPress space to play a sound once...\n" << std::endl;
+    osg::notify(osg::WARN) << "\n\n" << osgAudio::getLibraryName() << " demo" << std::endl;
+    osg::notify(osg::WARN) << "Version: " << osgAudio::getVersion() << "\n\n" << std::endl;
+    osg::notify(osg::WARN) << "\nPress space to play a sound once...\n" << std::endl;
 
 
-	try {
-		// use an ArgumentParser object to manage the program arguments.
-		osg::ArgumentParser arguments(&argc,argv);
+    try {
+        // use an ArgumentParser object to manage the program arguments.
+        osg::ArgumentParser arguments(&argc,argv);
 
-		// set up the usage document, in case we need to print out how to use this program.
-		arguments.getApplicationUsage()->setDescription(arguments.getApplicationName()+" demonstrates the use of the osgAudio toolkit for spatial sound.");
-		arguments.getApplicationUsage()->setCommandLineUsage(arguments.getApplicationName()+" [options] filename ...");
-		arguments.getApplicationUsage()->addCommandLineOption("-h or --help","Display this information");
+        // set up the usage document, in case we need to print out how to use this program.
+        arguments.getApplicationUsage()->setDescription(arguments.getApplicationName()+" demonstrates the use of the osgAudio toolkit for spatial sound.");
+        arguments.getApplicationUsage()->setCommandLineUsage(arguments.getApplicationName()+" [options] filename ...");
+        arguments.getApplicationUsage()->addCommandLineOption("-h or --help","Display this information");
 
-		// initialize the viewer.
-		osgViewer::Viewer viewer(arguments);
+        // initialize the viewer.
+        osgViewer::Viewer viewer(arguments);
 
-		// add the window size toggle handler
-		viewer.addEventHandler(new osgViewer::WindowSizeHandler);
+        // add the window size toggle handler
+        viewer.addEventHandler(new osgViewer::WindowSizeHandler);
 
-		// add the stats handler
-		viewer.addEventHandler(new osgViewer::StatsHandler);
+        // add the stats handler
+        viewer.addEventHandler(new osgViewer::StatsHandler);
 
-		// add the help handler
-		viewer.addEventHandler(new osgViewer::HelpHandler(arguments.getApplicationUsage()));
-
-
-
-		// get details on keyboard and mouse bindings used by the viewer.
-		viewer.getUsage(*arguments.getApplicationUsage());
-
-		// if user request help write it out to cout.
-		if (arguments.read("-h") || arguments.read("--help"))
-		{
-			arguments.getApplicationUsage()->write(std::cout);
-			return 1;
-		}
-
-		// any option left unread are converted into errors to write out later.
-		arguments.reportRemainingOptionsAsUnrecognized();
-
-		arguments.getApplicationUsage()->addKeyboardMouseBinding("RETURN", "Play a sound");
+        // add the help handler
+        viewer.addEventHandler(new osgViewer::HelpHandler(arguments.getApplicationUsage()));
 
 
-		// report any errors if they have occured when parsing the program aguments.
-		if (arguments.errors())
-		{
-			arguments.writeErrorMessages(std::cout);
-			return 1;
-		}
 
-		osgAudio::SoundManager::instance()->init(16);
-		osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance);
-		osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(1);
+        // get details on keyboard and mouse bindings used by the viewer.
+        viewer.getUsage(*arguments.getApplicationUsage());
 
-		// load the nodes from the commandline arguments.
-		osg::Node* model = createModel();
-		if (!model)
-		{
-			return 1;
-		}
+        // if user request help write it out to cout.
+        if (arguments.read("-h") || arguments.read("--help"))
+        {
+            arguments.getApplicationUsage()->write(std::cout);
+            return 1;
+        }
 
-		// tilt the scene so the default eye position is looking down on the model.
-		osg::MatrixTransform* rootnode = new osg::MatrixTransform;
-		rootnode->setMatrix(osg::Matrix::rotate(osg::inDegrees(30.0f),1.0f,0.0f,0.0f));
-		rootnode->addChild(model);
+        // any option left unread are converted into errors to write out later.
+        arguments.reportRemainingOptionsAsUnrecognized();
 
-		// Create a sample, load a .wav file.
-		osgAudio::Sample *sample = new osgAudio::Sample("high-e.wav");
-		osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState("glider");
-		sound_state->setSample(sample);
-		sound_state->setGain(0.7f);
-		sound_state->setReferenceDistance(10);
-		sound_state->setPlay(false);
-		sound_state->setLooping(false);
-
-		// Add the soundstate to the sound manager, so we can find it later on if we want to
-		osgAudio::SoundManager::instance()->addSoundState(sound_state.get());
-
-		viewer.getEventHandlers().push_front(new KeyboardHandler(sound_state.get()));
+        arguments.getApplicationUsage()->addKeyboardMouseBinding("RETURN", "Play a sound");
 
 
-		// Create ONE (only one, otherwise the transformation of the listener and update for SoundManager will be
-		// called several times, which is not catastrophic, but unnecessary) 
-		// SoundRoot that will make sure the listener is updated and
-		// to keep the internal state of the SoundManager updated
-		// This could also be done manually, this is just a handy way of doing it.
-		osg::ref_ptr<osgAudio::SoundRoot> sound_root = new osgAudio::SoundRoot;
+        // report any errors if they have occured when parsing the program aguments.
+        if (arguments.errors())
+        {
+            arguments.writeErrorMessages(std::cout);
+            return 1;
+        }
+
+        osgAudio::SoundManager::instance()->init(16);
+        osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance);
+        osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(1);
+
+        // load the nodes from the commandline arguments.
+        osg::Node* model = createModel();
+        if (!model)
+        {
+            return 1;
+        }
+
+        // tilt the scene so the default eye position is looking down on the model.
+        osg::MatrixTransform* rootnode = new osg::MatrixTransform;
+        rootnode->setMatrix(osg::Matrix::rotate(osg::inDegrees(30.0f),1.0f,0.0f,0.0f));
+        rootnode->addChild(model);
+
+        // Create a sample, load a .wav file.
+        osgAudio::Sample *sample = new osgAudio::Sample("high-e.wav");
+        osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState("glider");
+        sound_state->setSample(sample);
+        sound_state->setGain(0.7f);
+        sound_state->setReferenceDistance(10);
+        sound_state->setPlay(false);
+        sound_state->setLooping(false);
+
+        // Add the soundstate to the sound manager, so we can find it later on if we want to
+        osgAudio::SoundManager::instance()->addSoundState(sound_state.get());
+
+        viewer.getEventHandlers().push_front(new KeyboardHandler(sound_state.get()));
 
 
-		// The position in the scenegraph of this node is not important.
-		// Just as long as the cull traversal should be called after any changes to the SoundManager are made.
-		rootnode->addChild(sound_root.get());
-
-		// run optimization over the scene graph after the soundnodes are added 
-		// otherwise in this case the transformation added earlier would dissapear.
-		osgUtil::Optimizer optimzer;
-		optimzer.optimize(rootnode);
-
-		// set the scene to render
-		viewer.setSceneData(rootnode);
-
-		// create the windows and run the threads.
-		viewer.realize();
+        // Create ONE (only one, otherwise the transformation of the listener and update for SoundManager will be
+        // called several times, which is not catastrophic, but unnecessary) 
+        // SoundRoot that will make sure the listener is updated and
+        // to keep the internal state of the SoundManager updated
+        // This could also be done manually, this is just a handy way of doing it.
+        osg::ref_ptr<osgAudio::SoundRoot> sound_root = new osgAudio::SoundRoot;
 
 
-    osgViewer::Viewer::Windows windows;
-    viewer.getWindows(windows);
-    windows[0]->setWindowRectangle( 10, 10, 1024, 768 );
-    windows[0]->setWindowDecoration( true );
+        // The position in the scenegraph of this node is not important.
+        // Just as long as the cull traversal should be called after any changes to the SoundManager are made.
+        rootnode->addChild(sound_root.get());
+
+        // run optimization over the scene graph after the soundnodes are added 
+        // otherwise in this case the transformation added earlier would dissapear.
+        osgUtil::Optimizer optimzer;
+        optimzer.optimize(rootnode);
+
+        // set the scene to render
+        viewer.setSceneData(rootnode);
+
+        // create the windows and run the threads.
+        viewer.realize();
 
 
-		viewer.run();
-	}
-	catch (std::exception& e) {
-		osg::notify(osg::WARN) << "Caught: " << e.what() << std::endl;
-	}
+        osgViewer::Viewer::Windows windows;
+        viewer.getWindows(windows);
+        windows[0]->setWindowRectangle( 10, 10, 1024, 768 );
+        windows[0]->setWindowDecoration( true );
 
-	// Very important to call before end of main!
-	if (osg::Referenced::getDeleteHandler()) {
-		osg::Referenced::getDeleteHandler()->setNumFramesToRetainObjects(0);
-		osg::Referenced::getDeleteHandler()->flushAll();
-	}
-	osgAudio::SoundManager::instance()->shutdown();
-	return 0;
+
+        viewer.run();
+    }
+    catch (std::exception& e) {
+        osg::notify(osg::WARN) << "Caught: " << e.what() << std::endl;
+    }
+
+    // Very important to call before end of main!
+    if (osg::Referenced::getDeleteHandler()) {
+        osg::Referenced::getDeleteHandler()->setNumFramesToRetainObjects(0);
+        osg::Referenced::getDeleteHandler()->flushAll();
+    }
+    osgAudio::SoundManager::instance()->shutdown();
+    return 0;
 
 }
