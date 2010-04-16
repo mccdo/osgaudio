@@ -15,14 +15,6 @@ SET(OSGAUDIO_PATCH_VERSION 0)
 
 SET(OSGAUDIO_VERSION ${OSGAUDIO_MAJOR_VERSION}.${OSGAUDIO_MINOR_VERSION}.${OSGAUDIO_PATCH_VERSION})
 
-IF( WIN32 AND MSVC )
-    OPTION( WIN32_USE_MP "Build with multiple processes (/MP option; VS 2005 and above)." ON )
-    MARK_AS_ADVANCED( WIN32_USE_MP )
-    IF( WIN32_USE_MP )
-        SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP" )
-    ENDIF( WIN32_USE_MP )
-ENDIF( WIN32 AND MSVC )
-
 # We have some custom .cmake scripts not in the official distribution.
 SET(CMAKE_MODULE_PATH "${osgAudio_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 
@@ -98,12 +90,11 @@ INCLUDE_DIRECTORIES(
 
 IF(WIN32)
     IF(MSVC)
-        # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
-        OPTION(WIN32_USE_MP "Set to ON to build OpenSceneGraph with the /MP option (Visual Studio 2005 and above)." OFF)
-        MARK_AS_ADVANCED(WIN32_USE_MP)
-        IF(WIN32_USE_MP)
-            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
-        ENDIF(WIN32_USE_MP)
+        OPTION( WIN32_USE_MP "Build with multiple processes (/MP option; VS 2005 and above)." ON )
+        MARK_AS_ADVANCED( WIN32_USE_MP )
+        IF( WIN32_USE_MP )
+            SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP" )
+        ENDIF( WIN32_USE_MP )
 
         # # turn off various warnings
         #foreach(warning 4244 4251 4267 4275 4290 4786 4305 4996)
