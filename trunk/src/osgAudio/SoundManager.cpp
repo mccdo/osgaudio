@@ -482,7 +482,7 @@ void SoundManager::setListenerDirection(const osg::Vec3& dir)
 	m_listener_direction = dir; 
 }
 
-void SoundManager::setListenerMatrix( const osg::Matrixd& matrix)
+void SoundManager::setListenerMatrix( const osg::Matrix& matrix)
 {
 
 	m_listener_matrix = matrix;
