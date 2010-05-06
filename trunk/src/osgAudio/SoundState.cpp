@@ -209,11 +209,18 @@ void SoundState::setSource(Source *source)
 
 	if (m_source.valid()) 
 		releaseSource(); 
-	m_source = source; 
+	m_source = source;
+	// The following code is believed to be un-necessary. It is benign or
+	// mostly harmless for openAL, but causes a resource leak of an FMOD
+	// channel (FMOD refcounts playing or paused channels) because it allocates
+	// a channel but we never get around to telling it to play and apply()
+	// below repeats the process (and then does play the second-allocated channel).
+/*
 	if (m_sample.valid())
 		m_source->setSound(m_sample.get()); 
 	else if (m_stream.valid())
 		m_source->setSound(m_stream.get()); 
+*/
 }
 
 ///
