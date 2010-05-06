@@ -147,15 +147,24 @@ void Source::play( Stream *stream ) {
 }
 
 void Source::play() {
-	if(_FMODChannel) // already playing, but paused
+	bool isPlaying;
+	if(_FMODChannel)
 	{
-		_FMODChannel->setPaused(false);
+		_FMODChannel->isPlaying(&isPlaying);
+		if(isPlaying) // already playing
+		{
+			bool paused;
+			_FMODChannel->getPaused(&paused);
+			if(paused) // is it paused?
+			{
+				_FMODChannel->setPaused(false); // unpause
+			} // if
+			return;
+		} // if
 	} // if
-	else // not yet playing
-	{
+	// not yet playing
 	FMOD_RESULT createResult = AudioEnvironment::getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), false, &_FMODChannel);
 	initPitchSupport();
-	} // else
 }
 
 void Source::seek(float time_s)
