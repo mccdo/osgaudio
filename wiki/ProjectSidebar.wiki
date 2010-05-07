@@ -1,0 +1,14 @@
+#summary The gee wiz google code wiki sidebar
+  * Downloads
+    * [http://code.google.com/p/osgaudio/source svn access]
+    * [http://code.google.com/p/osgaudio/downloads/list Release zips]
+  * Building
+    * Installation
+  * Running
+    * RunningOsgAudio
+    * GettingStarted
+  * Release Information
+    * ReleaseRoadmap
+    * Authors
+  * [http://code.google.com/p/osgaudio/wiki/WikiContents Wiki]
+  * [http://code.google.com/p/osgaudio/issues/list Issues]
