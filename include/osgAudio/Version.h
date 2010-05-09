@@ -38,9 +38,30 @@
  * OsgAudio has been tested on Windows and Linux. 
  *
  */
+
+#define OSGAUDIO_MAJOR_VERSION 2
+#define OSGAUDIO_MINOR_VERSION 0
+#define OSGAUDIO_SUB_VERSION 0
+
+// C preprocessor integrated version number.
+// The form is Mmmss, where:
+//   M is the major version
+//   mm is the minor version (zero-padded)
+//   ss is the sub version (zero padded)
+// Use this in version-specific code, for example:
+//   #if( OSGAUDIO_VERSION > 20100 )
+//      ... code specific to releases AFTER v2.01
+//   #endif
+#define OSGAUDIO_VERSION ( \
+        ( OSGAUDIO_MAJOR_VERSION * 10000 ) + \
+        ( OSGAUDIO_MINOR_VERSION * 100 ) + \
+        OSGAUDIO_SUB_VERSION )
+
+
 /// Integration of 3D Sound into OpenSceneGraph.
 namespace osgAudio {
 	OSGAUDIO_EXPORT std::string getVersion();
+	OSGAUDIO_EXPORT unsigned int getVersionNumber();
 	OSGAUDIO_EXPORT std::string getLibraryName();
 } // namespace osgAudio
 

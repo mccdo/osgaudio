@@ -344,9 +344,9 @@ osg::Node* createModel()
 int main( int argc, char **argv )
 {
 
-    osg::notify(osg::WARN) << "\n\n" << osgAudio::getLibraryName() << " demo" << std::endl;
-    osg::notify(osg::WARN) << "Version: " << osgAudio::getVersion() << "\n\n" << std::endl;
-    osg::notify(osg::WARN) << "\nPress space to play a sound once...\n" << std::endl;
+    osg::notify(osg::NOTICE) << "\n\n" << osgAudio::getLibraryName() << " demo" << std::endl;
+    osg::notify(osg::NOTICE) << "Version: " << osgAudio::getVersion() << "\n\n" << std::endl;
+    osg::notify(osg::NOTICE) << "\nPress space to play a sound once...\n" << std::endl;
 
 
     try {
