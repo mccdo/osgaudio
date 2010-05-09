@@ -24,14 +24,38 @@
 
 
 #include <osgAudio/Version.h>
+#include <string>
+#include <sstream>
 
-std::string osgAudio::getVersion()
+
+unsigned int
+osgAudio::getVersionNumber()
 {
-	return "2.0.0";
+    return( OSGAUDIO_VERSION );
 }
 
 
-std::string osgAudio::getLibraryName()
+static std::string s_osgaudio_version( "" );
+
+std::string
+osgAudio::getVersion()
+{
+    if( s_osgaudio_version.empty() )
+    {
+        std::ostringstream oStr;
+        oStr << std::string( "osgWorks version " ) <<
+            OSGAUDIO_MAJOR_VERSION << "." <<
+            OSGAUDIO_MINOR_VERSION << "." <<
+            OSGAUDIO_SUB_VERSION << " (" <<
+            getVersionNumber() << ").";
+        s_osgaudio_version = oStr.str();
+    }
+    return( s_osgaudio_version );
+}
+
+
+std::string
+osgAudio::getLibraryName()
 {
 	return "OpenSceneGraph Audio Library (osgAudio)";
 }
