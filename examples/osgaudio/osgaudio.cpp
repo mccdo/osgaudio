@@ -23,6 +23,7 @@
  */
 
 
+#include <osgDB/FileUtils>
 #include <osg/DeleteHandler>
 #include <osg/Notify>
 #include <osg/MatrixTransform>
@@ -412,7 +413,8 @@ int main( int argc, char **argv )
         rootnode->addChild(model);
 
         // Create a sample, load a .wav file.
-        osgAudio::Sample *sample = new osgAudio::Sample("high-e.wav");
+        osgAudio::Sample *sample = new osgAudio::Sample(
+            osgDB::findDataFile("high-e.wav"));
         osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState("glider");
         sound_state->setSample(sample);
         sound_state->setGain(0.7f);
@@ -432,6 +434,12 @@ int main( int argc, char **argv )
         // to keep the internal state of the SoundManager updated
         // This could also be done manually, this is just a handy way of doing it.
         osg::ref_ptr<osgAudio::SoundRoot> sound_root = new osgAudio::SoundRoot;
+
+        // Specify the camera from our viewer. The view matrix from this camera
+        // will be used during update to set the Listener position. Note this
+        // will not work if the viewer is rendering to multiple displays; will
+        // need to select a slave camera.
+        sound_root->setCamera( viewer.getCamera() );
 
 
         // The position in the scenegraph of this node is not important.

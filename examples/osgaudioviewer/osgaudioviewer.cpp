@@ -191,6 +191,7 @@ int main( int argc, char **argv )
 		if (fsrnv.getHits() == 0) {
 			// there is no osgAudio::SoundRoot to update the listener, so we insert one
 			osg::ref_ptr<osgAudio::SoundRoot> soundRoot = new osgAudio::SoundRoot();
+            soundRoot->setCamera( viewer.getCamera() );
 			osg::ref_ptr<osg::Group> rootGroup = static_cast<osg::Group*>(loadedModel.get());
 			rootGroup->addChild(soundRoot.get());
 		} else if (fsrnv.getHits() == 1) {
@@ -206,6 +207,7 @@ int main( int argc, char **argv )
 			loadedModel->accept(fsrnv);
 			// and add just one SoundRoot node
 			osg::ref_ptr<osgAudio::SoundRoot> soundRoot = new osgAudio::SoundRoot();
+            soundRoot->setCamera( viewer.getCamera() );
 			osg::ref_ptr<osg::Group> rootGroup = static_cast<osg::Group*>(loadedModel.get());
 			rootGroup->addChild(soundRoot.get());
 		}
