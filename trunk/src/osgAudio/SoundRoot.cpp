@@ -123,11 +123,9 @@ void SoundRoot::update( osg::NodeVisitor* nv )
     bool time_to_update( ( m_last_time == 0.0 ) ||
         ( curr_time - m_last_time >= SoundManager::instance()->getUpdateFrequency() ) );
 
-    if (time_to_update && m_update_enabled) {
+    if (time_to_update && m_update_enabled)
+    {
 	    m_last_time = curr_time;
-#ifdef _DEBUG
-	    if (dynamic_cast<osgUtil::CullVisitor *>(&nv) != &nv) throw std::exception("Implementation error: should have a osgUtil::CullVisitor");
-#endif
 
 	    if( osgAudio::SoundManager::instance()->initialized())
         {
