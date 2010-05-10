@@ -23,7 +23,10 @@
  */
 
 
+#include <osg/NodeCallback>
 #include <osg/Transform>
+#include <osg/Notify>
+#include <osg/Version>
 
 #include <osgUtil/CullVisitor>
 
@@ -34,12 +37,49 @@ using namespace osg;
 using namespace osgAudio;
 
 
-SoundRoot::SoundRoot()
-:    m_last_time(0), m_first_run(true), 
-m_last_traversal_number(0),
-m_update_enabled(true)
+class SoundRootUpdate : public osg::NodeCallback
 {
-	setCullingActive(false);
+public:
+    SoundRootUpdate( SoundRoot& sr )
+      : _sr( sr )
+    {
+        osg::notify( osg::ALWAYS ) << "SoundRootUpdate: Constructor" << std::endl;
+    }
+    ~SoundRootUpdate()
+    {}
+
+    virtual void operator()( osg::Node* node, osg::NodeVisitor* nv )
+    {
+        _sr.update( nv );
+
+        traverse( node, nv );
+    }
+
+protected:
+    SoundRoot& _sr;
+};
+
+
+// Determine whether or not we are at least OSG 2.8
+#if( ( (OPENSCENEGRAPH_MAJOR_VERSION * 100) + OPENSCENEGRAPH_MINOR_VERSION ) >= 208 )
+#  define OSG280 1
+#else
+#  undef OSG280
+#endif
+
+SoundRoot::SoundRoot()
+  : _camera( NULL ),
+    m_last_time(0),
+    m_update_enabled(true)
+{
+#ifdef OSG280
+    addUpdateCallback( new SoundRootUpdate( *this ) );
+#else
+    // OSG version < 2.8.0. addUpdateCallback() doesn't exist.
+    setUpdateCallback( new SoundRootUpdate( *this ) );
+#endif
+
+    setCullingActive(false);
 }
 
 
@@ -47,62 +87,60 @@ SoundRoot & SoundRoot::operator=(const SoundRoot &node)
 { 
 	if (this == &node) return *this; 
 
+    _camera = node._camera;
 	m_last_time = node.m_last_time;
-	m_first_run = node.m_first_run;
+    m_update_enabled = node.m_update_enabled;
+
 	return *this;
 }
 
 
 
 SoundRoot::SoundRoot(const SoundRoot &copy, const osg::CopyOp &copyop)
-:    osg::Node(copy, copyop)
+  : osg::Node( copy, copyop )
 {
-
 	*this = copy;
 }
 
-void SoundRoot::traverse(osg::NodeVisitor &nv)
+
+void
+SoundRoot::setCamera( osg::Camera* cam )
 {
-	// continue only if the visitor actually is a cull visitor
-	if (nv.getVisitorType() == osg::NodeVisitor::CULL_VISITOR) {
-
-		// Make sure we only execute this once during this frame.
-		// There could be two or more culls for stereo/multipipe...
-		if ( nv.getTraversalNumber() != m_last_traversal_number && nv.getFrameStamp())
-		{
-
-			m_last_traversal_number = nv.getTraversalNumber();
-
-			bool time_to_update = false;
-			double curr_time = nv.getFrameStamp()->getReferenceTime();
-
-			if (curr_time - m_last_time >= SoundManager::instance()->getUpdateFrequency()) {
-				time_to_update = true;
-			}
-
-			if (time_to_update && m_update_enabled) {
-				m_last_time = curr_time;
-#ifdef _DEBUG
-				if (dynamic_cast<osgUtil::CullVisitor *>(&nv) != &nv) throw std::exception("Implementation error: should have a osgUtil::CullVisitor");
-#endif
-				osgUtil::CullVisitor *cv = static_cast<osgUtil::CullVisitor *>(&nv);
-
-				//osg::Matrix m = *cv->getModelViewMatrix();		// Wrong when the main camera is using RELATIVE_RF
-				osg::Matrixd m = cv->getCurrentCamera()->getViewMatrix();
-
-				if(osgAudio::SoundManager::instance()->initialized()) {
-
-					// Update the soundmanager (process queued sound states)
-					osgAudio::SoundManager::instance()->update();
-
-					// Set the position/orientation of the listener
-					osgAudio::SoundManager::instance()->setListenerMatrix(m);
-				}
-			}
-		}
-
-	} 
-
-	// call the inherited method
-	Node::traverse(nv);
+    _camera = cam;
 }
+const osg::Camera*
+SoundRoot::getCamera() const
+{
+    return( _camera );
+}
+
+
+void SoundRoot::update( osg::NodeVisitor* nv )
+{
+    osg::notify( osg::DEBUG_INFO ) << "SoundRoot::update: operator(). Camera: " << getCamera() << std::endl;
+
+    const double curr_time( nv->getFrameStamp()->getReferenceTime() );
+    bool time_to_update( ( m_last_time == 0.0 ) ||
+        ( curr_time - m_last_time >= SoundManager::instance()->getUpdateFrequency() ) );
+
+    if (time_to_update && m_update_enabled) {
+	    m_last_time = curr_time;
+#ifdef _DEBUG
+	    if (dynamic_cast<osgUtil::CullVisitor *>(&nv) != &nv) throw std::exception("Implementation error: should have a osgUtil::CullVisitor");
+#endif
+
+	    if( osgAudio::SoundManager::instance()->initialized())
+        {
+	        // Update the soundmanager (process queued sound states)
+	        osgAudio::SoundManager::instance()->update();
+
+	        osg::Matrixd m;
+            if( getCamera() != NULL )
+                m = getCamera()->getViewMatrix();
+
+	        // Set the position/orientation of the listener
+	        osgAudio::SoundManager::instance()->setListenerMatrix( m );
+        }
+    }
+}
+

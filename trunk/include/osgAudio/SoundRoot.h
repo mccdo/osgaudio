@@ -38,6 +38,7 @@
 namespace osgAudio
 {
 
+
 	/// A node that updates the transformation of the listener. Should be traversed before any SoundNode nodes
 	/**
 	This class updates the internal state of the osgAudio::SoundManager during cull traversal from the current 
@@ -47,25 +48,40 @@ namespace osgAudio
 	*/
 	class OSGAUDIO_EXPORT SoundRoot: public osg::Node {
 	public:
-
 		/// Default constructor
 		SoundRoot();
 
 		META_Node(osgAudio, SoundRoot);
 
-		/*!
-		Executed during traversal of the scenegraph.
-		If the NodeVisitor is a CullVisitor the orientation/position and velocity of the
-		listener is updated.
-		*/
-		virtual void traverse(osg::NodeVisitor &nv);
+        /*!
+        The Camera's view matrix is used to position the Listener.
+        SoundRoot::update() queries the camera during update to
+        obtain the view and update the Listener position.
+        If camera is NULL, SoundRoot sets the Listener position to 0,0,0.
+
+        If you have multiple views, specify the Camera for the view you'd
+        like to use to represent the Listener's audio experience.
+
+        If you want to specify the Listener position explicitly from your
+        application, then there is no need to set a Camera here. However, you
+        will need to explicitly set the Listener position after the update
+        traversal and before any cull traversals, like so:
+            osgAudio::SoundManager::instance()->setListenerMatrix( m );
+        */
+        void setCamera( osg::Camera* cam );
+        const osg::Camera* getCamera() const;
 
 		void setUpdateEnable(bool flag) { m_update_enabled = flag; }
 		bool getUpdateEnable()  const { return m_update_enabled; }
 
+		/*!
+        Called by the update callback during the update traversal.
+		Sets the orientation/position and velocity of the Listener.
+		*/
+        void update( osg::NodeVisitor* nv );
+
 
 	protected:
-
 		/// Destructor
 		virtual ~SoundRoot() {}
 
@@ -75,11 +91,10 @@ namespace osgAudio
 		/// Assignment operator
 		SoundRoot &operator=(const SoundRoot &node); 
 
-	private:
+
+        osg::ref_ptr< osg::Camera > _camera;
+
 		double m_last_time;
-		double m_first_run;
-		osg::Vec3 m_last_pos;
-		int m_last_traversal_number;
 		bool m_update_enabled;
 	};
 

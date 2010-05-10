@@ -130,6 +130,8 @@ int main( int argc, char **argv )
         // to keep the internal state of the SoundManager updated
         // This could also be done manually, this is just a handy way of doing it.
         osg::ref_ptr<osgAudio::SoundRoot> sound_root = new osgAudio::SoundRoot;
+        sound_root->setCamera( viewer.getCamera() );
+
 
 
         // The position in the scenegraph of this node is not important.
