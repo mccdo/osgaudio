@@ -86,11 +86,17 @@ SoundManager::SoundManager() : Referenced(),
 	m_listener_direction = osg::Vec3(1,1,1);
 }
 
-void SoundManager::init(unsigned int num_soundsources, float sound_velocity)
+void SoundManager::init( unsigned int num_soundsources, bool displayInitMsgs )
+{
+    // Alternate interface for init, allows app to turn on display of 
+    // initialization messages to the console.
+    init( num_soundsources, 343, displayInitMsgs );
+}
+void SoundManager::init(unsigned int num_soundsources, float sound_velocity, bool displayInitMsgs )
 {
 
 	if (!m_sound_environment)
-		m_sound_environment = new AudioEnvironment();
+		m_sound_environment = new AudioEnvironment( displayInitMsgs );
 
 	if (!m_listener) {
 		m_listener = new Listener;

@@ -70,8 +70,9 @@ namespace openalpp {
 	public:
 		/**
 		* Constructor.
+        * @param displayInitMsgs When true, writes init messages to console.
 		*/
-		AudioEnvironment() throw (InitError);
+		AudioEnvironment( bool displayInitMsgs=false ) throw (InitError);
 
 		/**
 		* Constructor.
@@ -80,8 +81,9 @@ namespace openalpp {
 		* @param frequency is the playing frequency of the environment (in Hz)
 		* @param refresh is the refresh rate of the environment (in Hz)
 		* @param synchronous is true if the environment is synchronous
+        * @param displayInitMsgs When true, writes init messages to console.
 		*/
-		AudioEnvironment(int frequency,int refresh,bool synchronous)
+		AudioEnvironment(int frequency,int refresh,bool synchronous,bool displayInitMsgs)
 			throw (InitError);
 
 

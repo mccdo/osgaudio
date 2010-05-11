@@ -26,12 +26,14 @@
 
 using namespace openalpp;
 
-AudioEnvironment::AudioEnvironment() throw (InitError): AudioBase() {
+AudioEnvironment::AudioEnvironment( bool displayInitMsgs ) throw (InitError)
+  : AudioBase( -1, -1, -1, displayInitMsgs )
+{
 }
 
-AudioEnvironment::AudioEnvironment(int frequency,int refresh,bool synchronous)
+AudioEnvironment::AudioEnvironment(int frequency,int refresh,bool synchronous, bool displayInitMsgs)
 throw (InitError)
-: AudioBase(frequency,refresh,synchronous) {
+  : AudioBase(frequency,refresh,synchronous, displayInitMsgs ) {
 }
 
 AudioEnvironment::AudioEnvironment(int frequency,int refresh) throw (InitError)
