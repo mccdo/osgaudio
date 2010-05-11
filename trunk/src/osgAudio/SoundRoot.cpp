@@ -43,7 +43,7 @@ public:
     SoundRootUpdate( SoundRoot& sr )
       : _sr( sr )
     {
-        osg::notify( osg::ALWAYS ) << "SoundRootUpdate: Constructor" << std::endl;
+        osg::notify( osg::DEBUG_INFO ) << "SoundRootUpdate: Constructor" << std::endl;
     }
     ~SoundRootUpdate()
     {}
