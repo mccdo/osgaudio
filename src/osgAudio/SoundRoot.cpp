@@ -132,12 +132,15 @@ void SoundRoot::update( osg::NodeVisitor* nv )
 	        // Update the soundmanager (process queued sound states)
 	        osgAudio::SoundManager::instance()->update();
 
-	        osg::Matrixd m;
+            // Set the position/orientation of the listener.
+            // This is only done if there's a Camera; otherwise, the
+            // app must set the matrix explicitly.
             if( getCamera() != NULL )
-                m = getCamera()->getViewMatrix();
+            {
+                osg::Matrixd m( getCamera()->getViewMatrix() );
 
-	        // Set the position/orientation of the listener
-	        osgAudio::SoundManager::instance()->setListenerMatrix( m );
+	            osgAudio::SoundManager::instance()->setListenerMatrix( m );
+            }
         }
     }
 }
