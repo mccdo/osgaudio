@@ -29,9 +29,12 @@
 
 using namespace openalpp;
 
-AudioBase::AudioBase(int frequency,int refresh,int synchronous) 
+AudioBase::AudioBase(int frequency,int refresh,int synchronous, bool displayInitMsgs )
 throw (InitError)
 {
+    if( displayInitMsgs )
+        std::cout << "Initializing OpenAL." << std::endl;
+
 	if(!instances_) {
 #if OPENAL_VERSION >= 2007
 		ALboolean success = alutInitWithoutContext (0L, 0L);
@@ -53,8 +56,10 @@ throw (InitError)
 			//std::cout << "sound device " << initStringList << std::endl << "found" << std::endl;
 			std::string initStringList2(initStringList);
 			std::string deviceAsked = "Generic Hardware";
-			if (initStringList2.find(deviceAsked) == std::string::npos) {
-				std::cerr << "No Generic Hardware in: " << initStringList2 << std::endl;
+			if (initStringList2.find(deviceAsked) == std::string::npos)
+            {
+                if( displayInitMsgs )
+				    std::cerr << "No Generic Hardware in: " << initStringList2 << std::endl;
 				device_ =alcOpenDevice(initStringList);
 			} else {
 				device_ =alcOpenDevice((const ALCchar *)deviceAsked.c_str());
@@ -63,7 +68,8 @@ throw (InitError)
 		}
 		else
 		{
-			std::cout << "alcGetString returned NULL" << std::endl;
+            if( displayInitMsgs )
+    			std::cout << "alcGetString returned NULL" << std::endl;
 			device_ = 0;
 		}
 
@@ -126,10 +132,13 @@ throw (InitError)
 			ALvoid *eaxGet = alGetProcAddress(szFnName);
 			if (eaxGet == NULL) g_bEAX = AL_FALSE;
 		}
-		if (g_bEAX == AL_TRUE)
-			std::cerr << "Using OpenAL EAX2.0 extension" << std::endl;
-		else
-			std::cerr << "No OpenAL EAX2.0 extensions available" << std::endl;
+        if( displayInitMsgs )
+        {
+		    if (g_bEAX == AL_TRUE)
+			    std::cerr << "Using OpenAL EAX2.0 extension" << std::endl;
+		    else
+			    std::cerr << "No OpenAL EAX2.0 extensions available" << std::endl;
+        }
 	}
 
 	instances_++;

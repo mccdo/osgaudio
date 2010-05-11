@@ -41,17 +41,17 @@ static osgAudio::DistanceModel _osgAudioDistanceModelTranslate[] = {
 
 
 
-AudioEnvironment::AudioEnvironment() throw (InitError) {
-	try {
-	_openalppAudioEnvironment = new openalpp::AudioEnvironment ();
-	}
-	catch(openalpp::InitError error) { throw InitError(error.what()); }
+AudioEnvironment::AudioEnvironment( bool displayInitMsgs ) throw (InitError) {
+    try {
+        _openalppAudioEnvironment = new openalpp::AudioEnvironment( displayInitMsgs);
+    }
+    catch(openalpp::InitError error) { throw InitError(error.what()); }
 }
 
-AudioEnvironment::AudioEnvironment(int frequency,int refresh,bool synchronous)
+AudioEnvironment::AudioEnvironment(int frequency,int refresh,bool synchronous,bool displayInitMsgs)
 throw (InitError) {
 	try {
-	_openalppAudioEnvironment = new openalpp::AudioEnvironment (frequency, refresh, synchronous);
+	_openalppAudioEnvironment = new openalpp::AudioEnvironment (frequency, refresh, synchronous, displayInitMsgs);
 	}
 	catch(openalpp::InitError error) { throw InitError(error.what()); }
 }

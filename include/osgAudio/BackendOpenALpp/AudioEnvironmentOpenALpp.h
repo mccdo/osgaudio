@@ -53,8 +53,9 @@ namespace osgAudio
 
 		/**
 		* Constructor.
+		* @param displayInitMsgs When set to true, init messages are written to console.
 		*/
-		AudioEnvironment() throw (InitError);
+		AudioEnvironment( bool displayInitMsgs=false ) throw (InitError);
 
 		/**
 		* Constructor.
@@ -63,8 +64,9 @@ namespace osgAudio
 		* @param frequency is the playing frequency of the environment (in Hz)
 		* @param refresh is the refresh rate of the environment (in Hz)
 		* @param synchronous is true if the environment is synchronous
+		* @param displayInitMsgs When set to true, init messages are written to console.
 		*/
-		AudioEnvironment(int frequency,int refresh,bool synchronous)
+		AudioEnvironment(int frequency,int refresh,bool synchronous,bool displayInitMsgs=false )
 			throw (InitError);
 
 

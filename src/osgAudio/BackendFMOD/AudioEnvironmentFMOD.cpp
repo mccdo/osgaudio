@@ -43,27 +43,29 @@ static FMOD_MODE _FMODDistanceModelTranslate[] = {
 FMOD::System *AudioEnvironment::_system;
 
 
-AudioEnvironment::AudioEnvironment() throw (InitError) {
-	initInternals();
-
-	getSystem(); // initializes System singleton if needed
-} // AudioEnvironment::AudioEnvironment
-
-AudioEnvironment::AudioEnvironment(int frequency,int refresh,bool synchronous) throw (InitError) {
-	initInternals();
-
-	getSystem(); // initializes System singleton if needed
-} // AudioEnvironment::AudioEnvironment
-
-AudioEnvironment::AudioEnvironment(int frequency,int refresh) throw (InitError)
+AudioEnvironment::AudioEnvironment( bool displayInitMsgs ) throw (InitError)
 {
 	initInternals();
 
-	getSystem(); // initializes System singleton if needed
+	getSystem( displayInitMsgs ); // initializes System singleton if needed
 } // AudioEnvironment::AudioEnvironment
 
-void AudioEnvironment::initInternals() {
+AudioEnvironment::AudioEnvironment(int frequency,int refresh,bool synchronous, bool displayInitMsgs) throw (InitError)
+{
+	initInternals();
 
+	getSystem( displayInitMsgs ); // initializes System singleton if needed
+} // AudioEnvironment::AudioEnvironment
+
+AudioEnvironment::AudioEnvironment(int frequency,int refresh, bool displayInitMsgs) throw (InitError)
+{
+	initInternals();
+
+	getSystem( displayInitMsgs ); // initializes System singleton if needed
+} // AudioEnvironment::AudioEnvironment
+
+void AudioEnvironment::initInternals()
+{
 	//_dopplerFactor = 1.0;  // re-inited by calcFMODDopplerFactor, below
 	_rolloffScale = 1.0;
 	_unitScale = 1.0; // 1.0 = meters;
@@ -188,7 +190,8 @@ void AudioEnvironment::initiateReverb() throw (InitError) {
 // apparenlty un-needed in FMOD
 } // AudioEnvironment::initiateReverb
 
-FMOD::System *AudioEnvironment::getSystem(void) throw (InitError) {
+FMOD::System *AudioEnvironment::getSystem( bool displayInitMsgs ) throw (InitError)
+{
 	// <<<>>> need some thread-singleton blocking here
 	if(!_system)
 	{
@@ -200,6 +203,25 @@ FMOD::System *AudioEnvironment::getSystem(void) throw (InitError) {
 			throw InitError("Unable to create FMOD::System.");
 		} // if
 		result = _system->init(100, FMOD_INIT_3D_RIGHTHANDED, 0);	// Initialize FMOD.
+
+        if( displayInitMsgs )
+        {
+            int numDrivers;
+            result = _system->getNumDrivers( &numDrivers );
+
+            std::cout << "Initializing FMOD. Detected " << numDrivers << " drivers." << std::endl;
+
+            int idx;
+            for( idx=0; idx<numDrivers; idx++ )
+            {
+                const int nameLen( 128 );
+                char name[ nameLen ];
+                FMOD_GUID guid;
+                result = _system->getDriverInfo( idx, name, nameLen, &guid );
+                std::cout << idx << ": " << name << std::endl;
+            }
+        }
+
 	} // if
 	return(_system);
 } // AudioEnvironment::getSystem

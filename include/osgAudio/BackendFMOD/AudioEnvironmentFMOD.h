@@ -53,7 +53,7 @@ namespace osgAudio
 		/**
 		* Constructor.
 		*/
-		AudioEnvironment() throw (InitError);
+		AudioEnvironment( bool displayInitMsgs=false ) throw (InitError);
 
 		/**
 		* Constructor.
@@ -63,7 +63,7 @@ namespace osgAudio
 		* @param refresh is the refresh rate of the environment (in Hz)
 		* @param synchronous is true if the environment is synchronous
 		*/
-		AudioEnvironment(int frequency,int refresh,bool synchronous)
+		AudioEnvironment(int frequency,int refresh,bool synchronous, bool displayInitMsgs=false )
 			throw (InitError);
 
 
@@ -74,7 +74,7 @@ namespace osgAudio
 		* @param frequency is the playing frequency of the environment (in Hz)
 		* @param refresh is the refresh rate of the environment (in Hz)
 		*/
-		AudioEnvironment(int frequency,int refresh=-1)
+		AudioEnvironment(int frequency,int refresh=-1, bool displayInitMsgs=false )
 			throw (InitError);
 
 		/**
@@ -147,7 +147,7 @@ namespace osgAudio
 		* This is used to get the FMOD global System object, used for a
 		* variety of calls.
 		*/
-		static FMOD::System *getSystem(void) throw (InitError);
+		static FMOD::System *getSystem( bool displayInitMsgs=false ) throw (InitError);
 
 		/**
 		* Unlike openAL, FMOD requires explicit periodic "update" calls to keep

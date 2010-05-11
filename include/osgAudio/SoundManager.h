@@ -149,7 +149,8 @@ namespace osgAudio
 		void releaseSource(osgAudio::Source *source);
 
 		/// Initializes the SoundManager
-		void init(unsigned int num_soundsources, float sound_velocity=343);
+		void init(unsigned int num_soundsources, float sound_velocity=343, bool displayInitMsgs=false );
+		void init( unsigned int num_soundsources, bool displayInitMsgs );
 
 		/*!
 		*/

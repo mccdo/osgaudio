@@ -345,9 +345,9 @@ osg::Node* createModel()
 int main( int argc, char **argv )
 {
 
-    osg::notify(osg::NOTICE) << "\n\n" << osgAudio::getLibraryName() << " demo" << std::endl;
-    osg::notify(osg::NOTICE) << "Version: " << osgAudio::getVersion() << "\n\n" << std::endl;
-    osg::notify(osg::NOTICE) << "\nPress space to play a sound once...\n" << std::endl;
+    osg::notify(osg::NOTICE) << "Press space to play a sound once..." << std::endl;
+    osg::notify(osg::NOTICE) << std::endl << osgAudio::getLibraryName() << " demo" << std::endl;
+    osg::notify(osg::NOTICE) << "Version: " << osgAudio::getVersion() << std::endl << std::endl;
 
 
     try {
@@ -396,7 +396,7 @@ int main( int argc, char **argv )
             return 1;
         }
 
-        osgAudio::SoundManager::instance()->init(16);
+        osgAudio::SoundManager::instance()->init( 16, true );
         osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance);
         osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(1);
 
