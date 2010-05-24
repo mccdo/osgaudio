@@ -2,6 +2,7 @@
 = Building osgAudio =
  * [http://code.google.com/p/osgaudio/downloads/list Get the source.]
  * [Installation Build instructions and dependencies.]
+ * [PortingNotes Porting from osgAL]
 
 = Running osgAudio =
 
