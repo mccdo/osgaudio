@@ -39,6 +39,13 @@ Note this change also affects loading a saved osgAL file containing a !SoundRoot
 
 This change was made in response to [http://code.google.com/p/osgaudio/issues/detail?id=3 issue 3].
 
-==Using SoundUpdateCB==
 
-TBD.
+== Using SoundUpdateCB ==
+
+The osgAL !SoundNode class is not thread safe. It still exists in osgAudio for 100% bug compatibility, but applications are strongly encouraged to replace !SoundNode with the new osgAudio SoundUpdateCB, an update callback that can be attached to any node to play a sound at that node's location.
+
+Derived from !NodeCallback, SoundUpdateCB performs the same tasks as !SoundNode, but does this work once in the update traversal, instead of possibly multiple times in the cull traversal. See example_osgaudio_multiple, which has replaced !SoundNode with SoundUpdateCB.
+
+== !OccluderCallback ==
+
+The SoundUpdateCB change forced a change to the interface of !OccluderCallback. osgAudio removes !OccluderCallback's dependency on !SoundNode, and instead !OccluderCallback requires only a !SoundState. This allows both !SoundNode and SoundUpdateCB to work with !OccluderCallback.
