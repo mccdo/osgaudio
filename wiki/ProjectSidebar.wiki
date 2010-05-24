@@ -4,6 +4,7 @@
     * [http://code.google.com/p/osgaudio/downloads/list Release zips]
   * Building
     * [Installation Installation]
+    * [PortingNotes Porting from osgAL]
   * Running
     * RunningOsgAudio
     * GettingStarted
