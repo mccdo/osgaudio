@@ -202,6 +202,25 @@ FMOD::System *AudioEnvironment::getSystem( bool displayInitMsgs ) throw (InitErr
 		{
 			throw InitError("Unable to create FMOD::System.");
 		} // if
+        //FMOD doesn't share the same semantics as OpenAL -- you cannot 
+        //configure settings like volume gain on a sound that is not currently 
+        //playing. OpenAL (and therefore osgAL) allowed you to pre-configre 
+        //things like volume gain prior to setting the sound playing.
+        
+        //To emulate this, all sounds in FMOD are created as already playing, 
+        //but paused at the beginning. In this state, their settings like volume 
+        //gain can be adjusted and the adjustments will be retained and adhered 
+        //to when unpaused. Telling a sound to play is really telling it 
+        //to un-pause.
+        
+        //Therefore, every sound that exists in FMOD is technically "playing", 
+        //but paused, and consuming some resources.
+        
+        //FMOD normally exposes 32 hardware playback channels, and another 32 
+        //software playback channels that are combined together and fed to the 
+        //hardware as one channel. This is the 64-sound limit Ross discovered. 
+        //The 65th sound simply had no resources to play through. I increased 
+        //the pre-set number of software channels to 100.
 		result = _system->setSoftwareChannels(100);	// Setup 100 virtual channels
 		result = _system->init(100, FMOD_INIT_3D_RIGHTHANDED, 0);	// Initialize FMOD.
 
@@ -222,7 +241,6 @@ FMOD::System *AudioEnvironment::getSystem( bool displayInitMsgs ) throw (InitErr
                 std::cout << idx << ": " << name << std::endl;
             }
         }
-
 	} // if
 	return(_system);
 } // AudioEnvironment::getSystem
