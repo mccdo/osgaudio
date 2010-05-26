@@ -202,6 +202,7 @@ FMOD::System *AudioEnvironment::getSystem( bool displayInitMsgs ) throw (InitErr
 		{
 			throw InitError("Unable to create FMOD::System.");
 		} // if
+		result = _system->setSoftwareChannels(100);	// Setup 100 virtual channels
 		result = _system->init(100, FMOD_INIT_3D_RIGHTHANDED, 0);	// Initialize FMOD.
 
         if( displayInitMsgs )
