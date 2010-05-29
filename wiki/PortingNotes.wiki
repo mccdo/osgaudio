@@ -21,6 +21,11 @@ position during the update traversal.
 
 If your app has a single view, you would typically specify that view's Camera. 
 
+{{{
+//Something like this with an osgViewer based app
+sound_root->setCamera( viewer.getCamera() );
+}}}
+
 If your app has multiple views, you will need to decide which view you'd like to 
 use for the Listener position, and specify that view's Camera.
 
@@ -30,7 +35,9 @@ explicitly, which was not possible in osgAL. To do this, don't bother setting a 
 and leave this NULL. Then, after the update traversal, and before cull/draw, 
 explicitly set the Listener position as follows:
 
-{{{osgAudio::SoundManager::instance()->setListenerMatrix( m );}}}
+{{{
+osgAudio::SoundManager::instance()->setListenerMatrix( m );
+}}}
 
 The osg::Matrix 'm' is a view matrix representing the Listener's position and 
 orientation. 
@@ -49,3 +56,12 @@ Derived from !NodeCallback, SoundUpdateCB performs the same tasks as !SoundNode,
 == !OccluderCallback ==
 
 The SoundUpdateCB change forced a change to the interface of !OccluderCallback. osgAudio removes !OccluderCallback's dependency on !SoundNode, and instead !OccluderCallback requires only a !SoundState. This allows both !SoundNode and SoundUpdateCB to work with !OccluderCallback.
+
+== Displaying Initialization Messages ==
+
+A new method has been added to display initialization messages from FMOD and from OpenAL. 
+{{{
+void SoundManager::init( unsigned int num_soundsources, bool displayInitMsgs )
+
+void SoundManager::init(unsigned int num_soundsources, float sound_velocity, bool displayInitMsgs )
+}}}
