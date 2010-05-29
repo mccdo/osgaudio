@@ -31,7 +31,7 @@ use for the Listener position, and specify that view's Camera.
 
 If you don't specify a Camera, !SoundRoot will not specify the Listener's position.
 This allows the application to specify the Listener position 
-explicitly, which was not possible in osgAL. To do this, don't bother setting a Camera in the SoundRoot. Go ahead 
+explicitly, which was not possible in osgAL. To do this, don't bother setting a Camera in the [http://code.google.com/p/osgaudio/source/browse/trunk/include/osgAudio/SoundRoot.h SoundRoot]. Go ahead 
 and leave this NULL. Then, after the update traversal, and before cull/draw, 
 explicitly set the Listener position as follows:
 
