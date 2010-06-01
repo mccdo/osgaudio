@@ -100,7 +100,11 @@ void Source::internalInit(void)
 
 
 Source::~Source() {
-// nothing happens here, no dynamic data needs to be manually destroyed
+// stop the source so that the channel can be released
+	if(_FMODChannel)
+	{
+		_FMODChannel->stop(); // release channel
+	} // if
 }
 
 // TODO: Add flag for whether the sound should be loaded. This is useful for
