@@ -67,6 +67,11 @@ Source::Source( const Source &source) {
 	// copy a reference to it, and rely on osg's ref counting
 	// but the internal Sound object is still a single, shared instance
 	_Sound = source._Sound;
+	if(_FMODChannel)
+	{
+		_FMODChannel->stop(); // release channel
+		_FMODChannel = NULL;
+	} // if
 	// start it, paused, so we can tinker with the settings if needed before playing
 	FMOD_RESULT createResult = AudioEnvironment::getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
 	initPitchSupport();
@@ -111,6 +116,11 @@ Source::~Source() {
 // dummy sources that will be used only for groupsources.
 void Source::setSound(const std::string& filename) {
 	_Sound = new FileStream(filename);
+	if(_FMODChannel)
+	{
+		_FMODChannel->stop(); // release channel
+		_FMODChannel = NULL;
+	} // if
 	// start it, paused, so we can tinker with the settings if needed before playing
 	FMOD_RESULT createResult = AudioEnvironment::getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
 	initPitchSupport();
@@ -118,6 +128,11 @@ void Source::setSound(const std::string& filename) {
 
 void Source::setSound( Sample *buffer ) {
 	_Sound = buffer;
+	if(_FMODChannel)
+	{
+		_FMODChannel->stop(); // release channel
+		_FMODChannel = NULL;
+	} // if
 	// start it, paused, so we can tinker with the settings if needed before playing
 	FMOD_RESULT createResult = AudioEnvironment::getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
 	initPitchSupport();
@@ -125,6 +140,11 @@ void Source::setSound( Sample *buffer ) {
 
 void Source::setSound(Stream *stream) {
 	_Sound = stream;
+	if(_FMODChannel)
+	{
+		_FMODChannel->stop(); // release channel
+		_FMODChannel = NULL;
+	} // if
 	// start it, paused, so we can tinker with the settings if needed before playing
 	FMOD_RESULT createResult = AudioEnvironment::getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
 	initPitchSupport();
