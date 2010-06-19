@@ -75,7 +75,7 @@ configure_file (
 
 OPTION(0_BUILD_EXAMPLES_OSGAUDIO "Set to ON to build osgAudio examples." ON)
 OPTION(0_BUILD_EXAMPLES_OSGAUDIO_LOWLEVEL "Set to ON to build osgAudio low-level examples." ON)
-OPTION(0_BUILD_EXAMPLES_OALPP "Set to ON to build openAL++ examples." ON)
+OPTION(0_BUILD_EXAMPLES_OALPP "Set to ON to build openAL++ examples." OFF)
 
 
 # Make the headers visible to everything
