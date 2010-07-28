@@ -37,7 +37,7 @@
 #include <osgViewer/Viewer>
 
 #include <osgAudio/FileStream.h>
-#include <osgAudio/SoundNode.h>
+#include <osgAudio/SoundUpdateCB.h>
 #include <osgAudio/SoundRoot.h>
 #include <osgAudio/SoundManager.h>
 #include <osgAudio/SoundState.h>
@@ -46,7 +46,7 @@
 using namespace osgAudio;
 
 
-osg::ref_ptr<osgAudio::SoundNode> createSound(const std::string& file);
+osg::ref_ptr<osgAudio::SoundState> createSoundState(const std::string& file);
 
 
 class KeyboardHandler: public osgGA::GUIEventHandler {
@@ -245,16 +245,17 @@ osg::Node* createMovingModel(const osg::Vec3& center, float radius)
 
         positioned->addChild(glider);
 
-        // Create a sound node
-        osg::ref_ptr<osgAudio::SoundNode> sound_node = createSound("bee.wav");
-
-        // Add the sound node
-        positioned->addChild(sound_node.get());
-
-        osg::PositionAttitudeTransform* xform = new osg::PositionAttitudeTransform;    
+        // Create a sound update callback and attach a sound state to it
+        osg::ref_ptr< osg::Group > group = new osg::Group;
+        osg::ref_ptr< osgAudio::SoundUpdateCB > soundCB = new osgAudio::SoundUpdateCB;
+        soundCB->setSoundState( createSoundState("bee.wav"));
+        group->setUpdateCallback( soundCB.get() );
+        group->addChild(positioned);
+    
+        osg::PositionAttitudeTransform* xform = new osg::PositionAttitudeTransform;		 
         xform->setUpdateCallback(new osg::AnimationPathCallback(animationPath,0.0,1.0));
-        xform->addChild(positioned);
-
+        xform->addChild(group);
+    
         model->addChild(xform);
     }
 
@@ -282,12 +283,11 @@ osg::Node* createMovingModel(const osg::Vec3& center, float radius)
     return model;
 }
 
-osg::ref_ptr<osgAudio::SoundNode> createSound(const std::string& file)
+osg::ref_ptr<osgAudio::SoundState> createSoundState(const std::string& file)
 {
     // Create a sample, load a .wav file.
-    //osgAudio::Sample *sample = new osgAudio::Sample(file.c_str());
-    osg::ref_ptr<osgAudio::Sample> sampleorig = osgAudio::SoundManager::instance()->getSample(file.c_str(), true); // we don't ever use this one, it just fills the cache
-    osg::ref_ptr<osgAudio::Sample> sample = osgAudio::SoundManager::instance()->getSample(file.c_str(), true); // test caching and copy constructor
+    osgAudio::Sample *sample = new osgAudio::Sample(
+        osgDB::findDataFile( file ) );
 
     // Create a named sound state.
     osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState("glider");
@@ -311,18 +311,15 @@ osg::ref_ptr<osgAudio::SoundNode> createSound(const std::string& file)
     //
     sound_state->allocateSource(10, false);
 
-    // At 40 the gain will be half of full!
+    // At 70 the gain will be half of full!
     sound_state->setReferenceDistance(70);
     sound_state->setRolloffFactor(4);
+    sound_state->apply();
 
     // Add the soundstate to the sound manager, so we can find it later on if we want to
     osgAudio::SoundManager::instance()->addSoundState(sound_state.get());
 
-    // Create a sound node and attach the soundstate to it.
-    osg::ref_ptr<osgAudio::SoundNode> sound = new osgAudio::SoundNode;
-    sound->setSoundState(sound_state.get());
-
-    return sound;
+    return sound_state.get();
 }
 
 
@@ -345,9 +342,9 @@ osg::Node* createModel()
 int main( int argc, char **argv )
 {
 
-    osg::notify(osg::NOTICE) << "Press space to play a sound once..." << std::endl;
-    osg::notify(osg::NOTICE) << std::endl << osgAudio::getLibraryName() << " demo" << std::endl;
-    osg::notify(osg::NOTICE) << "Version: " << osgAudio::getVersion() << std::endl << std::endl;
+    osg::notify(osg::NOTICE) << "\n\n" << osgAudio::getLibraryName() << " demo" << std::endl;
+    osg::notify(osg::NOTICE) << "Version: " << osgAudio::getVersion() << "\n\n" << std::endl;
+    osg::notify(osg::NOTICE) << "\nPress space to play a sound once...\n" << std::endl;
 
 
     try {
@@ -414,7 +411,7 @@ int main( int argc, char **argv )
 
         // Create a sample, load a .wav file.
         osgAudio::Sample *sample = new osgAudio::Sample(
-            osgDB::findDataFile("high-e.wav"));
+            osgDB::findDataFile( "high-e.wav" ) );
         osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState("glider");
         sound_state->setSample(sample);
         sound_state->setGain(0.7f);
@@ -440,7 +437,6 @@ int main( int argc, char **argv )
         // will not work if the viewer is rendering to multiple displays; will
         // need to select a slave camera.
         sound_root->setCamera( viewer.getCamera() );
-
 
         // The position in the scenegraph of this node is not important.
         // Just as long as the cull traversal should be called after any changes to the SoundManager are made.
