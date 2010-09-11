@@ -8,7 +8,7 @@
 
 = osgAudio Release Information =
  * [ReleaseRoadmap Release history and roadmap.]
- * [CompatibilityMatrix] Compatibility matrix.
+ * [CompatibilityMatrix Compatibility matrix.]
 
 ----
 
