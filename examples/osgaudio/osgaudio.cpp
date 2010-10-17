@@ -248,13 +248,13 @@ osg::Node* createMovingModel(const osg::Vec3& center, float radius)
         // Create a sound update callback and attach a sound state to it
         osg::ref_ptr< osg::Group > group = new osg::Group;
         osg::ref_ptr< osgAudio::SoundUpdateCB > soundCB = new osgAudio::SoundUpdateCB;
-        soundCB->setSoundState( createSoundState("bee.wav"));
+        soundCB->setSoundState( createSoundState("bee.wav").get() );
         group->setUpdateCallback( soundCB.get() );
         group->addChild(positioned);
     
         osg::PositionAttitudeTransform* xform = new osg::PositionAttitudeTransform;		 
         xform->setUpdateCallback(new osg::AnimationPathCallback(animationPath,0.0,1.0));
-        xform->addChild(group);
+        xform->addChild(group.get());
     
         model->addChild(xform);
     }

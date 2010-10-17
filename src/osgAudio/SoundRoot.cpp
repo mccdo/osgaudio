@@ -111,7 +111,7 @@ SoundRoot::setCamera( osg::Camera* cam )
 const osg::Camera*
 SoundRoot::getCamera() const
 {
-    return( _camera );
+    return( _camera.get() );
 }
 
 
