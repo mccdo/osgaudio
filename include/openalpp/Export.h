@@ -22,62 +22,23 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
  */
 
-
 #ifndef OPENALPP_EXPORT_H
 #define OPENALPP_EXPORT_H 1
 
-
-
 #ifdef _WIN32
+#   ifndef WIN32_LEAN_AND_MEAN
+#       define WIN32_LEAN_AND_MEAN
+#   endif
 
-
-
-#pragma once
-
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-
-
-#ifdef OPENALPP_EXPORTS
-
-#define OPENALPP_API __declspec(dllexport)
-
+#   ifdef OPENALPP_EXPORTS
+#       define OPENALPP_API __declspec(dllexport)
+#   else
+#       define OPENALPP_API __declspec(dllimport)
+#   endif
 #else
-
-#define OPENALPP_API __declspec(dllimport)
-
+#   define OPENALPP_API
 #endif
-
-#else
-
-#define OPENALPP_API
-
-#endif
-
-
-
-// This class is exported from the openalpp.dll
-
-//class OPENALPP_API Copenalpp {
-
-//public:
-
-//	Copenalpp(void);
-
-//	// TODO: add your methods here.
-
-//};
-
-
-
-//extern OPENALPP_API int nopenalpp;
-
-
-
-//OPENALPP_API int fnopenalpp(void);
 
 #endif // OPENALPP_EXPORT_H
-
-
-
