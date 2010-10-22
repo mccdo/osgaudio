@@ -1,4 +1,10 @@
 /**
+ * osgAudio - OpenSceneGraph Audio Library
+ * (C) Copyright 2009-2011 by Kenneth Mark Bryden
+ * (programming by Chris 'Xenon' Hanson, AlphaPixel, LLC xenon at alphapixel.com)
+ * based on a fork of:
+ * Osg AL - OpenSceneGraph Audio Library
+ * Copyright (C) 2004 VRlab, Umeå University
  * OpenAL++ - an object oriented toolkit for spatial sound
  * Copyright (C) 2002 VRlab, Umeå University
  *
