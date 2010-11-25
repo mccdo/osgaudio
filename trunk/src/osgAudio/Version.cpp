@@ -44,7 +44,7 @@ osgAudio::getVersion()
     if( s_osgaudio_version.empty() )
     {
         std::ostringstream oStr;
-        oStr << std::string( "osgWorks version " ) <<
+        oStr << std::string( "osgAudio version " ) <<
             OSGAUDIO_MAJOR_VERSION << "." <<
             OSGAUDIO_MINOR_VERSION << "." <<
             OSGAUDIO_SUB_VERSION << " (" <<
