@@ -8,7 +8,7 @@
 SET(VORBISFILE_SEARCH_PATHS
 	~/Library/Frameworks
 	/Library/Frameworks
-	/usr/local
+    /usr/local
 	/usr
 	/sw # Fink
 	/opt/local # DarwinPorts
