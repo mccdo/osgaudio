@@ -18,7 +18,18 @@ SET(OSGAUDIO_VERSION ${OSGAUDIO_MAJOR_VERSION}.${OSGAUDIO_MINOR_VERSION}.${OSGAU
 # We have some custom .cmake scripts not in the official distribution.
 SET(CMAKE_MODULE_PATH "${osgAudio_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 
-FIND_PACKAGE( osg REQUIRED )
+# Note from Sukender (Benoit Neil): The "Findosg.cmake" in CMakeModules is somewhat buggy (but not removed); hence the version test.
+IF(CMAKE_MAJOR_VERSION EQUAL 2 AND CMAKE_MINOR_VERSION EQUAL 6 AND CMAKE_PATCH_VERSION EQUAL 2)		# 2.6.2 works but don't have proper FindOpenSceneGraph module
+	FIND_PACKAGE( osg262 REQUIRED )		# Uses custom finder. Useable in 2.6.2, but not as complete as the 2.6.3+ finders
+ELSE()
+	FIND_PACKAGE(OpenThreads)
+	FIND_PACKAGE(OpenSceneGraph 2.8.3 REQUIRED COMPONENTS osg osgDB osgUtil osgGA osgText osgSim osgViewer)
+	IF(OSG_FOUND)
+		# Define shortcuts to conform to same variables names as 'osg262' finder
+		SET(OSG_INCLUDE_DIRS ${OSG_INCLUDE_DIR} ${OSGDB_INCLUDE_DIR} ${OSGUTIL_INCLUDE_DIR} ${OSGGA_INCLUDE_DIR} ${OSGTEXT_INCLUDE_DIR} ${OSGSIM_INCLUDE_DIR} ${OSGVIEWER_INCLUDE_DIR} ${OPENTHREADS_INCLUDE_DIR})
+		SET(OSG_LIBRARIES ${OSG_LIBRARIES} ${OSGDB_LIBRARIES} ${OSGUTIL_LIBRARIES} ${OSGGA_LIBRARIES} ${OSGTEXT_LIBRARIES} ${OSGSIM_LIBRARIES} ${OSGVIEWER_LIBRARIES} ${OPENTHREADS_LIBRARIES})
+	ENDIF()
+ENDIF()
 
 SET(SUBSYSTEM_INCLUDES )
 SET(SUBSYSTEM_LINKS )
@@ -31,6 +42,7 @@ OPTION(0_ENABLE_SUBSYSTEM_FMOD "Set to ON to build support for FMOD Ex audio sub
 
 # OpenAL/OpenAL++ audio subsystem support
 IF(0_ENABLE_SUBSYSTEM_OPENAL)
+  SET(ALUT_USE_AL_SUBDIR ON)
   FIND_PACKAGE(ALUT)
   FIND_PACKAGE(OpenAL)
   FIND_PACKAGE(OGG)
@@ -45,6 +57,9 @@ IF(0_ENABLE_SUBSYSTEM_OPENAL)
   SET(SUBSYSTEM_TARGET_LINKS ${SUBSYSTEM_TARGET_LINKS} openalpp)
   # this is without the leading 0_ so we can use it as a C++ #define
   SET (ENABLE_SUBSYSTEM_OPENAL TRUE)
+  IF(NOT ALUT_FOUND OR NOT OPENAL_FOUND OR NOT OGG_FOUND OR NOT VORBIS_FOUND OR NOT VORBISFILE_FOUND)
+    MESSAGE("OpenAL and associated libraries not found. Consider using FMOD instead, using 0_ENABLE_SUBSYSTEM_FMOD option")
+  ENDIF()
 ENDIF(0_ENABLE_SUBSYSTEM_OPENAL)
 
 # FMOD Ex support
@@ -60,8 +75,10 @@ IF(0_ENABLE_SUBSYSTEM_FMOD)
   # SET(SUBSYSTEM_TARGET_LINKS ${SUBSYSTEM_TARGET_LINKS} fmod)
   # this is without the leading 0_ so we can use it as a C++ #define
   SET (ENABLE_SUBSYSTEM_FMOD TRUE)
+  IF(NOT FMOD_FOUND)
+    MESSAGE("FMOD not found. Consider using OpenAL instead, using 0_ENABLE_SUBSYSTEM_OPENAL option")
+  ENDIF()
 ENDIF(0_ENABLE_SUBSYSTEM_FMOD)
-
 
 # this is probably not the proper way to do this, twice.
 configure_file (
@@ -158,18 +175,29 @@ MACRO(INCLUDE_WITH_VARIABLES TRGTNAME)
 ENDMACRO(INCLUDE_WITH_VARIABLES TRGTNAME)
 
 # Adds includes and link properties for a library found with FIND_PACKAGE
-MACRO(LINK_WITH_VARIABLES TRGTNAME)
-	INCLUDE_WITH_VARIABLES(${ARGV})
-    FOREACH(varname ${ARGN})
-		#MESSAGE(STATUS "${varname}_LIBRARY = ${${varname}_LIBRARY}")
-        IF(${varname}_LIBRARY_DEBUG)
-			#MESSAGE(STATUS "${varname}_LIBRARY_DEBUG = ${${varname}_LIBRARY_DEBUG}")
-            TARGET_LINK_LIBRARIES(${TRGTNAME} optimized "${${varname}_LIBRARY}" debug "${${varname}_LIBRARY_DEBUG}")
-        ELSE(${varname}_LIBRARY_DEBUG)
-            TARGET_LINK_LIBRARIES(${TRGTNAME} "${${varname}_LIBRARY}" )
-        ENDIF(${varname}_LIBRARY_DEBUG)
-    ENDFOREACH(varname)
-ENDMACRO(LINK_WITH_VARIABLES TRGTNAME)
+FUNCTION(LINK_WITH_VARIABLES TRGTNAME)
+	INCLUDE_WITH_VARIABLES(${TRGTNAME} ${ARGN})
+	FOREACH(CUR_DEPENDENCY ${ARGN})
+		TARGET_LINK_LIBRARIES(${TRGTNAME} ${${CUR_DEPENDENCY}_LIBRARIES} )
+	ENDFOREACH()
+ENDFUNCTION()
+# MACRO(LINK_WITH_VARIABLES TRGTNAME)
+	# INCLUDE_WITH_VARIABLES(${ARGV})
+    # FOREACH(varname ${ARGN})
+		# #MESSAGE(STATUS "${varname}_LIBRARY = ${${varname}_LIBRARY}")
+        # IF(${varname}_LIBRARY_DEBUG)
+			# #MESSAGE(STATUS "${varname}_LIBRARY_DEBUG = ${${varname}_LIBRARY_DEBUG}")
+            # TARGET_LINK_LIBRARIES(${TRGTNAME} optimized "${${varname}_LIBRARY}" debug "${${varname}_LIBRARY_DEBUG}")
+        # ELSE(${varname}_LIBRARY_DEBUG)
+            # TARGET_LINK_LIBRARIES(${TRGTNAME} "${${varname}_LIBRARY}" )
+        # ENDIF(${varname}_LIBRARY_DEBUG)
+    # ENDFOREACH(varname)
+# ENDMACRO(LINK_WITH_VARIABLES TRGTNAME)
+
+# Slight hack to get the stock FindOpenAL.cmake script to work with
+# our LINK_WITH_VARIABLES function. Function requires <foo>_LIBRARIES
+# but stock FindOpenAL.cmake defines only OPENAL_LIBRARY.
+SET( OPENAL_LIBRARIES ${OPENAL_LIBRARY} )
 
 # macro for installing the example programs
 MACRO( INSTALL_EXAMPLE EXENAME )

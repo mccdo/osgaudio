@@ -1,23 +1,11 @@
 # Locate Vorbis
-# This module defines
-# VORBIS_LIBRARY
-# VORBIS_FOUND, if false, do not try to link to Vorbis 
-# VORBIS_INCLUDE_DIR, where to find the headers
+# This module defines XXX_FOUND, XXX_INCLUDE_DIRS and XXX_LIBRARIES standard variables
 #
 # $VORBISDIR is an environment variable that would
 # correspond to the ./configure --prefix=$VORBISDIR
 # used in building Vorbis.
-#
-# Created by Sukender (Benoit Neil). Based on FindOpenAL.cmake module.
-# TODO Add hints for linux and Mac
 
-FIND_PATH(VORBIS_INCLUDE_DIR
-	vorbis/codec.h
-	HINTS
-	$ENV{VORBISDIR}
-	$ENV{VORBIS_PATH}
-	PATH_SUFFIXES include
-	PATHS
+SET(VORBIS_SEARCH_PATHS
 	~/Library/Frameworks
 	/Library/Frameworks
 	/usr/local
@@ -28,43 +16,68 @@ FIND_PATH(VORBIS_INCLUDE_DIR
 	/opt
 )
 
+SET(MSVC_YEAR_NAME)
+IF (MSVC_VERSION GREATER 1599)		# >= 1600
+	SET(MSVC_YEAR_NAME VS2010)
+ELSEIF(MSVC_VERSION GREATER 1499)	# >= 1500
+	SET(MSVC_YEAR_NAME VS2008)
+ELSEIF(MSVC_VERSION GREATER 1399)	# >= 1400
+	SET(MSVC_YEAR_NAME VS2005)
+ELSEIF(MSVC_VERSION GREATER 1299)	# >= 1300
+	SET(MSVC_YEAR_NAME VS2003)
+ELSEIF(MSVC_VERSION GREATER 1199)	# >= 1200
+	SET(MSVC_YEAR_NAME VS6)
+ENDIF()
+
+FIND_PATH(VORBIS_INCLUDE_DIR
+	NAMES vorbis/codec.h
+	HINTS
+	$ENV{VORBISDIR}
+	$ENV{VORBIS_PATH}
+	PATH_SUFFIXES include
+	PATHS ${VORBIS_SEARCH_PATHS}
+)
+
 FIND_LIBRARY(VORBIS_LIBRARY 
-	vorbis
+	NAMES vorbis libvorbis
 	HINTS
 	$ENV{VORBISDIR}
 	$ENV{VORBIS_PATH}
-	PATH_SUFFIXES win32/Vorbis_Dynamic_Release
-	PATHS
-	~/Library/Frameworks
-	/Library/Frameworks
-	/usr/local
-	/usr
-	/sw
-	/opt/local
-	/opt/csw
-	/opt
+	PATH_SUFFIXES lib lib64 win32/Vorbis_Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
+	PATHS ${VORBIS_SEARCH_PATHS}
 )
 
+# First search for d-suffixed libs
 FIND_LIBRARY(VORBIS_LIBRARY_DEBUG 
-	vorbis_d
+	NAMES vorbisd vorbis_d libvorbisd libvorbis_d
 	HINTS
 	$ENV{VORBISDIR}
 	$ENV{VORBIS_PATH}
-	PATH_SUFFIXES win32/Vorbis_Dynamic_Debug
-	PATHS
-	~/Library/Frameworks
-	/Library/Frameworks
-	/usr/local
-	/usr
-	/sw
-	/opt/local
-	/opt/csw
-	/opt
+	PATH_SUFFIXES lib lib64 win32/Vorbis_Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
+	PATHS ${VORBIS_SEARCH_PATHS}
 )
 
+IF(NOT VORBIS_LIBRARY_DEBUG)
+	# Then search for non suffixed libs if necessary, but only in debug dirs
+	FIND_LIBRARY(VORBIS_LIBRARY_DEBUG 
+		NAMES vorbis libvorbis
+		HINTS
+		$ENV{VORBISDIR}
+		$ENV{VORBIS_PATH}
+		PATH_SUFFIXES win32/Vorbis_Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
+		PATHS ${VORBIS_SEARCH_PATHS}
+	)
+ENDIF()
 
-SET(VORBIS_FOUND "NO")
-IF(VORBIS_LIBRARY AND VORBIS_INCLUDE_DIR)
-	SET(VORBIS_FOUND "YES")
-ENDIF(VORBIS_LIBRARY AND VORBIS_INCLUDE_DIR)
 
+IF(VORBIS_LIBRARY)
+	IF(VORBIS_LIBRARY_DEBUG)
+		SET(VORBIS_LIBRARIES optimized "${VORBIS_LIBRARY}" debug "${VORBIS_LIBRARY_DEBUG}")
+	ELSE()
+		SET(VORBIS_LIBRARIES "${VORBIS_LIBRARY}")		# Could add "general" keyword, but it is optional
+	ENDIF()
+ENDIF()
+
+# handle the QUIETLY and REQUIRED arguments and set XXX_FOUND to TRUE if all listed variables are TRUE
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(VORBIS DEFAULT_MSG VORBIS_LIBRARIES VORBIS_INCLUDE_DIR)
