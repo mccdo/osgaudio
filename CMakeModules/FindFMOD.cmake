@@ -1,53 +1,39 @@
-# - Locate FMOD library (By Matt Raykowski, OpenNeL Project http://www.opennel.org/)
-# http://www.opennel.org/fisheye/browse/~raw,r=1353/NeL/trunk/nel/CMakeModules/FindFMOD.cmake
-# (with permission to relicense as LGPL-with-staticlink-exemption by Matt Raykowski)
-# This module defines
-#  FMOD_LIBRARY, the library to link against
-#  FMOD_FOUND, if false, do not try to link to FMOD
-#  FMOD_INCLUDE_DIR, where to find headers.
+# Locate FMOD
+# This module defines FMOD_FOUND, FMOD_INCLUDE_DIR and FMOD_LIBRARIES standard variables
 
-IF(FMOD_LIBRARY AND FMOD_INCLUDE_DIR)
-  # in cache already
-  SET(FMOD_FIND_QUIETLY TRUE)
-ENDIF(FMOD_LIBRARY AND FMOD_INCLUDE_DIR)
-
-
-FIND_PATH(FMOD_INCLUDE_DIR
-  fmod.h
-  PATHS
-  $ENV{FMOD_DIR}/include
-  /usr/local/include
-  /usr/include
-  /sw/include
-  /opt/local/include
-  /opt/csw/include
-  /opt/include
-  PATH_SUFFIXES fmod fmod3
+SET( FMOD_SEARCH_PATHS
+	~/Library/Frameworks
+	/Library/Frameworks
+	/usr/local
+	/usr
+	/sw # Fink
+	/opt/local # DarwinPorts
+	/opt/csw # Blastwave
+	/opt
 )
 
-FIND_LIBRARY(FMOD_LIBRARY
-  NAMES fmod fmodvc libfmod
-  PATHS
-  $ENV{FMOD_DIR}/lib
-  /usr/local/lib
-  /usr/lib
-  /usr/local/X11R6/lib
-  /usr/X11R6/lib
-  /sw/lib
-  /opt/local/lib
-  /opt/csw/lib
-  /opt/lib
-  /usr/freeware/lib64
+FIND_PATH( FMOD_INCLUDE_DIR
+	NAMES fmod.h
+	HINTS
+	$ENV{FMOD_DIR}
+	${FMOD_DIR}
+	PATH_SUFFIXES inc include
+	PATHS ${FMOD_SEARCH_PATHS}
 )
 
-IF(FMOD_LIBRARY AND FMOD_INCLUDE_DIR)
-  SET(FMOD_FOUND "YES")
-  SET( FMOD_LIBRARIES ${FMOD_LIBRARY} )
-  IF(NOT FMOD_FIND_QUIETLY)
-    MESSAGE(STATUS "Found FMOD: ${FMOD_LIBRARY}")
-  ENDIF(NOT FMOD_FIND_QUIETLY)
-ELSE(FMOD_LIBRARY AND FMOD_INCLUDE_DIR)
-  IF(NOT FMOD_FIND_QUIETLY)
-    MESSAGE(STATUS "Warning: Unable to find FMOD!")
-  ENDIF(NOT FMOD_FIND_QUIETLY)
-ENDIF(FMOD_LIBRARY AND FMOD_INCLUDE_DIR)
+FIND_LIBRARY( FMOD_LIBRARY 
+	NAMES fmod fmodvc libfmod fmodex_vc
+	HINTS
+	$ENV{FMOD_DIR}
+	${FMOD_DIR}
+	PATH_SUFFIXES lib lib64
+	PATHS ${FMOD_SEARCH_PATHS}
+)
+
+IF( FMOD_LIBRARY )
+    SET( FMOD_LIBRARIES "${FMOD_LIBRARY}")		# Could add "general" keyword, but it is optional
+ENDIF()
+
+# handle the QUIETLY and REQUIRED arguments and set FMOD_FOUND to TRUE if all listed variables are TRUE
+INCLUDE( FindPackageHandleStandardArgs )
+FIND_PACKAGE_HANDLE_STANDARD_ARGS( FMOD DEFAULT_MSG FMOD_LIBRARIES FMOD_INCLUDE_DIR )
