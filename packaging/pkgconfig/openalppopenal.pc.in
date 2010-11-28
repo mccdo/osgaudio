@@ -1,0 +1,14 @@
+# pkg-config source file
+# based on the openscenegraph pkg-config source files.
+
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/AL
+
+Name: OpenAL
+Description: OpenAL is a cross-platform 3D audio API
+Requires: 
+Version: 1.12.854
+Libs: -L${libdir} -lopenal 
+Cflags: -I${includedir}

@@ -1,0 +1,15 @@
+# pkg-config source file
+# based on the openscenegraph pkg-config source files.
+
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib@LIB_POSTFIX@
+includedir=${prefix}/include
+
+Name: osgaudio-osgaudio
+Description: OpenSceneGraph Audio extension
+Version: @OSGAUDIO_VERSION@
+Requires: openthreads openscenegraph
+Conflicts:
+Libs: -L${libdir} -losgAudio
+Cflags: -I${includedir}
