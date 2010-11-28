@@ -1,5 +1,6 @@
 # osgAudio CMake script
 # modified Jan 2010 from osgAL CMake script by Sukender (Benoit Neil), from OSG CMake script
+# pkg-config part adapted/copied from the OSG cmakelists.txt 
 
 # TODO:
 # Check on Mac OSX
@@ -19,6 +20,12 @@ SET(OSGAUDIO_VERSION ${OSGAUDIO_MAJOR_VERSION}.${OSGAUDIO_MINOR_VERSION}.${OSGAU
 SET(CMAKE_MODULE_PATH "${osgAudio_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 
 FIND_PACKAGE( osg REQUIRED )
+
+INCLUDE(FindPkgConfig OPTIONAL)
+
+IF(PKG_CONFIG_FOUND)
+  INCLUDE(FindPkgConfig)
+ENDIF()
 
 SET(SUBSYSTEM_INCLUDES )
 SET(SUBSYSTEM_LINKS )
@@ -45,6 +52,14 @@ IF(0_ENABLE_SUBSYSTEM_OPENAL)
   SET(SUBSYSTEM_TARGET_LINKS ${SUBSYSTEM_TARGET_LINKS} openalpp)
   # this is without the leading 0_ so we can use it as a C++ #define
   SET (ENABLE_SUBSYSTEM_OPENAL TRUE)
+  # set the pkg-config file names.
+  SET(PKGCONFIG_FILES
+    openalppopenal
+    osgaudio
+    osgaudio-osgaudio
+    osgaudio-osgdb_osgaudio
+    openalpp
+  )
 ENDIF(0_ENABLE_SUBSYSTEM_OPENAL)
 
 # FMOD Ex support
@@ -145,6 +160,13 @@ IF(CYGWIN)
   ENDIF(CMAKE_BUILD_TYPE STREQUAL "Debug")
 ENDIF(CYGWIN)
 
+FOREACH(PKGCONFIG_FILE ${PKGCONFIG_FILES})
+  CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/packaging/pkgconfig/${PKGCONFIG_FILE}.pc.in
+    ${PROJECT_BINARY_DIR}/packaging/pkgconfig/${PKGCONFIG_FILE}.pc
+    @ONLY
+    )
+  INSTALL(FILES ${PROJECT_BINARY_DIR}/packaging/pkgconfig/${PKGCONFIG_FILE}.pc DESTINATION lib${LIB_POSTFIX}/pkgconfig COMPONENT libosgaudio-dev)
+ENDFOREACH(PKGCONFIG_FILE)
 
 # Adds includes for a library found with FIND_PACKAGE
 MACRO(INCLUDE_WITH_VARIABLES TRGTNAME)
