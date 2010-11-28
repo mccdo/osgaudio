@@ -1,0 +1,18 @@
+IF(0_BUILD_EXAMPLES_OSGAUDIO)
+	FOREACH( myexamplefolder 
+			osgaudio
+			osgaudiomultiple
+			osgaudioocclude
+			osgaudioviewer
+	    )
+	    ADD_SUBDIRECTORY(${myexamplefolder})
+	ENDFOREACH( myexamplefolder )
+ENDIF(0_BUILD_EXAMPLES_OSGAUDIO)
+
+IF(0_BUILD_EXAMPLES_OSGAUDIO_LOWLEVEL)
+	ADD_SUBDIRECTORY(osgaudio-lowlevel)
+ENDIF(0_BUILD_EXAMPLES_OSGAUDIO_LOWLEVEL)
+
+IF(0_BUILD_EXAMPLES_OALPP)
+	ADD_SUBDIRECTORY(openalpp)
+ENDIF(0_BUILD_EXAMPLES_OALPP)

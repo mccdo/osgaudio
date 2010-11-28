@@ -1,0 +1,114 @@
+<title>osgAudio - Documentation</title>
+<h2>OpenSceneGraph Audio Library (osgAudio)</h2>
+<p>osgAudio is a toolkit for handling spatial (3D) sound in the <a href="http://www.openscenegraph.org">OpenSceneGraph</a> 
+  rendering library. It utilizes either <a href="http://sf.net/projects/alpp">OpenAL++</a>/<a href="http://www.openal.org">OpenAL</a>
+  or <a href="http://www.fmod.org/">FMOD Ex</a>
+  It has been compiled and tested under Windows (Developer Studio 2005+) and Linux (gcc3.5). 
+</p>
+<h2>Documentation</h2>
+<p><a href="html/index.html">API reference</a></p>
+<h2></h2>
+<h2>Dependencies</h2>
+<p>osgAudio depends on OpenSceneGraph and various audio subsystem components. It has been compiled with <a href="http://www.openscenegraph.org">OSG 
+  2.9.6</a>. The build system is CMAKE, and will attempt to locate FMOD or OpenAL automatically.</p>
+<h2>Basic Concepts</h2>
+<p>There are five main classes:</p>
+<ul>
+  <li>SoundManager</li>
+  <li>SoundState</li>
+  <li>SoundNode</li>
+  <li>SoundRoot</li>
+  <li>SoundOccluder</li>
+</ul>
+<h3>SoundState</h3>
+<p>A <i>SoundState</i> is 
+  a small lightweight class that contains a reference to a <i>osgAudio::Sample</i> 
+  and the settings for a <i>Sample</i>. This class does nothing more than keeping 
+  this <i>Sample</i> and its associated attributes together. It can have 
+  a <i>osgAudio::SoundSource</i> (usually a limited resources, 32 or more) associated 
+  to it. Sometimes it is necessary to allocate a hardware soundsource to a soundstate, 
+  for example looping sounds with ambient sound or music.</p>
+<h3>SoundNode</h3>
+<p>SoundSource is derived 
+  from osg::Node and can be inserted into the scenegraph wherever one wants it 
+  to be. During update traversal it will calculate its world position and position 
+  the associated SoundState to right orientation and position. No culling is done 
+  currently.</p>
+<h3>SoundManager</h3>
+<p>The SoundManager is responsible 
+  for handling queued SoundStates (for sound events described below) and to store 
+  all SoundStates to make it possible to find them later on.</p>
+<h3>SoundRoot</h3>
+<p>A node that during cull 
+  traversal updates the SoundManager and updates the transformation for the current 
+  listener from the current modelView matrix. This could be done manually, but 
+  this node makes it all happen automatically during the cull traversal, which 
+  reduces the need of inserting code in the viewer run loop.</p>
+<h3>OccludeCallback</h3>
+<p>This is a callback class, 
+  called during the update of the transformation of the SoundNode. If enabled 
+  this callback will shoot a ray from the listener to this SoundNode. If this 
+  ray is unoccluded nothing will happen. But if this ray is occluded by some geometry, 
+  the gain of the SoundState associated to this node will be reduced by some amount. 
+  The functionality of this callback can be extended by inheriting from OccludeCallback 
+  and attaching it to the SoundNode.</p>
+<p></p>
+<p>&nbsp;</p>
+<h2>Sound Events</h2>
+<p>There is a concept called
+  "event", for example an explosion is a typical event where a short sound 
+  is played once. Another example is the contact sound generated from two colliding 
+  objects. When using for example rigid body dynamics, there can be a lot of sound 
+  events when objects collides, therefore, the osgAudio::SoundManager has a method 
+  called <i>pushSoundEvent(osgAudio::SoundState *, int priority)</i></p>
+<p>This method takes a SoundState 
+  as argument. By making a copy of this SoundState (it uses an internal flyweight 
+  pattern to avoid creating new SoundStates on the fly) it builds up a queue of 
+  SoundStates. These SoundStates are played one by one by the SoundManager during 
+  its update() call. This makes it possible to have a lot of SoundStates &quot;playing&quot; 
+  when there is a real shortage of hardware sound sources (usually 32 or so).</p>
+<h2>IO Support</h2>
+<p>Thanks to a great contribution of Alberto Jaspe, videaLAB, University of La 
+  Coru&ntilde;a (jaspe@udc.es), osgAudio now also supports IO.<br>
+  This is easily tested by running one of the sample application, (i.e. osgaudio) 
+  and press 'o' to save the current scene to a file named saved_model.osg.<br>
+  The file saved_model.osg will then also contain the information from osgAudio regarding 
+  soundnodes, soundstates etc...</p>
+<p>This means that scenes containing sound can also be authored through the .osg 
+  file format.<br>
+  The best documentation for the file format is to look into an existing file, 
+  in the /data subdirectory there are a few sample scenes.</p>
+<h2>Example</h2>
+<p>osgaudio.cpp - Code for testapplication. </p>
+<p>osgaudiomultiple.cpp - Shows dynamic allocation/deallocation of samples.</p>
+<p>osgaudioocclude.cpp - Demonstrates a simple sound occlusion example.</p>
+<h4>To run the examples: </h4>
+<p>Change directory to the 
+  data sub-directory that contains the bee.wav sample file (<i>data</i>). Start 
+  the test application with osgaudio (make sure you have the correct path to the dynamic 
+  libraries (OSG, OpenAL++/openAL or FMOD).</p>
+<h4>Keybindings</h4>
+<i>space</i> - Pushes a SoundState 
+as an Event (non-looping). Results in a sound that plays once at the position 
+of the listener. Pressing it repeatedly will add even more SoundStates...  
+<p>The examples demonstrates 
+  the basic functionality of the osgAudio toolkit:</p>
+<ul>
+  <li>Creating an osgAudio::Sample 
+    (which holds the .wav sample file)</li>
+  <li>Creating an osgAudio::SoundState 
+    (which holds a Sample and settings)</li>
+  <li>Creating an osgAudio::SoundNode 
+    (which holds a SoundState) and attaching it to a transformation node to make 
+    it move.</li>
+  <li>Creating an osgAudio::SoundRoot 
+    (which updates the SoundManager and the transformation of the listener according 
+    to the modelViewMatrix).</li>
+  <li>Accessing the osgAudio::SoundManager 
+    to add SoundStates and pushing SoundStates as events.</li>
+  <li>Handling occlusions 
+    of geometry in the scene</li>
+</ul>
+<h2>Comments</h2>
+Direct your comments, bug 
+reports to <a href="mailto:xenon@alphapixel.com">xenon@alphapixel.com</a>  

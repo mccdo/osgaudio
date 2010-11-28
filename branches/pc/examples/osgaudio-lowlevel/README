@@ -1,0 +1,32 @@
+These are the openalpp test/examples slightly modified to use the osgAudio API instead of bare openAL++. Other than that they are essentially identical.
+
+
+
+
+Some small test/example programs. These are primarily for streaming, and might not work on all platforms yet..
+
+simple - Play the file bee.wav. The basic test from the tutorial.
+
+moving - Play the file bee.wav and moves it left/right (from the tutorial).
+
+
+multiple - Loads and plays and deletes several wav files. Tests the reference pointer deallocation
+
+testftream - Load and plays ogg files, pause, etc..
+
+
+Deprecated tests listed below:
+
+testmic - Read from the default input device and play it to a source placed on (0,0,0). Stop when return is pressed.
+
+testsend - Load a file (gamebeginning.wav - not included) and send it through a socket, in packets of 1024 bytes. To be used in conjunction with teststream.
+
+
+teststream - Connect a socket to a source and play it. Run testsend directly after running this.
+
+
+More tests might be added in the future. The stranger tests that I used while developing have been removed as they would 
+probably not be very interesting.
+
+/Anders Backman, VRlab, 2004
+ Tomas Hämälä, VRlab, 2002
