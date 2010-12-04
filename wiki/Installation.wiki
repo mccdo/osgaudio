@@ -6,6 +6,10 @@
 
 *osgAudio* needs one audio back end selected at CMake configuration time. Currently [http://connect.creativelabs.com/openal/default.aspx OpenAL] and [http://www.fmod.org/ FMOD] are supported.
 
+= Installing osgAudio = 
+
+Once you have built osgAudio it is possible to install osgAudio into a directory that will contain a bin, lib, and include directory with the 'install' target for GNUMake. The location of this directory can be set via the CMake variable CMAKE_INSTALL_PREFIX. After you have installed osgAudio, be sure to point your (DY)LD_LIBRARY_PATH at the lib directory and your PATH at the bin directory. This will enable your applications to load the appropriate osgAudio libraries and plugins.
+
 = Details =
 
 == Dependencies ==
