@@ -419,7 +419,7 @@ Sample* SoundManager::getSample( const std::string& path, bool add_to_cache )
 
 		// if the loading of the model was successful, store the sample in the cache
 		// except if the user have indicated that it shouldn't be added to the cache
-		if (sample && add_to_cache) {
+		if (sample.get() && add_to_cache) {
 			m_sample_cache.insert(SampleMapValType(path, sample.get()));
 		}
 	}
