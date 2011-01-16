@@ -105,7 +105,7 @@ namespace osgAudio
 		* NULL constructor, only called by derived classes to prevent base class from
 		* instantiating an openalpp::Stream in _openalppStream
 		*/
-		Stream(unsigned long int DummyValue) {};
+		Stream(unsigned long int) {};
 
 		// the actual FMOD datatype
 		FMOD::Sound *_FMODSound;

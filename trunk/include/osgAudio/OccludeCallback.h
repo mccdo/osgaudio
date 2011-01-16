@@ -74,7 +74,7 @@ namespace osgAudio {
 
 		// Implementation of virtual functions of osg::Object
 		virtual osg::Object* cloneType() const { return new OccludeCallback(); }
-		virtual osg::Object* clone(const osg::CopyOp& copyop) const {
+		virtual osg::Object* clone(const osg::CopyOp&) const {
 			return new OccludeCallback(*this); 
 		}
 		virtual const char* libraryName() const { return "osgAudio"; }
