@@ -68,7 +68,6 @@ ADD_LIBRARY(
 	${LIB_PUBLIC_HEADERS}
 	${LIB_PUBLIC_HEADERS_SUBSYSTEM}
 	${LIB_PUBLIC_SOURCES_SUBSYSTEM}
-	AudioEnvironment.cpp
 	Error.cpp
 	FileStream.cpp
 	Listener.cpp
