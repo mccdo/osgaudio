@@ -80,7 +80,7 @@ namespace osgAudio
 
 	This makes the pushSoundEvent method suitable for playing soundeffects.
 	*/
-	class OSGAUDIO_EXPORT SoundManager : public osg::Referenced
+	class OSGAUDIO_EXPORT SoundManager
 	{
 	public:
 
@@ -263,10 +263,10 @@ namespace osgAudio
 		osgAudio::Source *getSource(unsigned int priority, bool registrate_as_active=true, int depth=0);
 
 		/// Destructor
-		virtual ~SoundManager();
+        ~SoundManager();
 
 		/// Default Constructor
-		SoundManager( void );
+		SoundManager();
 
 
 		/// Class that handles all the soundstates. See FlyWeight Design pattern
@@ -301,7 +301,7 @@ namespace osgAudio
 		StreamMap m_stream_cache;
 
 		osg::ref_ptr<osgAudio::Listener> m_listener;
-		osg::ref_ptr<osgAudio::AudioEnvironment> m_sound_environment;
+		osgAudio::AudioEnvironment* m_sound_environment;
 
 
 		typedef std::vector<osg::ref_ptr<osgAudio::Source> > SourceVector;
@@ -358,13 +358,13 @@ namespace osgAudio
 		return m_listener.get(); 
 	}
 
-	inline osgAudio::AudioEnvironment *SoundManager::getEnvironment() 
+	inline osgAudio::AudioEnvironment* SoundManager::getEnvironment() 
 	{ 
 		if (!m_initialized) {
 			throw std::runtime_error("SoundManager::getEnvironment(): Soundsystem is not initialized");
 			return 0;
 		}
-		return m_sound_environment.get(); 
+		return m_sound_environment; 
 	}
 
 } // namespace osgAudio

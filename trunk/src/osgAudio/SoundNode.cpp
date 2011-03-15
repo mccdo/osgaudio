@@ -90,8 +90,8 @@ SoundNode::SoundNode(const SoundNode &copy, const osg::CopyOp &copyop)
 void SoundNode::traverse(osg::NodeVisitor &nv)
 {
 	// continue only if the visitor actually is a cull visitor
-	if (nv.getVisitorType() == osg::NodeVisitor::CULL_VISITOR) {
-
+	if (nv.getVisitorType() == osg::NodeVisitor::CULL_VISITOR)
+    {
 		// Make sure we only execute this once during this frame.
 		// There could be two or more culls for stereo/multipipe...
 		if (!m_sound_state.valid()) {

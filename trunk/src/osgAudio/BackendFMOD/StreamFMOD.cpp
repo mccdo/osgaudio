@@ -26,7 +26,6 @@
 #include <osgAudio/Stream.h>
 #include <osgAudio/BackendFMOD/AudioEnvironmentFMOD.h>
 
-
 using namespace osgAudio;
 
 Stream::Stream() throw (NameError) {
@@ -51,24 +50,25 @@ Stream &Stream::operator=(const Stream &stream) {
 } // Stream::operator=
 
 void Stream::createStreamFromFilename(const std::string& filename ) throw (FileError,NameError)
- {
-	_FMODSound = NULL;
-	_filename = filename;
+{
+    _FMODSound = NULL;
+    _filename = filename;
 
-	FMOD_RESULT createResult;
-	createResult = AudioEnvironment::getSystem()->createSound(filename.c_str(), FMOD_3D, 0, &_FMODSound);
+    FMOD_RESULT createResult;
+    createResult = osgAudio::AudioEnvironment::instance()->
+        getSystem()->createSound(filename.c_str(), FMOD_3D, 0, &_FMODSound);
 
-	if(createResult != FMOD_OK)
-	{
-		if(createResult == FMOD_ERR_FILE_BAD || createResult == FMOD_ERR_FILE_NOTFOUND)
-		{
-			throw NameError("Error loading file or File not found.");
-		} // if
-		else
-		{
-			throw FileError("Unknown error opening Stream file.");
-		} // else
-	} // if
+    if(createResult != FMOD_OK)
+    {
+        if(createResult == FMOD_ERR_FILE_BAD || createResult == FMOD_ERR_FILE_NOTFOUND)
+        {
+            throw NameError("Error loading file or File not found.");
+        } // if
+        else
+        {
+            throw FileError("Unknown error opening Stream file.");
+        } // else
+    } // if
 } // Stream::createStreamFromFilename
 
 

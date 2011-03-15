@@ -39,30 +39,52 @@ static osgAudio::DistanceModel _osgAudioDistanceModelTranslate[] = {
 	None,InverseDistance,InverseDistanceClamped
 };
 
+AudioEnvironment::AudioEnvironment()
+{
+    ;
+}
 
+AudioEnvironment* AudioEnvironment::instance()
+{
+	static AudioEnvironment* s_audioEnvironment = new AudioEnvironment();
+	return s_audioEnvironment;
+}
 
-
-AudioEnvironment::AudioEnvironment( bool displayInitMsgs ) throw (InitError) {
-    try {
+void AudioEnvironment::init( bool displayInitMsgs ) throw (InitError) 
+{
+    try 
+    {
         _openalppAudioEnvironment = new openalpp::AudioEnvironment( displayInitMsgs);
     }
-    catch(openalpp::InitError error) { throw InitError(error.what()); }
+    catch(openalpp::InitError error)
+    {
+        throw InitError(error.what());
+    }
 }
 
-AudioEnvironment::AudioEnvironment(int frequency,int refresh,bool synchronous,bool displayInitMsgs)
-throw (InitError) {
-	try {
-	_openalppAudioEnvironment = new openalpp::AudioEnvironment (frequency, refresh, synchronous, displayInitMsgs);
-	}
-	catch(openalpp::InitError error) { throw InitError(error.what()); }
-}
-
-AudioEnvironment::AudioEnvironment(int frequency,int refresh) throw (InitError)
+void AudioEnvironment::init(int frequency,int refresh,bool synchronous,bool displayInitMsgs)
+throw (InitError) 
 {
-	try {
-	_openalppAudioEnvironment = new openalpp::AudioEnvironment (frequency, refresh);
+	try 
+    {
+        _openalppAudioEnvironment = new openalpp::AudioEnvironment (frequency, refresh, synchronous, displayInitMsgs);
 	}
-	catch(openalpp::InitError error) { throw InitError(error.what()); }
+	catch(openalpp::InitError error)
+    { 
+        throw InitError(error.what());
+    }
+}
+
+void AudioEnvironment::init(int frequency,int refresh) throw (InitError)
+{
+	try 
+    {
+        _openalppAudioEnvironment = new openalpp::AudioEnvironment (frequency, refresh);
+	}
+	catch(openalpp::InitError error)
+    {
+        throw InitError(error.what());
+    }
 }
 
 AudioEnvironment::~AudioEnvironment()
