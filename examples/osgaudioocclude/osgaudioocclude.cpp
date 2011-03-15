@@ -46,8 +46,9 @@
 #include <osgAudio/SoundState.h>
 #include <osgAudio/OccludeCallback.h>
 #include <osgAudio/Version.h>
+#include <osgAudio/SoundUpdateCB.h>
 
-osg::PositionAttitudeTransform *createSoundNode(const std::string& file, bool occlude, osg::Node *root, bool is_stream);
+osg::PositionAttitudeTransform *createSound(const std::string& file, bool occlude, osg::Node *root, bool is_stream);
 
 int main( int argc, char **argv )
 {
@@ -142,7 +143,7 @@ int main( int argc, char **argv )
 
         bool occlude = true;
 
-        osg::ref_ptr<osg::PositionAttitudeTransform> sound_transform = createSoundNode("a.wav", occlude, rootnode.get(), false);
+        osg::ref_ptr<osg::PositionAttitudeTransform> sound_transform = createSound("a.wav", occlude, rootnode.get(), false);
 
         rootnode->addChild(sound_transform.get());
 
@@ -195,10 +196,8 @@ int main( int argc, char **argv )
 
 }
 
-osg::PositionAttitudeTransform *createSoundNode(const std::string& file, bool occlude, osg::Node *root, bool is_stream)
+osg::PositionAttitudeTransform *createSound(const std::string& file, bool occlude, osg::Node *root, bool is_stream)
 {
-
-
     // Create a sample, load a .wav file.
     bool add_to_cache = false;
     osg::ref_ptr<osgAudio::Stream> stream;
@@ -221,38 +220,36 @@ osg::PositionAttitudeTransform *createSoundNode(const std::string& file, bool oc
 
     }
 
-
     sound_state->setGain(1.0f);
     sound_state->setReferenceDistance(10);
     sound_state->setRolloffFactor(1);
     sound_state->setPlay(true);
     sound_state->setLooping(true);
 
-
     // Add the soundstate to the sound manager, so we can find it later on if we want to
     osgAudio::SoundManager::instance()->addSoundState(sound_state.get());
 
-    osgAudio::SoundNode *sound_node = new osgAudio::SoundNode;
-    sound_node->setSoundState(sound_state.get());
-
+    osg::ref_ptr< osgAudio::SoundUpdateCB > soundCB = new osgAudio::SoundUpdateCB;
+    soundCB->setSoundState( sound_state.get() );
+    
     float radius = 0.5;
-    if (occlude) {
-        osgAudio::OccludeCallback *cb = new osgAudio::OccludeCallback(root);
+    if (occlude)
+    {
+        osgAudio::OccludeCallback* cb = new osgAudio::OccludeCallback(root);
         cb->setNearThreshold(radius*1.1);
-        sound_node->setOccludeCallback(cb);
+        soundCB->setOccludeCallback( cb );
     }
-
 
     // Create a transformation node onto we will attach a soundnode
     osg::PositionAttitudeTransform *sound_transform = new osg::PositionAttitudeTransform;
 
     // Create a sphere so we can "see" the sound
     osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+    geode->setUpdateCallback( soundCB.get() );
     osg::TessellationHints* hints = new osg::TessellationHints;
     hints->setDetailRatio(0.5f);
     geode->addDrawable(new osg::ShapeDrawable(new osg::Sphere(osg::Vec3(0.0f,0.0f,0.0f),radius),hints));
     sound_transform->addChild(geode.get());
 
-    sound_transform->addChild(sound_node);
     return sound_transform;
 }
