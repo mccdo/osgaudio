@@ -25,6 +25,7 @@
 
 #include <osgAudio/Sample.h>
 #include <osgAudio/AudioEnvironment.h>
+#include <osgAudio/SoundManager.h>
 
 using namespace osgAudio;
 
@@ -49,7 +50,8 @@ void Sample::createSampleFromFilename(const std::string& filename ) throw (FileE
 	_FMODSound = NULL;
 
 	FMOD_RESULT createResult;
-	createResult = AudioEnvironment::getSystem()->createSound(filename.c_str(), FMOD_3D, 0, &_FMODSound);
+	createResult = osgAudio::SoundManager::instance()->getEnvironment()->
+     getSystem()->createSound(filename.c_str(), FMOD_3D, 0, &_FMODSound);
 
 	if(createResult != FMOD_OK)
 	{

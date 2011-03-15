@@ -46,11 +46,13 @@ void Listener::init(float x,float y,float z,
 		select();
 }
 
-Listener::Listener() {
+Listener::Listener() 
+{
 	init(0,0,0, 0,0,0, 0,0,-1, 0,1,0);
 }
 
-Listener::Listener(const Listener &listener) {
+Listener::Listener(const Listener &listener) 
+{
 	float transfer[6];
 	listener.getPosition(transfer[0],transfer[1],transfer[2]);
 	setPosition(transfer[0],transfer[1],transfer[2]);
@@ -64,53 +66,62 @@ Listener::Listener(const Listener &listener) {
 
 Listener::Listener(float x,float y,float z,
 				   float directionx, float directiony, float directionz,
-				   float upx, float upy, float upz) {
-
-					   init(x,y,z, 0,0,0, directionx,directiony,directionz, upx,upy,upz);
-
+				   float upx, float upy, float upz) 
+{
+    init(x,y,z, 0,0,0, directionx,directiony,directionz, upx,upy,upz);
 }
 
-Listener::Listener(float x, float y, float z) {
+Listener::Listener(float x, float y, float z) 
+{
 	init(x,y,z, 0,0,0, 0,0,-1, 0,1,0);
 }
 
-Listener::~Listener() {
+Listener::~Listener() 
+{
 }
 
-void Listener::select() {
+void Listener::select() 
+{
 	_selectedlistener = this; // we are now the selected Listener
-	AudioEnvironment::getSystem()->set3DListenerAttributes(0, &_pos, &_vel, &_forward, &_up);
+	osgAudio::AudioEnvironment::instance()->getSystem()->
+        set3DListenerAttributes(0, &_pos, &_vel, &_forward, &_up);
 }
 
-bool Listener::isSelected() {
+bool Listener::isSelected() 
+{
 	return (_selectedlistener.valid() && _selectedlistener.get() == this);
 }
 
 void Listener::setOrientation(float directionx,float directiony,
 							  float directionz,
-							  float upx, float upy, float upz) {
-								  _forward.x=directionx;
-								  _forward.y=directiony;
-								  _forward.z=directionz;
-								  _up.x=upx;
-								  _up.y=upy;
-								  _up.z=upz;
-								  AudioEnvironment::getSystem()->set3DListenerAttributes(0, &_pos, &_vel, &_forward, &_up);
+							  float upx, float upy, float upz) 
+{
+    _forward.x=directionx;
+    _forward.y=directiony;
+    _forward.z=directionz;
+    _up.x=upx;
+    _up.y=upy;
+    _up.z=upz;
+    osgAudio::AudioEnvironment::instance()->getSystem()->
+        set3DListenerAttributes(0, &_pos, &_vel, &_forward, &_up);
 }
 
 void Listener::getOrientation(float &directionx,float &directiony,
 							  float &directionz,
-							  float &upx, float &upy, float &upz) const {
-								  directionx=_forward.x;
-								  directiony=_forward.y;
-								  directionz=_forward.z;
-								  upx=_up.x;
-								  upy=_up.y;
-								  upz=_up.z;
+							  float &upx, float &upy, float &upz) const 
+{
+    directionx=_forward.x;
+    directiony=_forward.y;
+    directionz=_forward.z;
+    upx=_up.x;
+    upy=_up.y;
+    upz=_up.z;
 }
 
-Listener &Listener::operator=(const Listener &listener) {
-	if(this!=&listener) {
+Listener &Listener::operator=(const Listener &listener) 
+{
+	if(this!=&listener) 
+    {
 		float transfer[6];
 		listener.getPosition(transfer[0],transfer[1],transfer[2]);
 		setPosition(transfer[0],transfer[1],transfer[2]);
@@ -124,27 +135,33 @@ Listener &Listener::operator=(const Listener &listener) {
 	return *this;
 }
 
-void Listener::setPosition(float x, float y, float z) {
+void Listener::setPosition(float x, float y, float z) 
+{
 	_pos.x=x;
 	_pos.y=y;
 	_pos.z=z;
-	AudioEnvironment::getSystem()->set3DListenerAttributes(0, &_pos, &_vel, &_forward, &_up);
+	osgAudio::AudioEnvironment::instance()->getSystem()->
+        set3DListenerAttributes(0, &_pos, &_vel, &_forward, &_up);
 }
 
-void Listener::getPosition(float &x, float &y, float &z) const {
+void Listener::getPosition(float &x, float &y, float &z) const 
+{
 	x=_pos.x;
 	y=_pos.y;
 	z=_pos.z;
 }
 
-void Listener::setVelocity(float vx, float vy, float vz) {
+void Listener::setVelocity(float vx, float vy, float vz)
+{
 	_vel.x=vx;
 	_vel.y=vy;
 	_vel.z=vz;
-	AudioEnvironment::getSystem()->set3DListenerAttributes(0, &_pos, &_vel, &_forward, &_up);
+	osgAudio::AudioEnvironment::instance()->getSystem()->
+        set3DListenerAttributes(0, &_pos, &_vel, &_forward, &_up);
 }
 
-void Listener::getVelocity(float &vx, float &vy, float &vz) const {
+void Listener::getVelocity(float &vx, float &vy, float &vz) const 
+{
 	vx=_vel.x;
 	vy=_vel.y;
 	vz=_vel.z;

@@ -26,6 +26,7 @@
 #include <osgAudio/SoundUpdateCB.h>
 #include <osg/Transform>
 #include <osg/NodeVisitor>
+#include <osg/io_utils>
 
 #include <osgAudio/SoundManager.h>
 
@@ -135,7 +136,7 @@ SoundUpdateCB::operator()( osg::Node* node, osg::NodeVisitor* nv )
 		//Get new direction
         osg::Vec3 dir = osg::Vec3( 0., 1., 0. ) * m;
 		dir.normalize();
-		m_sound_state->setDirection(dir);      
+		m_sound_state->setDirection(dir);
 
 		// Only do occlusion calculations if the sound is playing
 		if (m_sound_state->getPlay() && m_occlude_callback.valid())

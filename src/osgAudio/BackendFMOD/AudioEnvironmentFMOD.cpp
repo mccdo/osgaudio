@@ -41,28 +41,42 @@ static FMOD_MODE _FMODDistanceModelTranslate[] = {
 	FMOD_3D_LOGROLLOFF,FMOD_3D_LOGROLLOFF,FMOD_3D_LOGROLLOFF
 	};
 
-FMOD::System *AudioEnvironment::_system;
+AudioEnvironment::AudioEnvironment()
+    :
+    _system( 0 ),
+    _preSystemInitFunc( 0 )
+{
+    ;
+}
 
+AudioEnvironment* AudioEnvironment::instance()
+{
+	static AudioEnvironment* s_audioEnvironment = new AudioEnvironment();
+	return s_audioEnvironment;
+}
 
-AudioEnvironment::AudioEnvironment( bool displayInitMsgs ) throw (InitError)
+void AudioEnvironment::init( bool displayInitMsgs ) throw (InitError)
 {
 	initInternals();
 
-	getSystem( displayInitMsgs ); // initializes System singleton if needed
-} // AudioEnvironment::AudioEnvironment
+    // initializes System singleton if needed
+	getSystem( displayInitMsgs ); 
+}
 
-AudioEnvironment::AudioEnvironment(int frequency,int refresh,bool synchronous, bool displayInitMsgs) throw (InitError)
+void AudioEnvironment::init(int frequency,int refresh,bool synchronous, bool displayInitMsgs) throw (InitError)
+{
+    initInternals();
+
+    // initializes System singleton if needed
+	getSystem( displayInitMsgs ); 
+} 
+
+void AudioEnvironment::init(int frequency,int refresh, bool displayInitMsgs) throw (InitError)
 {
 	initInternals();
 
-	getSystem( displayInitMsgs ); // initializes System singleton if needed
-} // AudioEnvironment::AudioEnvironment
-
-AudioEnvironment::AudioEnvironment(int frequency,int refresh, bool displayInitMsgs) throw (InitError)
-{
-	initInternals();
-
-	getSystem( displayInitMsgs ); // initializes System singleton if needed
+    // initializes System singleton if needed
+	getSystem( displayInitMsgs ); 
 } // AudioEnvironment::AudioEnvironment
 
 void AudioEnvironment::initInternals()
@@ -80,9 +94,9 @@ void AudioEnvironment::initInternals()
 
 } // AudioEnvironment::initInternals
 
-
 AudioEnvironment::~AudioEnvironment()
 {
+    _preSystemInitFunc = 0;
 	// <<<>>> FMOD doesn't really support any concept of multiple discreet systems, so we
 	// likewise can't really support multiple discrete AudioEnvironments. Therefore
 	// reference countin the _system doesn't really benefit us. Just release it when
@@ -97,10 +111,8 @@ AudioEnvironment::~AudioEnvironment()
 	} // if
 } // AudioEnvironment::~AudioEnvironment
 
-
-
-
-float AudioEnvironment::calcFMODDopplerFactor(float speed) const {
+float AudioEnvironment::calcFMODDopplerFactor(float speed) const 
+{
 
 	// FMOD does not support user-configured speed of sound exactly
 	//   "Actually the [doppler scale] setting in System::set3DSettings is only used
@@ -113,8 +125,8 @@ float AudioEnvironment::calcFMODDopplerFactor(float speed) const {
 	return speed / 343.0; // OpenAL defaulted to 343, not 340
 } // AudioEnvironment::calcFMODDopplerFactor
 
-
-void AudioEnvironment::setSoundVelocity(float speed) throw(ValueError,FatalError){
+void AudioEnvironment::setSoundVelocity(float speed) throw(ValueError,FatalError)
+{
 	FMOD_RESULT result;
 
 	// calculate _dopplerFactor from speed and use that.
@@ -122,29 +134,32 @@ void AudioEnvironment::setSoundVelocity(float speed) throw(ValueError,FatalError
 	result = _system->set3DSettings(_dopplerFactor, _unitScale, _rolloffScale);
 	if(result != FMOD_OK)
 	{
-		throw ValueError("FMOD set3DSettings()");
+		throw ValueError("FMOD set3DSettings() in setSoundVelocity");
 		// FMOD doesn't throw anything like FatalError
 	} // if
 } // AudioEnvironment::setSoundVelocity
 
-float AudioEnvironment::getSoundVelocity() throw (FatalError) {
+float AudioEnvironment::getSoundVelocity() throw (FatalError) 
+{
 	return _dopplerFactor;
 } // AudioEnvironment::getSoundVelocity
 
 void AudioEnvironment::setDopplerFactor(float factor) 
-throw (ValueError,FatalError) {
+throw (ValueError,FatalError) 
+{
 	FMOD_RESULT result;
 
 	_dopplerFactor = factor;
 	result = _system->set3DSettings(_dopplerFactor, _unitScale, _rolloffScale);
 	if(result != FMOD_OK)
 	{
-		throw ValueError("FMOD set3DSettings()");
+		throw ValueError("FMOD set3DSettings() in setDopplerFactor");
 		// FMOD doesn't throw anything like FatalError
 	} // if
 } // AudioEnvironment::setDopplerFactor
 
-float AudioEnvironment::getDopplerFactor() throw (FatalError) {
+float AudioEnvironment::getDopplerFactor() throw (FatalError) 
+{
 	return _dopplerFactor;
 	// FMOD doesn't throw anything like FatalError
 } // AudioEnvironment::getDopplerFactor
@@ -156,12 +171,14 @@ void AudioEnvironment::setGain(float gain) {
 	channelgroup->setVolume(_gain);
 } // AudioEnvironment::setGain
 
-float AudioEnvironment::getGain() throw (FatalError) {  
+float AudioEnvironment::getGain() throw (FatalError) 
+{  
 	// FMOD doesn't throw anything like FatalError
 	return _gain;
 } // AudioEnvironment::getGain
 
-void AudioEnvironment::setDistanceModel(DistanceModel model) throw (FatalError) {
+void AudioEnvironment::setDistanceModel(DistanceModel model) throw (FatalError) 
+{
 	//FMOD_RESULT result;
 
 	_externalDistanceModel = model;
@@ -182,14 +199,20 @@ void AudioEnvironment::setDistanceModel(DistanceModel model) throw (FatalError) 
 	*/
 } // AudioEnvironment::setDistanceModel
 
-DistanceModel AudioEnvironment::getDistanceModel() throw (FatalError) {
+DistanceModel AudioEnvironment::getDistanceModel() throw (FatalError) 
+{
 	return _externalDistanceModel;
 } // AudioEnvironment::getDistanceModel
 
-
-void AudioEnvironment::initiateReverb() throw (InitError) {
-// apparenlty un-needed in FMOD
+void AudioEnvironment::initiateReverb() throw (InitError) 
+{
+    ;// apparenlty un-needed in FMOD
 } // AudioEnvironment::initiateReverb
+
+void AudioEnvironment::setPreSystemInitFunc( void (*preSystemInitFunc)(FMOD::System*) )
+{
+    _preSystemInitFunc = preSystemInitFunc;
+}
 
 FMOD::System *AudioEnvironment::getSystem( bool displayInitMsgs ) throw (InitError)
 {
@@ -203,6 +226,15 @@ FMOD::System *AudioEnvironment::getSystem( bool displayInitMsgs ) throw (InitErr
 		{
 			throw InitError("Unable to create FMOD::System.");
 		} // if
+        
+        //Call a users function to initialize system before the init call 
+        //is made. This can be used to tell FMOD which FMOD driver to use
+        //and what FMOD speaker configuration to use.
+        if( _preSystemInitFunc != 0 )
+        {
+            _preSystemInitFunc( _system );
+        }
+
         //FMOD doesn't share the same semantics as OpenAL -- you cannot 
         //configure settings like volume gain on a sound that is not currently 
         //playing. OpenAL (and therefore osgAL) allowed you to pre-configre 
@@ -222,9 +254,21 @@ FMOD::System *AudioEnvironment::getSystem( bool displayInitMsgs ) throw (InitErr
         //hardware as one channel. This is the 64-sound limit Ross discovered. 
         //The 65th sound simply had no resources to play through. I increased 
         //the pre-set number of software channels to 100.
-		result = _system->setSoftwareChannels(100);	// Setup 100 virtual channels
-		result = _system->init(100, FMOD_INIT_3D_RIGHTHANDED, 0);	// Initialize FMOD.
-
+        
+        // Setup 100 virtual channels
+		result = _system->setSoftwareChannels(100);	
+        if(result != FMOD_OK)
+		{
+			throw InitError("Unable to the number of software channels.");
+		} // if
+        
+        // Initialize FMOD.
+		result = _system->init(100, FMOD_INIT_3D_RIGHTHANDED, 0);	
+        if(result != FMOD_OK)
+		{
+			throw InitError("Unable to init the FMOD System.");
+		} // if
+        
         if( displayInitMsgs )
         {
             int numDrivers;
@@ -243,10 +287,10 @@ FMOD::System *AudioEnvironment::getSystem( bool displayInitMsgs ) throw (InitErr
             }
         }
 	} // if
-	return(_system);
+	return _system;
 } // AudioEnvironment::getSystem
 
-void AudioEnvironment::update(void) {
-	FMOD::System *updatesystem = getSystem(); // initializes System singleton if needed
-	updatesystem->update(); // Makes the audio world go round. Literally.
+void AudioEnvironment::update() 
+{
+	getSystem()->update(); // Makes the audio world go round. Literally.
 } // AudioEnvironment::getSystem

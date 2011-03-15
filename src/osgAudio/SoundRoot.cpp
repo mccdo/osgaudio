@@ -28,6 +28,7 @@
 #include <osg/Transform>
 #include <osg/Notify>
 #include <osg/Version>
+#include <osg/io_utils>
 
 #include <osgUtil/CullVisitor>
 
@@ -139,7 +140,6 @@ void SoundRoot::update( osg::NodeVisitor* nv )
             if( getCamera() != NULL )
             {
                 osg::Matrixd m( getCamera()->getViewMatrix() );
-
 	            osgAudio::SoundManager::instance()->setListenerMatrix( m );
             }
         }

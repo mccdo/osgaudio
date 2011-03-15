@@ -74,7 +74,7 @@ Source::Source( const Source &source) {
 		_FMODChannel = NULL;
 	} // if
 	// start it, paused, so we can tinker with the settings if needed before playing
-	FMOD_RESULT createResult = AudioEnvironment::getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
+	FMOD_RESULT createResult = osgAudio::AudioEnvironment::instance()->getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
 	initPitchSupport();
 
 }
@@ -123,7 +123,7 @@ void Source::setSound(const std::string& filename) {
 		_FMODChannel = NULL;
 	} // if
 	// start it, paused, so we can tinker with the settings if needed before playing
-	FMOD_RESULT createResult = AudioEnvironment::getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
+	FMOD_RESULT createResult = osgAudio::AudioEnvironment::instance()->getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
 	initPitchSupport();
 }
 
@@ -135,7 +135,7 @@ void Source::setSound( Sample *buffer ) {
 		_FMODChannel = NULL;
 	} // if
 	// start it, paused, so we can tinker with the settings if needed before playing
-	FMOD_RESULT createResult = AudioEnvironment::getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
+	FMOD_RESULT createResult = osgAudio::AudioEnvironment::instance()->getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
 	initPitchSupport();
 }
 
@@ -147,7 +147,7 @@ void Source::setSound(Stream *stream) {
 		_FMODChannel = NULL;
 	} // if
 	// start it, paused, so we can tinker with the settings if needed before playing
-	FMOD_RESULT createResult = AudioEnvironment::getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
+	FMOD_RESULT createResult = osgAudio::AudioEnvironment::instance()->getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), true, &_FMODChannel);
 	initPitchSupport();
 }
 
@@ -188,7 +188,7 @@ void Source::play() {
 		} // if
 	} // if
 	// not yet playing
-	FMOD_RESULT createResult = AudioEnvironment::getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), false, &_FMODChannel);
+	FMOD_RESULT createResult = osgAudio::AudioEnvironment::instance()->getSystem()->playSound(FMOD_CHANNEL_FREE, _Sound->getInternalSound(), false, &_FMODChannel);
 	initPitchSupport();
 }
 

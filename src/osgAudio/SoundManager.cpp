@@ -69,7 +69,8 @@ SoundManager::SoundStateFlyWeight::~SoundStateFlyWeight()
 }
 
 
-SoundManager::SoundManager() : Referenced(), 
+SoundManager::SoundManager()
+    :
 	m_sound_state_FlyWeight(0),
 	m_listener(0), 
 	m_sound_environment(0),  
@@ -96,8 +97,11 @@ void SoundManager::init( unsigned int num_soundsources, bool displayInitMsgs )
 void SoundManager::init(unsigned int num_soundsources, float sound_velocity, bool displayInitMsgs )
 {
 
-	if (!m_sound_environment)
-		m_sound_environment = new AudioEnvironment( displayInitMsgs );
+	if( !m_sound_environment )
+    {
+        m_sound_environment = osgAudio::AudioEnvironment::instance();
+        m_sound_environment->init( displayInitMsgs );
+    }
 
 	if (!m_listener) {
 		m_listener = new Listener;
@@ -247,10 +251,10 @@ bool SoundManager::pushSoundEvent(SoundState *state, unsigned int priority)
 	return false;
 }
 
-SoundManager *SoundManager::instance()
+SoundManager* SoundManager::instance()
 {
-	static osg::ref_ptr< SoundManager > s_SoundManager = new SoundManager;
-	return s_SoundManager.get();
+	static SoundManager* s_SoundManager = new SoundManager();
+	return s_SoundManager;
 }
 
 
@@ -347,8 +351,10 @@ void SoundManager::update()
 	// head to update spatial positions (and other operations).
 	// This is implemented in the AudioEnvironment::update() method.
 	// Do this now.
-	osgAudio::AudioEnvironment::update();
-
+    if( m_sound_environment )
+    {
+        m_sound_environment->update();
+    }
 }
 
 void SoundManager::stopAllSources()
