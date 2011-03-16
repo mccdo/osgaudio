@@ -52,6 +52,8 @@ namespace osgAudio
 	class OSGAUDIO_EXPORT AudioEnvironment
     {
 	public:
+		/// Return a pointer to the singleton object
+		static AudioEnvironment* instance();
 
 		/**
 		 * Initialize the OpenALpp environment.

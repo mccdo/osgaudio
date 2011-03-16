@@ -71,7 +71,7 @@ int main() {
       
       // Calculate a new position
       beesound->setPosition(limits[0]*cos(angle),0.0,limits[1]*sin(angle));
-	  AudioEnvironment::update(); // update 3D spatial state
+	  osgAudio::AudioEnvironment::instance()->update(); // update 3D spatial state
     }
   } catch(Error e) {
     std::cerr << e << "\n";
