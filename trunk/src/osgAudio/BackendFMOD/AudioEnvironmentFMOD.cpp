@@ -38,7 +38,7 @@ using namespace osgAudio;
 * therefore currently unimplemented.
 */
 static FMOD_MODE _FMODDistanceModelTranslate[] = {
-	FMOD_3D_LOGROLLOFF,FMOD_3D_LOGROLLOFF,FMOD_3D_LOGROLLOFF
+	FMOD_3D_LOGROLLOFF,FMOD_3D_LOGROLLOFF,FMOD_3D_LOGROLLOFF,FMOD_3D_LINEARROLLOFF
 	};
 
 AudioEnvironment::AudioEnvironment()
@@ -196,16 +196,7 @@ void AudioEnvironment::setDistanceModel(DistanceModel model) throw (FatalError)
 	// Sound::setMode or Channel::setMode, but I haven't found a global default
 	// that can be changed after System creation-time.
 	_internalDistanceModel = _FMODDistanceModelTranslate[model];
-	// <<<>>> unimplemented in FMOD
-
-	/*
-	result = _system->setDistanceModel(_internalDistanceModel);
-	if(result != FMOD_OK)
-	{
-		throw ValueError("FMOD setDistanceModel()");
-		// FMOD doesn't throw anything like FatalError
-	} // if
-	*/
+	// FMOD sets this on each Source channel as it is created
 } // AudioEnvironment::setDistanceModel
 
 DistanceModel AudioEnvironment::getDistanceModel() throw (FatalError) 

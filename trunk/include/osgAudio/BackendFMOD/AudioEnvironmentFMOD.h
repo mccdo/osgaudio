@@ -39,7 +39,7 @@ namespace osgAudio
 	/**
 	* Used when setting the distance model used in attenuation calculations.
 	*/
-	enum DistanceModel {None,InverseDistance,InverseDistanceClamped};
+	enum DistanceModel {None,InverseDistance,InverseDistanceClamped,Linear};
 
 	/// An AudioEnvironment represents global environmental constants like Gain, Falloff and Sound Velocity.
 	/*!
@@ -147,6 +147,13 @@ namespace osgAudio
 		 * @return the model.
 		 */
 		DistanceModel getDistanceModel() throw (FatalError);
+
+		/**
+		 * Gets the internal FMOD distance model used in attenuation calculations.
+		 * Used internally by Stream and Sample creation code.
+		 * @return FMOD_3D_LOGROLLOFF or FMOD_3D_LINEARROLLOFF.
+		 */
+		FMOD_MODE getInternalDistanceModel() const {return(_internalDistanceModel);}
 
 		/**
 		 * Initiates reverb implementation.

@@ -119,6 +119,9 @@ throw (FatalError){
 	case(InverseDistanceClamped):
 		alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 		break;
+	case(Linear):
+		alDistanceModel(AL_LINEAR_DISTANCE);
+		break;
 	default:
 		throw FatalError("Unknown model in AudioEnvironment::SetDistanceModel()");
 	}
@@ -136,6 +139,8 @@ DistanceModel AudioEnvironment::getDistanceModel() throw (FatalError) {
 		return InverseDistance;
 	case(AL_INVERSE_DISTANCE_CLAMPED):
 		return InverseDistanceClamped;
+	case(AL_LINEAR_DISTANCE):
+		return Linear;
 	default:
 		throw FatalError("Unknown distance model in AudioEnvironment::GetDistanceModel");
 	}

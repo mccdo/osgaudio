@@ -87,7 +87,7 @@ int main( int argc, char **argv )
 	arguments.getApplicationUsage()->addCommandLineOption("--maxsounds <n>","Sets the maximum number of sounds allowed.");
 	arguments.getApplicationUsage()->addCommandLineOption("--gain <n>","Sets the global gain (volume)");
 	arguments.getApplicationUsage()->addCommandLineOption("--dopplerfactor <n>","Sets the doppler factor");
-	arguments.getApplicationUsage()->addCommandLineOption("--distancemodel <mode>", "NONE | INVERSE_DISTANCE |INVERSE_DISTANCE_CLAMPED");
+	arguments.getApplicationUsage()->addCommandLineOption("--distancemodel <mode>", "NONE | INVERSE_DISTANCE | INVERSE_DISTANCE_CLAMPED | LINEAR");
 
 	// construct the viewer.
 	osgViewer::Viewer viewer(arguments);
@@ -127,6 +127,8 @@ int main( int argc, char **argv )
 			distanceModel = osgAudio::InverseDistance;
 		else if (s_model == "INVERSE_DISTANCE_CLAMPED")
 			distanceModel = osgAudio::InverseDistanceClamped;	
+		else if (s_model == "LINEAR")
+			distanceModel = osgAudio::Linear;	
 		else
 			osg::notify(osg::WARN) << "WARNING: I do not understand that -distancemodel parameter" << std::endl;
 	}

@@ -33,10 +33,10 @@ using namespace osgAudio;
 * Used when translating the distance model between osgAudio and openAL++
 */
 static openalpp::DistanceModel _openalppDistanceModelTranslate[] = {
-	openalpp::None,openalpp::InverseDistance,openalpp::InverseDistanceClamped
+	openalpp::None,openalpp::InverseDistance,openalpp::InverseDistanceClamped,openalpp::Linear
 	};
 static osgAudio::DistanceModel _osgAudioDistanceModelTranslate[] = {
-	None,InverseDistance,InverseDistanceClamped
+	None,InverseDistance,InverseDistanceClamped,Linear
 };
 
 AudioEnvironment::AudioEnvironment()
