@@ -107,6 +107,21 @@ namespace osgAudio
 		float getDopplerFactor() throw (FatalError);
 
 		/**
+		 * Sets the unit scale. Not used by OpenAL.
+		 * From FMOD: "How many units per meter does your engine have". For example, if you are using feet then "scale" would equal 3.28.
+		 * According to FMOD this only affects Doppler calculations, not attenuation:
+		 * "This only affects doppler! If you keep your min/max distance, custom rolloff curves and positions in scale relative to each other the volume rolloff will not change. If you set this, the mindistance of a sound will automatically set itself to this value when it is created in case the user forgets to set the mindistance to match the new distancefactor."
+		 * @param factor has a default value of one.
+		 */
+		void setUnitScale(float scale) throw (ValueError,FatalError);
+
+		/**
+		 * Gets the unit scale.  Not used by OpenAL.
+		 * @return Unit scale.
+		 */
+		float getUnitScale() throw (FatalError);
+
+		/**
 		 * Sets global gain (volume).
 		 * The volume a source will be played at will be multiplied by this _after_
 		 * the attenuation calculations.

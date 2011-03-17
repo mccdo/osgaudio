@@ -37,7 +37,6 @@
 
 namespace osgAudio {
 
-	class SounState;
 	class SoundState;
 
 

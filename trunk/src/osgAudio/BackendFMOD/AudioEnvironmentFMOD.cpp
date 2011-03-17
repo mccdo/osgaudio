@@ -164,6 +164,15 @@ float AudioEnvironment::getDopplerFactor() throw (FatalError)
 	// FMOD doesn't throw anything like FatalError
 } // AudioEnvironment::getDopplerFactor
 
+void AudioEnvironment::setUnitScale(float scale) throw (ValueError,FatalError) {
+	_unitScale = scale;
+	_system->set3DSettings(_dopplerFactor, _unitScale, _rolloffScale);
+} 
+
+float AudioEnvironment::getUnitScale() throw (FatalError) {
+	return(_unitScale);
+}
+
 void AudioEnvironment::setGain(float gain) {
 	FMOD::ChannelGroup *channelgroup;
 	_gain = gain;

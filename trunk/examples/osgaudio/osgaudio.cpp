@@ -314,7 +314,7 @@ osg::ref_ptr<osgAudio::SoundState> createSoundState(const std::string& file)
 
     // At 70 the gain will be half of full!
     sound_state->setReferenceDistance(70);
-    sound_state->setRolloffFactor(4);
+    //sound_state->setRolloffFactor(4); // FMOD backend doesn't currently support non-realistic rolloff, so this is omitted
     sound_state->apply();
 
     // Add the soundstate to the sound manager, so we can find it later on if we want to
@@ -397,6 +397,7 @@ int main( int argc, char **argv )
         osgAudio::SoundManager::instance()->init( 16, true );
         osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance);
         osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(1);
+		osgAudio::SoundManager::instance()->getEnvironment()->setUnitScale(3.28);
 
         // load the nodes from the commandline arguments.
         osg::Node* model = createModel();
@@ -413,7 +414,7 @@ int main( int argc, char **argv )
         // Create a sample, load a .wav file.
         osgAudio::Sample *sample = new osgAudio::Sample(
             osgDB::findDataFile( "high-e.wav" ) );
-        osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState("glider");
+        osg::ref_ptr<osgAudio::SoundState> sound_state = new osgAudio::SoundState("high-e");
         sound_state->setSample(sample);
         sound_state->setGain(0.7f);
         sound_state->setReferenceDistance(10);
