@@ -40,7 +40,7 @@ static osgAudio::DistanceModel _osgAudioDistanceModelTranslate[] = {
 };
 
 AudioEnvironment::AudioEnvironment()
-: _dummyUnitScale(1.0f);
+: _dummyUnitScale(1.0f)
 {
 }
 
