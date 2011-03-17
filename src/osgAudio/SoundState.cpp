@@ -31,6 +31,8 @@
 
 using namespace osgAudio;
 
+const float _init_maxDistance(std::numeric_limits<float>::max());
+
 SoundState::SoundState( const std::string& name ) 
     : 
     m_sound_manager(SoundManager::instance()), 
@@ -39,7 +41,7 @@ SoundState::SoundState( const std::string& name )
     m_outerAngle(360), 
     m_outerGain(0), 
     m_referenceDistance(1), 
-    m_maxDistance(100),
+    m_maxDistance(_init_maxDistance),
     m_rolloffFactor(1), 
     m_pitch(1), 
     m_occlude_damping_factor(0.5),
@@ -65,7 +67,7 @@ SoundState::SoundState( const std::string& name, SoundManager *sound_manager )
     m_outerAngle(360), 
     m_outerGain(0), 
     m_referenceDistance(1), 
-    m_maxDistance(100),
+    m_maxDistance(_init_maxDistance),
     m_rolloffFactor(1), 
     m_pitch(1), 
     m_occlude_damping_factor(0.5),
@@ -92,7 +94,7 @@ SoundState::SoundState()
     m_outerAngle(360), 
     m_outerGain(0), 
     m_referenceDistance(1), 
-    m_maxDistance(100),
+    m_maxDistance(_init_maxDistance),
     m_rolloffFactor(1), 
     m_pitch(1), 
     m_occlude_damping_factor(0.5),

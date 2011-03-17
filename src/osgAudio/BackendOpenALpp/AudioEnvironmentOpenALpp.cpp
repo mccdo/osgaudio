@@ -40,8 +40,8 @@ static osgAudio::DistanceModel _osgAudioDistanceModelTranslate[] = {
 };
 
 AudioEnvironment::AudioEnvironment()
+: _dummyUnitScale(1.0f);
 {
-    ;
 }
 
 AudioEnvironment* AudioEnvironment::instance()
@@ -129,6 +129,14 @@ float AudioEnvironment::getDopplerFactor() throw (FatalError) {
 	}
 	catch(openalpp::FatalError error) { throw FatalError(error.what()); }
 	return factor;
+}
+
+void AudioEnvironment::setUnitScale(float scale) throw (ValueError,FatalError) {
+	_dummyUnitScale = scale;
+} 
+
+float AudioEnvironment::getUnitScale() throw (FatalError) {
+	return(_dummyUnitScale);
 }
 
 void AudioEnvironment::setGain(float gain) {

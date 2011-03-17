@@ -393,7 +393,7 @@ int main( int argc, char **argv )
                 sound_state->setSample(sample.get());
                 sound_state->setGain(1.0f);
                 sound_state->setReferenceDistance(60);
-                sound_state->setRolloffFactor(3);
+                //sound_state->setRolloffFactor(3); // FMOD backend doesn't currently support non-realistic rolloff, so this is omitted
                 sound_state->setPlay(true);
                 sound_state->setLooping(true);
 
