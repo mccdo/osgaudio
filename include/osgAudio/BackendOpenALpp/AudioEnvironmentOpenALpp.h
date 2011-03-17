@@ -41,7 +41,7 @@ namespace osgAudio
 	/**
 	 * Used when setting the distance model used in attenuation calculations.
 	 */
-	enum DistanceModel {None,InverseDistance,InverseDistanceClamped};
+	enum DistanceModel {None,InverseDistance,InverseDistanceClamped,Linear};
 
 	/// An AudioEnvironment represents global environmental constants like Gain, Falloff and Sound Velocity.
 	/*!
