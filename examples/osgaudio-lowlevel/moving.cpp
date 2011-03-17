@@ -28,11 +28,11 @@
 #include <iostream>
 
 // Now make sure M_PI is defined:
-#include <math.h>
+#define _USE_MATH_DEFINES 
+#include <cmath>
 #ifndef M_PI
 #define M_PI 3.1415926535897932384626433832795029
 #endif
-
 
 using namespace osgAudio;
 
@@ -42,41 +42,43 @@ using namespace osgAudio;
 	inline void usleep( int x ) { Sleep( x /1000 ); };
 #endif // defined(WIN32) && !defined (OPENALPP_WINDOWSSTUFF_H)
 
-#define _USE_MATH_DEFINES 
-#include <cmath>
+int main() 
+{
+    try 
+    {
+        osg::ref_ptr<Source> beesound = new Source("bee.wav");
+        beesound->setGain(1);
+        beesound->setLooping();
 
-int main() {
-  try {
-    osg::ref_ptr<Source> beesound = new Source("bee.wav");
-    beesound->setGain(1);
-    beesound->setLooping();
+        float limits[2] = {5,-15};
+        float delay=10;
+        float time=0,angle=0;
 
-    float limits[2] = {5,-15};
-    float delay=10;
-    float time=0,angle=0;
-    
-    beesound->setPosition(limits[0],0.0,0.0);
-    beesound->play();
-    
-    const int no_laps=5;
-    
-    std::cerr << "Moving sound 5 laps..." << std::endl;
-    
-    // Do a cheat time loop.
-    while(angle<(M_PI*2.0*no_laps)) {
-      usleep(delay*1000); // Wait for delay milliseconds
+        beesound->setPosition(limits[0],0.0,0.0);
+        beesound->play();
 
-      time +=delay/1000; // Calculate the time in the loop
-      angle=M_PI *time;  // What is the resulting angle
-      
-      // Calculate a new position
-      beesound->setPosition(limits[0]*cos(angle),0.0,limits[1]*sin(angle));
-	  osgAudio::AudioEnvironment::instance()->update(); // update 3D spatial state
+        const int no_laps=5;
+
+        std::cerr << "Moving sound 5 laps..." << std::endl;
+
+        // Do a cheat time loop.
+        while(angle<(M_PI*2.0*no_laps)) 
+        {
+            usleep(delay*1000); // Wait for delay milliseconds
+
+            time +=delay/1000; // Calculate the time in the loop
+            angle=M_PI *time;  // What is the resulting angle
+
+            // Calculate a new position
+            beesound->setPosition(limits[0]*cos(angle),0.0,limits[1]*sin(angle));
+            osgAudio::AudioEnvironment::instance()->update(); // update 3D spatial state
+        }
     }
-  } catch(Error e) {
-    std::cerr << e << "\n";
-    return -1;
-  }
-  return 0;
+    catch(Error e) 
+    {
+        std::cerr << e << "\n";
+        return -1;
+    }
+    return 0;
 }
   
