@@ -23,6 +23,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
  */
 
+///This include and definition must be left here otherwise the max
+///function is picked up as the max macro on windows instead of the
+///templated function for numeric_limits. Who knows why that is happening....
+#include <limits>
+const float _init_maxDistance = std::numeric_limits< float >::max();
 
 #include <osg/Notify>
 
@@ -31,7 +36,6 @@
 
 using namespace osgAudio;
 
-const float _init_maxDistance(std::numeric_limits<float>::max());
 
 SoundState::SoundState( const std::string& name ) 
     : 
