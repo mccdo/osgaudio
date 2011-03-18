@@ -23,19 +23,20 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
  */
 
-///This include and definition must be left here otherwise the max
-///function is picked up as the max macro on windows instead of the
-///templated function for numeric_limits. Who knows why that is happening....
-#include <limits>
-const float _init_maxDistance = std::numeric_limits< float >::max();
+// Force the use of the stl max function not the windows.h function
+#ifdef WIN32
+#define NOMINMAX
+#endif
 
 #include <osg/Notify>
 
 #include <osgAudio/SoundState.h>
 #include <osgAudio/SoundManager.h>
 
-using namespace osgAudio;
+#include <limits>
+const float _init_maxDistance = std::numeric_limits< float >::max();
 
+using namespace osgAudio;
 
 SoundState::SoundState( const std::string& name ) 
     : 
