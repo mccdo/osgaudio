@@ -30,6 +30,7 @@
 #include <osgAudio/Sample.h>
 #include <osgAudio/FileStream.h>
 #include <osgAudio/AudioEnvironment.h>
+#include <osgAudio/SoundDefaults.h>
 
 using namespace osgAudio;
 
@@ -86,21 +87,24 @@ void Source::internalInit(void)
 	_position.x = _position.y = _position.z = 0.0f;
 	_velocity.x = _velocity.y = _velocity.z = 0.0f;
 	_zero.x = _zero.y = _zero.z = 0.0f;
-	_maxDistance = std::numeric_limits<float>::max();
-	_minDistance = 1.0;
-	_volume = 1.0;
+	_maxDistance = _init_maxDistance();
+	_minDistance = _init_referenceDistance();
+	_volume = _init_gain();
 
 	_isAmbient = _isRelative = false;
 
-	_reverbScale = 1.0f;
-	_reverbDelay = 0.0f;
+	// These two parameters are unimplemented in FMOD
+	_reverbScale = _init_reverbScale();
+	_reverbDelay = _init_reverbDelay();
 
-	_rolloffFactor = 0.0; // 0.0 is FMOD default
-	_pitch = 1.0; // nominal
+	_rolloffFactor = 0.0; // FMOD doesn't currently support this kind of factor
+	_pitch = _init_pitch();
 	_nominalFrequency = 0.0; // undefined until playing
 
 	// cone settings
-	_innerAngle = _outerAngle = _outerGain = 1.0;
+	_innerAngle = _init_innerAngle();
+	_outerAngle = _init_outerAngle();
+	_outerGain  = _init_outerGain();
 
 } // Source::internalInit
 

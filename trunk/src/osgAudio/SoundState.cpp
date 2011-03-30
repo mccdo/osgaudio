@@ -32,6 +32,7 @@
 
 #include <osgAudio/SoundState.h>
 #include <osgAudio/SoundManager.h>
+#include <osgAudio/SoundDefaults.h>
 
 #include <limits>
 const float _init_maxDistance = std::numeric_limits< float >::max();
@@ -41,16 +42,16 @@ using namespace osgAudio;
 SoundState::SoundState( const std::string& name ) 
     : 
     m_sound_manager(SoundManager::instance()), 
-    m_gain(1), 
-    m_innerAngle(360), 
-    m_outerAngle(360), 
-    m_outerGain(0), 
-    m_referenceDistance(1), 
-    m_maxDistance(_init_maxDistance),
-    m_rolloffFactor(1), 
-    m_pitch(1), 
-    m_occlude_damping_factor(0.5),
-    m_occlude_scale(1.0f),  
+    m_gain(_init_gain()), 
+    m_innerAngle(_init_innerAngle()), 
+    m_outerAngle(_init_outerAngle()), 
+    m_outerGain(_init_outerGain()), 
+    m_referenceDistance(_init_referenceDistance()), 
+    m_maxDistance(_init_maxDistance()),
+    m_rolloffFactor(_init_rolloffFactor()), 
+    m_pitch(_init_pitch()), 
+    m_occlude_damping_factor(_init_occludeDampingFactor()),
+    m_occlude_scale(_init_occludeScale()),  
     m_is_occluded(false), 
     m_looping(false),
     m_ambient(false), 
@@ -67,16 +68,16 @@ SoundState::SoundState( const std::string& name )
 SoundState::SoundState( const std::string& name, SoundManager *sound_manager ) 
     : 
     m_sound_manager(sound_manager), 
-    m_gain(1), 
-    m_innerAngle(360), 
-    m_outerAngle(360), 
-    m_outerGain(0), 
-    m_referenceDistance(1), 
-    m_maxDistance(_init_maxDistance),
-    m_rolloffFactor(1), 
-    m_pitch(1), 
-    m_occlude_damping_factor(0.5),
-    m_occlude_scale(1.0f),  
+    m_gain(_init_gain()), 
+    m_innerAngle(_init_innerAngle()), 
+    m_outerAngle(_init_outerAngle()), 
+    m_outerGain(_init_outerGain()), 
+    m_referenceDistance(_init_referenceDistance()), 
+    m_maxDistance(_init_maxDistance()),
+    m_rolloffFactor(_init_rolloffFactor()), 
+    m_pitch(_init_pitch()), 
+    m_occlude_damping_factor(_init_occludeDampingFactor()),
+    m_occlude_scale(_init_occludeScale()),  
     m_is_occluded(false), 
     m_looping(false),
     m_ambient(false), 
@@ -94,16 +95,16 @@ SoundState::SoundState( const std::string& name, SoundManager *sound_manager )
 SoundState::SoundState() 
     : 
     m_sound_manager(SoundManager::instance()), 
-    m_gain(1), 
-    m_innerAngle(360), 
-    m_outerAngle(360), 
-    m_outerGain(0), 
-    m_referenceDistance(1), 
-    m_maxDistance(_init_maxDistance),
-    m_rolloffFactor(1), 
-    m_pitch(1), 
-    m_occlude_damping_factor(0.5),
-    m_occlude_scale(1.0f),  
+    m_gain(_init_gain()), 
+    m_innerAngle(_init_innerAngle()), 
+    m_outerAngle(_init_outerAngle()), 
+    m_outerGain(_init_outerGain()), 
+    m_referenceDistance(_init_referenceDistance()), 
+    m_maxDistance(_init_maxDistance()),
+    m_rolloffFactor(_init_rolloffFactor()), 
+    m_pitch(_init_pitch()), 
+    m_occlude_damping_factor(_init_occludeDampingFactor()),
+    m_occlude_scale(_init_occludeScale()),  
     m_is_occluded(false), 
     m_looping(false),
     m_ambient(false), 

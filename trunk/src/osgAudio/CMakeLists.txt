@@ -51,6 +51,7 @@ SET(LIB_PUBLIC_HEADERS
 	${HEADER_PATH}/Listener.h
 	${HEADER_PATH}/OccludeCallback.h
 	${HEADER_PATH}/Sample.h
+	${HEADER_PATH}/SoundDefaults.h
 	${HEADER_PATH}/SoundManager.h
 	${HEADER_PATH}/SoundNode.h
 	${HEADER_PATH}/SoundUpdateCB.h
@@ -73,6 +74,7 @@ ADD_LIBRARY(
 	Listener.cpp
 	OccludeCallback.cpp
 	Sample.cpp
+	SoundDefaults.cpp
 	SoundManager.cpp
 	SoundNode.cpp
 	SoundUpdateCB.cpp
