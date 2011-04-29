@@ -197,6 +197,10 @@ MACRO( INSTALL_EXAMPLE EXENAME )
     )
 ENDMACRO( INSTALL_EXAMPLE EXENAME )
 
+option( OSGAUDIO_INSTALL_DATA "Enable to add the data directory to the install target" ON )
+if( OSGAUDIO_INSTALL_DATA )
+    add_subdirectory( data )
+endif()
 
 
 ADD_SUBDIRECTORY(src)
