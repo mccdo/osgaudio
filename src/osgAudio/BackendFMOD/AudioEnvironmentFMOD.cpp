@@ -37,9 +37,15 @@ using namespace osgAudio;
 * offer set3DCustomRolloff() but that seems excessive for this use and is
 * therefore currently unimplemented.
 */
+#if FMOD_VERSION < 0x00043405
 static FMOD_MODE _FMODDistanceModelTranslate[] = {
 	FMOD_3D_LOGROLLOFF,FMOD_3D_LOGROLLOFF,FMOD_3D_LOGROLLOFF,FMOD_3D_LINEARROLLOFF
 	};
+#else
+static FMOD_MODE _FMODDistanceModelTranslate[] = {
+	FMOD_3D_INVERSEROLLOFF,FMOD_3D_INVERSEROLLOFF,FMOD_3D_INVERSEROLLOFF,FMOD_3D_LINEARROLLOFF
+	};
+#endif
 
 AudioEnvironment::AudioEnvironment()
     :
@@ -86,7 +92,11 @@ void AudioEnvironment::initInternals()
 	_unitScale = 1.0; // 1.0 = meters;
 	_gain = 1.0;
 
+#if FMOD_VERSION < 0x00043405
 	_internalDistanceModel = FMOD_3D_LOGROLLOFF;
+#else
+	_internalDistanceModel = FMOD_3D_INVERSEROLLOFF;
+#endif
 	_externalDistanceModel = InverseDistanceClamped;
 
 	_speedOfSound = 343.0f;
