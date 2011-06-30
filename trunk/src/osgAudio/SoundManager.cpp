@@ -157,12 +157,17 @@ void SoundManager::shutdown()
 
 	m_sample_cache.clear();
 	m_stream_cache.clear();
+
+#ifdef ENABLE_SUBSYSTEM_OPENAL
+    //This is needed specifically for OpenAL because it requires an explicit
+    //shutdown process
+    m_sound_environment->shutdown();
+#endif
 	m_listener=0;
 	m_sound_state_FlyWeight=0;
 	m_sound_environment=0;
 
 	m_initialized=false;
-
 }
 
 SoundManager::~SoundManager()

@@ -95,6 +95,13 @@ AudioEnvironment::~AudioEnvironment()
 	} // if
 } // AudioEnvironment::~AudioEnvironment
 
+void AudioEnvironment::shutdown()
+{
+	if(_openalppAudioEnvironment.valid())
+	{
+		_openalppAudioEnvironment = NULL; // deletes it
+	}
+}
 
 void AudioEnvironment::setSoundVelocity(float speed) throw(ValueError,FatalError){
 	try {
