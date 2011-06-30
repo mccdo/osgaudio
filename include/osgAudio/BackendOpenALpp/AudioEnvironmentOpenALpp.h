@@ -165,6 +165,12 @@ namespace osgAudio
 		 */
         void update(void) {};
 
+        /**
+         * OpenAL must be completely shutdown before main is exited. This function must
+         * be called before exiting.
+         */
+        void shutdown();
+
 	private:
 		/**
          * Destructor.
