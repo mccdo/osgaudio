@@ -50,8 +50,8 @@ void Sample::createSampleFromFilename(const std::string& filename ) throw (FileE
 	_FMODSound = NULL;
 
 	FMOD_RESULT createResult;
-	createResult = osgAudio::SoundManager::instance()->getEnvironment()->
-     getSystem()->createSound(filename.c_str(),
+	createResult = osgAudio::AudioEnvironment::instance()->getSystem()->
+     createSound(filename.c_str(),
 	 FMOD_3D | osgAudio::SoundManager::instance()->getEnvironment()->getInternalDistanceModel(),
 	 0, &_FMODSound);
 
