@@ -28,6 +28,8 @@
 #include <iostream>
 #include <osgAudio/Source.h>
 #include <osgAudio/FileStream.h>
+#include <osgAudio/AudioEnvironment.h>
+
 #include <vector>
 
 using namespace osgAudio;
@@ -37,6 +39,7 @@ int main(int argc,char **argv) {
 
   try 
   {
+      osgAudio::AudioEnvironment::instance()->init();
     typedef std::vector<osg::ref_ptr<Source> > SourceVector;
     SourceVector sourceVector;
     for (int i=0; i < 8; i++)

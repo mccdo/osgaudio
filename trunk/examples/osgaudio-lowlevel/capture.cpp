@@ -55,6 +55,7 @@ int main(int argc,char **argv) {
 #ifdef COMMENTED_OUT // <<<>>> Capture not currently supported, unknown if it will be anytime soon
   try 
   {
+    osgAudio::AudioEnvironment::instance()->init();
 
     osg::ref_ptr<Capture> input = new Capture(0,44100*0.5,2048*4,Mono16);
     osg::ref_ptr<Source> source = new Source(input.get());

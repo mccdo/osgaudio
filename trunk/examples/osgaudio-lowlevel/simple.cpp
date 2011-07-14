@@ -26,6 +26,7 @@
 #include <iostream>
 #include <osgAudio/Source.h>
 #include <osgAudio/Sample.h>
+#include <osgAudio/AudioEnvironment.h>
 
 using namespace osgAudio;
 
@@ -41,6 +42,7 @@ int main(int argc,char **argv) {
   std::cout << "Playing " << file << "\n";
 
   try {
+      osgAudio::AudioEnvironment::instance()->init();
     osg::ref_ptr<Source> bgsound = new Source; //(file);   // Create source and load sound
     bgsound->stop();
     osg::ref_ptr<Sample> sample = new Sample(file);
