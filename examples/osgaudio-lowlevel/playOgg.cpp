@@ -28,6 +28,7 @@
 #include <iostream>
 #include <osgAudio/Source.h>
 #include <osgAudio/FileStream.h>
+#include <osgAudio/AudioEnvironment.h>
 
 #define CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -49,6 +50,7 @@ int main(int argc,char **argv) {
 
   try 
     {
+        osgAudio::AudioEnvironment::instance()->init();
 
       osg::ref_ptr<FileStream> fstream = new FileStream(argv[1]);
       osg::ref_ptr<Source> source = new Source(fstream.get());

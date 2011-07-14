@@ -46,6 +46,8 @@ int main()
 {
     try 
     {
+        osgAudio::AudioEnvironment::instance()->init();
+        
         osg::ref_ptr<Source> beesound = new Source("bee.wav");
         beesound->setGain(1);
         beesound->setLooping();

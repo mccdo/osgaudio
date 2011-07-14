@@ -24,6 +24,7 @@
  */
 
 #include <osgAudio/Source.h>
+#include <osgAudio/AudioEnvironment.h>
 #include <osgAudio/Sample.h>
 
 #include <iostream>
@@ -44,6 +45,7 @@ int main()
 
   std::cerr << "Loads a sample at the time, plays it for a while, then loads another one etc.." << std::endl;
   try {
+      osgAudio::AudioEnvironment::instance()->init();
 
     std::vector<std::string> file_vector;
     

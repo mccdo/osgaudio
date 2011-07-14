@@ -25,6 +25,7 @@
 
 #include <osgAudio/Source.h>
 #include <osgAudio/FileStream.h>
+#include <osgAudio/AudioEnvironment.h>
 
 #include <iostream>
 #include <vector>
@@ -133,6 +134,7 @@ int main(int argc,char **argv) {
     usleep(500000);
     try 
     {
+        osgAudio::AudioEnvironment::instance()->init();
 
         osg::ref_ptr<Source> source = new Source;
 
