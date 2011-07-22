@@ -61,9 +61,9 @@
 
 /// Integration of 3D Sound into OpenSceneGraph.
 namespace osgAudio {
-	OSGAUDIO_EXPORT std::string getVersion();
-	OSGAUDIO_EXPORT unsigned int getVersionNumber();
-	OSGAUDIO_EXPORT std::string getLibraryName();
+    OSGAUDIO_EXPORT std::string getVersion();
+    OSGAUDIO_EXPORT unsigned int getVersionNumber();
+    OSGAUDIO_EXPORT std::string getLibraryName();
 } // namespace osgAudio
 
 #endif // OSGAUDIO_VERSION_H

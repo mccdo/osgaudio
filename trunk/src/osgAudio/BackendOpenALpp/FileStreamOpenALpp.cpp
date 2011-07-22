@@ -32,20 +32,20 @@ using namespace osgAudio;
 FileStream::FileStream(const std::string& filename,const int buffersize)
 throw (NameError,InitError,FileError) 
 : Stream(0) {
-	try {
-	_openalppStream = new openalpp::FileStream (filename, buffersize);
-	}
-	catch(openalpp::NameError error) { throw NameError(error.what()); }
-	catch(openalpp::InitError error) { throw InitError(error.what()); }
-	catch(openalpp::FileError error) { throw FileError(error.what()); }
+    try {
+    _openalppStream = new openalpp::FileStream (filename, buffersize);
+    }
+    catch(openalpp::NameError error) { throw NameError(error.what()); }
+    catch(openalpp::InitError error) { throw InitError(error.what()); }
+    catch(openalpp::FileError error) { throw FileError(error.what()); }
 }
 
 FileStream::FileStream(const FileStream &stream)
 : Stream(0) {
-	// static cast to our derived subclass.
-	// Cast could only fail if everything were amiss,
-	// so dynamic_cast isn't an advantage here.
-	_openalppStream = new openalpp::FileStream(*static_cast<openalpp::FileStream *>(stream._openalppStream.get()));
+    // static cast to our derived subclass.
+    // Cast could only fail if everything were amiss,
+    // so dynamic_cast isn't an advantage here.
+    _openalppStream = new openalpp::FileStream(*static_cast<openalpp::FileStream *>(stream._openalppStream.get()));
 }
 
 FileStream::~FileStream() 
@@ -53,23 +53,23 @@ FileStream::~FileStream()
 }
 
 FileStream &FileStream::operator=(const FileStream &stream) {
-	if(&stream!=this) 
-	{
-		*_openalppStream = *(stream._openalppStream.get());
-	}
-	return *this;
+    if(&stream!=this) 
+    {
+        *_openalppStream = *(stream._openalppStream.get());
+    }
+    return *this;
 }
 
 void FileStream::setLooping(bool loop) {
-	// static cast to our derived subclass.
-	// Cast could only fail if everything were amiss,
-	// so dynamic_cast isn't an advantage here.
-	(static_cast<openalpp::FileStream *>(_openalppStream.get()))->setLooping(loop);
+    // static cast to our derived subclass.
+    // Cast could only fail if everything were amiss,
+    // so dynamic_cast isn't an advantage here.
+    (static_cast<openalpp::FileStream *>(_openalppStream.get()))->setLooping(loop);
 }
 
 std::string FileStream::getFilename() const {
-	// static cast to our derived subclass.
-	// Cast could only fail if everything were amiss,
-	// so dynamic_cast isn't an advantage here.
-	return (static_cast<openalpp::FileStream *>(_openalppStream.get()))->getFileName();
+    // static cast to our derived subclass.
+    // Cast could only fail if everything were amiss,
+    // so dynamic_cast isn't an advantage here.
+    return (static_cast<openalpp::FileStream *>(_openalppStream.get()))->getFileName();
 }

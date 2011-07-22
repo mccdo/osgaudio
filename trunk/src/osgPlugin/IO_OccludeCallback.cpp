@@ -62,28 +62,28 @@ RegisterDotOsgWrapperProxy OccludeCallbackProxyBCAL
 bool OccludeCallback_readLocalData(osg::Object &obj, osgDB::Input &fr)
 {
 
-	OccludeCallback &oc = static_cast<OccludeCallback&>(obj);
+    OccludeCallback &oc = static_cast<OccludeCallback&>(obj);
 
-	Node *n = dynamic_cast<Node*>(fr.readObject());
-	if(n != NULL)
-		oc.setOccludingNode(n);
+    Node *n = dynamic_cast<Node*>(fr.readObject());
+    if(n != NULL)
+        oc.setOccludingNode(n);
 
-	if (fr.matchSequence("nearThreshold %f")) {
-		float f;
-		fr[1].getFloat(f);
-		oc.setNearThreshold(f);
-		fr += 2;
-	} else 
-		return false;
+    if (fr.matchSequence("nearThreshold %f")) {
+        float f;
+        fr[1].getFloat(f);
+        oc.setNearThreshold(f);
+        fr += 2;
+    } else 
+        return false;
 
-	return true;
+    return true;
 }
 
 bool OccludeCallback_writeLocalData(const Object& obj, Output& fw)
 {
-	const OccludeCallback &oc = static_cast<const OccludeCallback&>(obj);
-	if(oc.getOccludingNode() != NULL) 
-		fw.writeObject( *oc.getOccludingNode() );
-	fw.indent() << "nearThreshold " << oc.getNearThreshold() << std::endl;
-	return true;
+    const OccludeCallback &oc = static_cast<const OccludeCallback&>(obj);
+    if(oc.getOccludingNode() != NULL) 
+        fw.writeObject( *oc.getOccludingNode() );
+    fw.indent() << "nearThreshold " << oc.getNearThreshold() << std::endl;
+    return true;
 }

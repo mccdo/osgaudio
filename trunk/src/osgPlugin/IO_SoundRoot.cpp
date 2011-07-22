@@ -62,27 +62,27 @@ RegisterDotOsgWrapperProxy SoundRootProxyBCAL
 
 bool SoundRoot_readLocalData(osg::Object &obj, osgDB::Input &fr)
 {
-	SoundRoot &sr = static_cast<SoundRoot&>(obj);
+    SoundRoot &sr = static_cast<SoundRoot&>(obj);
 
-	if (fr[0].matchWord("updateEnable")) {
-		if (fr[1].matchWord("TRUE"))
-			sr.setUpdateEnable(true);
-		else if (fr[1].matchWord("FALSE"))
-			sr.setUpdateEnable(false);
-		fr += 2;
-	} else
-		return false;
+    if (fr[0].matchWord("updateEnable")) {
+        if (fr[1].matchWord("TRUE"))
+            sr.setUpdateEnable(true);
+        else if (fr[1].matchWord("FALSE"))
+            sr.setUpdateEnable(false);
+        fr += 2;
+    } else
+        return false;
 
-	return true;
+    return true;
 }
 
 bool SoundRoot_writeLocalData(const Object& obj, Output& fw)
 {
-	const SoundRoot &sr = static_cast<const SoundRoot&>(obj);
+    const SoundRoot &sr = static_cast<const SoundRoot&>(obj);
 
-	fw.indent() << "updateEnable ";
-	if (sr.getUpdateEnable()) fw << "TRUE"<< std::endl;
-	else fw << "FALSE"<< std::endl;
+    fw.indent() << "updateEnable ";
+    if (sr.getUpdateEnable()) fw << "TRUE"<< std::endl;
+    else fw << "FALSE"<< std::endl;
 
-	return true;
+    return true;
 }

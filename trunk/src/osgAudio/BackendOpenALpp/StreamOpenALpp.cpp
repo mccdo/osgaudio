@@ -29,59 +29,59 @@
 using namespace osgAudio;
 
 Stream::Stream() throw (NameError) {
-	try {
-	_openalppStream = new openalpp::Stream ();
-	}
-	catch(openalpp::NameError error) { throw NameError(error.what()); }
+    try {
+    _openalppStream = new openalpp::Stream ();
+    }
+    catch(openalpp::NameError error) { throw NameError(error.what()); }
 } // Stream::Stream
 
 Stream::Stream(const Stream &stream) {
-	_openalppStream = new openalpp::Stream (*(stream.getInternalStream()));
+    _openalppStream = new openalpp::Stream (*(stream.getInternalStream()));
 } // Stream::Stream
 
 Stream &Stream::operator=(const Stream &stream) {
-	if(this!=&stream) {
-		*_openalppStream = *(stream._openalppStream.get());
-	}
-	return *this;
+    if(this!=&stream) {
+        *_openalppStream = *(stream._openalppStream.get());
+    }
+    return *this;
 } // Stream::operator=
 
 void Stream::prepareForDeletion()
 {
-	_openalppStream->prepareForDeletion();
+    _openalppStream->prepareForDeletion();
 } // Stream::prepareForDeletion
 
 
 Stream::~Stream() {
-	// everything done in wrapped openalpp::Stream
+    // everything done in wrapped openalpp::Stream
 } // Stream::~Stream
 
 /*
 // <<<>>> TBI
 void Stream::record(ALuint sourcename) {
-	if(!updater_)
-		throw FatalError("No updater thread for stream!");
-	if (!isRecording_)
-		alSourcei(sourcename,AL_BUFFER,0);
+    if(!updater_)
+        throw FatalError("No updater thread for stream!");
+    if (!isRecording_)
+        alSourcei(sourcename,AL_BUFFER,0);
 
-	updater_->addSource(sourcename);
-	isRecording_ = true;
+    updater_->addSource(sourcename);
+    isRecording_ = true;
 } // Stream::record
 */
 
 
 void Stream::seek(float time_s)
 {
-	_openalppStream->seek(time_s);
+    _openalppStream->seek(time_s);
 } // Stream::seek
 
 /*
 // <<<>>> TBI
 void Stream::stop(ALuint sourcename) {
-	if(!updater_)
-		throw FatalError("No updater thread for stream!");
-	updater_->removeSource(sourcename);
-	isRecording_ = false;
+    if(!updater_)
+        throw FatalError("No updater thread for stream!");
+    updater_->removeSource(sourcename);
+    isRecording_ = false;
 } // Stream::stop
 */
 

@@ -87,13 +87,13 @@ SoundRoot::SoundRoot()
 
 SoundRoot & SoundRoot::operator=(const SoundRoot &node)
 { 
-	if (this == &node) return *this; 
+    if (this == &node) return *this; 
 
     _camera = node._camera;
-	m_last_time = node.m_last_time;
+    m_last_time = node.m_last_time;
     m_update_enabled = node.m_update_enabled;
 
-	return *this;
+    return *this;
 }
 
 
@@ -101,7 +101,7 @@ SoundRoot & SoundRoot::operator=(const SoundRoot &node)
 SoundRoot::SoundRoot(const SoundRoot &copy, const osg::CopyOp &copyop)
   : osg::Node( copy, copyop )
 {
-	*this = copy;
+    *this = copy;
 }
 
 
@@ -127,12 +127,12 @@ void SoundRoot::update( osg::NodeVisitor* nv )
 
     if (time_to_update && m_update_enabled)
     {
-	    m_last_time = curr_time;
+        m_last_time = curr_time;
 
-	    if( osgAudio::SoundManager::instance()->initialized())
+        if( osgAudio::SoundManager::instance()->initialized())
         {
-	        // Update the soundmanager (process queued sound states)
-	        osgAudio::SoundManager::instance()->update();
+            // Update the soundmanager (process queued sound states)
+            osgAudio::SoundManager::instance()->update();
 
             // Set the position/orientation of the listener.
             // This is only done if there's a Camera; otherwise, the
@@ -140,7 +140,7 @@ void SoundRoot::update( osg::NodeVisitor* nv )
             if( getCamera() != NULL )
             {
                 osg::Matrixd m( getCamera()->getViewMatrix() );
-	            osgAudio::SoundManager::instance()->setListenerMatrix( m );
+                osgAudio::SoundManager::instance()->setListenerMatrix( m );
             }
         }
     }

@@ -37,48 +37,48 @@
 
 namespace osgAudio 
 {
-	/// A FileStream is an audio stream resident in a (typically compressed) file like MP3 or OGG.
-	/*!
-	This class offers a basic abstract API that adapts to various audio backends.
-	It is based on the Adapter Design pattern.
-	*/
+    /// A FileStream is an audio stream resident in a (typically compressed) file like MP3 or OGG.
+    /*!
+    This class offers a basic abstract API that adapts to various audio backends.
+    It is based on the Adapter Design pattern.
+    */
 
-	class OSGAUDIO_EXPORT FileStream : public osgAudio::Stream {
-	public:
-		/**
-		* Constructor. A FileError will be thrown if the file can't be opened or
-		* isn't recognized.
-		* @param filename is the name of the file to try to open.
-		* @param buffersize is an optional parameter specifying how large the
-		* buffer should be (in samples per second).
-		*/
-		FileStream(const std::string& filename,const int buffersize=4096) 
-			throw (NameError,InitError,FileError);
+    class OSGAUDIO_EXPORT FileStream : public osgAudio::Stream {
+    public:
+        /**
+        * Constructor. A FileError will be thrown if the file can't be opened or
+        * isn't recognized.
+        * @param filename is the name of the file to try to open.
+        * @param buffersize is an optional parameter specifying how large the
+        * buffer should be (in samples per second).
+        */
+        FileStream(const std::string& filename,const int buffersize=4096) 
+            throw (NameError,InitError,FileError);
 
-		/**
-		* Copy constructor.
-		*/
-		FileStream(const FileStream &stream);
+        /**
+        * Copy constructor.
+        */
+        FileStream(const FileStream &stream);
 
 
-		FileStream &operator=(const FileStream &stream);
+        FileStream &operator=(const FileStream &stream);
 
-		/**
-		* Turn on/off looping.
-		* @param loop is true if the stream should loop, false otherwise.
-		*/
-		void setLooping(bool loop = true);
+        /**
+        * Turn on/off looping.
+        * @param loop is true if the stream should loop, false otherwise.
+        */
+        void setLooping(bool loop = true);
 
-		std::string getFilename() const;
+        std::string getFilename() const;
 
-	protected:
-		/**
-		* Destructor.
-		*/
-		virtual ~FileStream();
+    protected:
+        /**
+        * Destructor.
+        */
+        virtual ~FileStream();
 
-		// we have no FileStream object here, because it is a derived class of Stream, so we store it there
-		}; // FileStream
+        // we have no FileStream object here, because it is a derived class of Stream, so we store it there
+        }; // FileStream
 
 
 } // namespace osgAudio

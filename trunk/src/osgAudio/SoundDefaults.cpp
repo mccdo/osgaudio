@@ -27,18 +27,18 @@
 
 namespace osgAudio {
 
-	float _init_gain(void) {return(1.0f);}
-	float _init_innerAngle(void) {return(360.0f);}
-	float _init_outerAngle(void) {return(360.0f);}
-	float _init_outerGain(void) {return(0.0f);}
-	float _init_referenceDistance(void) {return(1.0f);}
-	float _init_maxDistance(void) {return(std::numeric_limits<float>::max());}
-	float _init_rolloffFactor(void) {return(1.0f);}
-	float _init_pitch(void) {return(1.0f);}
-	float _init_occludeDampingFactor(void) {return(0.5f);}
-	float _init_occludeScale(void) {return(1.0f);}
-	float _init_reverbScale(void) {return(0.25f);}
-	float _init_reverbDelay(void) {return(0.0f);}
+    float _init_gain(void) {return(1.0f);}
+    float _init_innerAngle(void) {return(360.0f);}
+    float _init_outerAngle(void) {return(360.0f);}
+    float _init_outerGain(void) {return(0.0f);}
+    float _init_referenceDistance(void) {return(1.0f);}
+    float _init_maxDistance(void) {return(std::numeric_limits<float>::max());}
+    float _init_rolloffFactor(void) {return(1.0f);}
+    float _init_pitch(void) {return(1.0f);}
+    float _init_occludeDampingFactor(void) {return(0.5f);}
+    float _init_occludeScale(void) {return(1.0f);}
+    float _init_reverbScale(void) {return(0.25f);}
+    float _init_reverbDelay(void) {return(0.0f);}
 
 } // Namespace osgAudio
 

@@ -29,52 +29,52 @@
 using namespace openalpp;
 
 Stream::Stream() throw (NameError) : SoundData(), isRecording_(false) {
-	buffer2_=new SoundData();
-	updater_=NULL;
+    buffer2_=new SoundData();
+    updater_=NULL;
 }
 
 Stream::Stream(const Stream &stream) : SoundData((const SoundData &)stream) {
-	buffer2_=stream.buffer2_;//->reference();
-	updater_=stream.updater_;//->reference();
-	isRecording_ = stream.isRecording_;
+    buffer2_=stream.buffer2_;//->reference();
+    updater_=stream.updater_;//->reference();
+    isRecording_ = stream.isRecording_;
 }
 
 Stream &Stream::operator=(const Stream &stream) {
-	if(this!=&stream) {
-		SoundData::operator=((const SoundData &)stream);
-		buffer2_=stream.buffer2_;//->reference();
-		updater_=stream.updater_;//->reference();
-	}
-	return *this;
+    if(this!=&stream) {
+        SoundData::operator=((const SoundData &)stream);
+        buffer2_=stream.buffer2_;//->reference();
+        updater_=stream.updater_;//->reference();
+    }
+    return *this;
 }
 
 Stream::~Stream() {
-	updater_ = 0L;
+    updater_ = 0L;
 }
 
 void Stream::record(ALuint sourcename) {
-	if(!updater_)
-		throw FatalError("No updater thread for stream!");
-	if (!isRecording_)
-		alSourcei(sourcename,AL_BUFFER,0);
+    if(!updater_)
+        throw FatalError("No updater thread for stream!");
+    if (!isRecording_)
+        alSourcei(sourcename,AL_BUFFER,0);
 
-	updater_->addSource(sourcename);
-	isRecording_ = true;
+    updater_->addSource(sourcename);
+    isRecording_ = true;
 }
 
 
 
 void Stream::seek(float time_s)
 {
-	if (updater_.valid())
-	{
-		updater_->seek(time_s);
-	}
+    if (updater_.valid())
+    {
+        updater_->seek(time_s);
+    }
 }
 
 void Stream::stop(ALuint sourcename) {
-	if(!updater_)
-		throw FatalError("No updater thread for stream!");
-	updater_->removeSource(sourcename);
-	isRecording_ = false;
+    if(!updater_)
+        throw FatalError("No updater thread for stream!");
+    updater_->removeSource(sourcename);
+    isRecording_ = false;
 }

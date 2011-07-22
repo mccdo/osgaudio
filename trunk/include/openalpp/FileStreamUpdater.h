@@ -36,63 +36,63 @@
 
 namespace openalpp {
 
-	/**
-	* Updater for streams from files.
-	*/
-	class OPENALPP_API FileStreamUpdater : public StreamUpdater 
-	{
-		OggVorbis_File *oggfile_; // The file structure
-		const unsigned int buffersize_; // Size of the buffer in bytes
-		ALshort *buffer_;
-		bool seekPending_; // true if seek is waiting to be performed in update
-		float seekTime_; // time in seconds to seek to
-		bool looping_;            // Are we looping or not?
+    /**
+    * Updater for streams from files.
+    */
+    class OPENALPP_API FileStreamUpdater : public StreamUpdater 
+    {
+        OggVorbis_File *oggfile_; // The file structure
+        const unsigned int buffersize_; // Size of the buffer in bytes
+        ALshort *buffer_;
+        bool seekPending_; // true if seek is waiting to be performed in update
+        float seekTime_; // time in seconds to seek to
+        bool looping_;            // Are we looping or not?
 
-		/**
-		* Perform seek on stream
-		* @return true if seek was performed with no errors
-		*/
-		bool seekNow(float time_s);
+        /**
+        * Perform seek on stream
+        * @return true if seek was performed with no errors
+        */
+        bool seekNow(float time_s);
 
-	public:
-		/**
-		* Constructor.
-		* @param oggfile is the structure created by ov_open
-		* @param buffer1 and...
-		* @param buffer2 are the sound buffers to use.
-		* @param format is the (OpenAL) format of the sound data.
-		* @param frequency is the frequency of the sound data.
-		* @param buffersize is the size of the buffer (in bytes)
-		*/
-		FileStreamUpdater(OggVorbis_File *oggfile,
-			const ALuint buffer1,ALuint buffer2,
-			ALenum format,unsigned int frequency,
-			unsigned int buffersize);
+    public:
+        /**
+        * Constructor.
+        * @param oggfile is the structure created by ov_open
+        * @param buffer1 and...
+        * @param buffer2 are the sound buffers to use.
+        * @param format is the (OpenAL) format of the sound data.
+        * @param frequency is the frequency of the sound data.
+        * @param buffersize is the size of the buffer (in bytes)
+        */
+        FileStreamUpdater(OggVorbis_File *oggfile,
+            const ALuint buffer1,ALuint buffer2,
+            ALenum format,unsigned int frequency,
+            unsigned int buffersize);
 
 
-		/**
-		* Inherited from Thread.
-		* This will be called when the updater is Start():ed..
-		*/
-		void run();
+        /**
+        * Inherited from Thread.
+        * This will be called when the updater is Start():ed..
+        */
+        void run();
 
-		/**
-		* Seeks to specified time
-		*/
-		void seek(float time_s);
+        /**
+        * Seeks to specified time
+        */
+        void seek(float time_s);
 
-		/**
-		* Turn on/off looping.
-		* @param loop is true if the stream should loop, false otherwise.
-		*/
-		void setLooping(bool loop = true);
+        /**
+        * Turn on/off looping.
+        * @param loop is true if the stream should loop, false otherwise.
+        */
+        void setLooping(bool loop = true);
 
-	protected:
-		/**
-		* Destructor.
-		*/
-		virtual ~FileStreamUpdater();
-	};
+    protected:
+        /**
+        * Destructor.
+        */
+        virtual ~FileStreamUpdater();
+    };
 
 }
 

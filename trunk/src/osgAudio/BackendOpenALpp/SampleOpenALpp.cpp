@@ -31,27 +31,27 @@ using namespace osgAudio;
 
 
 Sample::Sample(const std::string& filename) throw (FileError,NameError) {
-	try {
-	_openalppSample = new openalpp::Sample (filename);
-	}
-	catch(openalpp::NameError error) { throw NameError(error.what()); }
-	catch(openalpp::FileError error) { throw FileError(error.what()); }
+    try {
+    _openalppSample = new openalpp::Sample (filename);
+    }
+    catch(openalpp::NameError error) { throw NameError(error.what()); }
+    catch(openalpp::FileError error) { throw FileError(error.what()); }
 }
 
 Sample::Sample(const Sample &sample) {
-	_openalppSample = new openalpp::Sample (*(sample.getInternalSample()));
+    _openalppSample = new openalpp::Sample (*(sample.getInternalSample()));
 }
 
 // <<<>>> TODO: Create a portable way of specifying the format
 /*
 Sample::Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq) throw (FileError)
 : SoundData() {
-//		throw FileError("Error buffering sound");
+//        throw FileError("Error buffering sound");
 }
 */
 
 std::string Sample::getFilename() const {
-	return _openalppSample->getFileName();
+    return _openalppSample->getFileName();
 }
 
 
@@ -60,10 +60,10 @@ Sample::~Sample()
 }
 
 Sample &Sample::operator=(const Sample &sample) {
-	if(this!=&sample) {
-		*_openalppSample = *(sample._openalppSample.get());
-	}
-	return *this;
+    if(this!=&sample) {
+        *_openalppSample = *(sample._openalppSample.get());
+    }
+    return *this;
 }
 
 openalpp::Sample *Sample::getInternalSample(void) {

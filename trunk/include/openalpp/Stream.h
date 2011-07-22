@@ -41,63 +41,63 @@
 namespace openalpp {
 
 
-	/**
-	* Base class for NetStream and InputDevice.
-	* Used for audio streams.
-	*/
-	class OPENALPP_API Stream : public SoundData {
-	protected:
-		/**
-		* For double-buffering of sounds.
-		*/
-		osg::ref_ptr<SoundData> buffer2_;
+    /**
+    * Base class for NetStream and InputDevice.
+    * Used for audio streams.
+    */
+    class OPENALPP_API Stream : public SoundData {
+    protected:
+        /**
+        * For double-buffering of sounds.
+        */
+        osg::ref_ptr<SoundData> buffer2_;
 
-		osg::ref_ptr<StreamUpdater> updater_;
-	public:
-		/**
-		* Default constructor.
-		*/
-		Stream() throw (NameError);
+        osg::ref_ptr<StreamUpdater> updater_;
+    public:
+        /**
+        * Default constructor.
+        */
+        Stream() throw (NameError);
 
-		/**
-		* Copy constructor.
-		*/
-		Stream(const Stream &stream);
+        /**
+        * Copy constructor.
+        */
+        Stream(const Stream &stream);
 
-		/**
-		* Assignment operator.
-		*/
-		Stream &operator=(const Stream &stream);
+        /**
+        * Assignment operator.
+        */
+        Stream &operator=(const Stream &stream);
 
 
-		void prepareForDeletion() {updater_->cancel();}
+        void prepareForDeletion() {updater_->cancel();}
 
-		/**
-		* Start recording.
-		* I.e. start copying data to buffers.
-		* @param sourcename is the (OpenAL) name of the source.
-		*/
-		void record(ALuint sourcename);
+        /**
+        * Start recording.
+        * I.e. start copying data to buffers.
+        * @param sourcename is the (OpenAL) name of the source.
+        */
+        void record(ALuint sourcename);
 
-		/**
-		* Seeks to specified time
-		*/
-		void seek(float time_s); 
+        /**
+        * Seeks to specified time
+        */
+        void seek(float time_s); 
 
-		/**
-		* Stop recording.
-		* @param sourcename is the (OpenAL) name of the source.
-		*/
-		void stop(ALuint sourcename);
+        /**
+        * Stop recording.
+        * @param sourcename is the (OpenAL) name of the source.
+        */
+        void stop(ALuint sourcename);
 
-	protected:
-		/**
-		* Destructor.
-		*/
-		virtual ~Stream();
+    protected:
+        /**
+        * Destructor.
+        */
+        virtual ~Stream();
 
-		bool isRecording_;
-	};
+        bool isRecording_;
+    };
 
 }
 

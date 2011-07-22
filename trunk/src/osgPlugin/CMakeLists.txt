@@ -5,14 +5,14 @@ SET(OSGAUDIO_USER_DEFINED_DYNAMIC_OR_STATIC MODULE)
 #SET(LIB_PUBLIC_HEADERS ...)
 
 ADD_LIBRARY(
-	${LIB_NAME}
-	${OSGAUDIO_USER_DEFINED_DYNAMIC_OR_STATIC}
-	#${LIB_PUBLIC_HEADERS}
-	IO_OccludeCallback.cpp
-	IO_SoundNode.cpp
-	IO_SoundRoot.cpp
-	IO_SoundState.cpp
-	IO_SoundUpdateCB.cpp
+    ${LIB_NAME}
+    ${OSGAUDIO_USER_DEFINED_DYNAMIC_OR_STATIC}
+    #${LIB_PUBLIC_HEADERS}
+    IO_OccludeCallback.cpp
+    IO_SoundNode.cpp
+    IO_SoundRoot.cpp
+    IO_SoundState.cpp
+    IO_SoundUpdateCB.cpp
 )
 
 
@@ -31,9 +31,9 @@ TARGET_LINK_LIBRARIES( ${LIB_NAME} ${OSG_LIBRARIES} )
 TARGET_LINK_LIBRARIES( ${LIB_NAME} osgAudio ${SUBSYSTEM_TARGET_LINKS} )
 
 IF(MSVC_IDE)
-	# Ugly workaround to remove the "/debug" or "/release" in each output
-	SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES PREFIX "../")
-	SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES IMPORT_PREFIX "../")
+    # Ugly workaround to remove the "/debug" or "/release" in each output
+    SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES PREFIX "../")
+    SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES IMPORT_PREFIX "../")
 ENDIF()
-	
+    
 INCLUDE(ModuleInstall OPTIONAL)

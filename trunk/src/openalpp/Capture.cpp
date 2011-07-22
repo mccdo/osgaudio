@@ -34,19 +34,19 @@ using namespace openalpp;
 
 void Capture::init() {
 
-	updater_=new DeviceUpdater(-1,sampleRate_,bufferSize_,sampleFormat_,getAlBuffer(),buffer2_->getAlBuffer());
+    updater_=new DeviceUpdater(-1,sampleRate_,bufferSize_,sampleFormat_,getAlBuffer(),buffer2_->getAlBuffer());
 }
 
 Capture::Capture() : bufferSize_(10000), sampleRate_(22050), sampleFormat_(Mono16)
 {
-	init();
+    init();
 }
 
 Capture::Capture(int device,unsigned int samplerate,unsigned int buffersize,
-				 SampleFormat format) : bufferSize_(buffersize), sampleRate_(samplerate),
-				 sampleFormat_(format)
+                 SampleFormat format) : bufferSize_(buffersize), sampleRate_(samplerate),
+                 sampleFormat_(format)
 {
-	init();
+    init();
 
 }
 
@@ -55,16 +55,16 @@ Capture::Capture(const Capture &input)
 }
 
 Capture &Capture::operator=(const Capture &input) {
-	if(this!=&input) {
-		Stream::operator=((const Stream &)input);
-	}
-	return *this;
+    if(this!=&input) {
+        Stream::operator=((const Stream &)input);
+    }
+    return *this;
 }
 
 Capture::~Capture() {
-	if (updater_.valid())
-		updater_->stop();
+    if (updater_.valid())
+        updater_->stop();
 
-	updater_=0L;
+    updater_=0L;
 }
 

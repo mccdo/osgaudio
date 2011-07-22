@@ -69,19 +69,19 @@ SoundUpdateCB::SoundUpdateCB(SoundState *sound_state, SoundManager *sound_manage
 SoundUpdateCB::SoundUpdateCB(const SoundUpdateCB &copy, const osg::CopyOp &copyop)
   : osg::NodeCallback(copy, copyop)
 {
-	*this = copy;
+    *this = copy;
 }
 
 SoundUpdateCB & SoundUpdateCB::operator=(const SoundUpdateCB &node)
 { 
-	if (this == &node)
+    if (this == &node)
         return( *this );
 
-	m_sound_state = node.m_sound_state;
-	m_sound_manager = node.m_sound_manager;
-	m_last_time = node.m_last_time;
-	m_first_run = node.m_first_run;
-	return( *this );
+    m_sound_state = node.m_sound_state;
+    m_sound_manager = node.m_sound_manager;
+    m_last_time = node.m_last_time;
+    m_first_run = node.m_first_run;
+    return( *this );
 }
 
 
@@ -89,59 +89,59 @@ void
 SoundUpdateCB::operator()( osg::Node* node, osg::NodeVisitor* nv )
 {
     const osg::FrameStamp* fs( nv->getFrameStamp() );
-	if( !m_sound_state.valid() || ( fs == NULL ) )
+    if( !m_sound_state.valid() || ( fs == NULL ) )
     {
-		// Early exit.
-		osg::notify(osg::DEBUG_INFO) << "SoundUpdateCB::operator()() No SoundState attached, or invalid FrameStamp." << std::endl;
-		traverse( node, nv );
-		return;
-	}
+        // Early exit.
+        osg::notify(osg::DEBUG_INFO) << "SoundUpdateCB::operator()() No SoundState attached, or invalid FrameStamp." << std::endl;
+        traverse( node, nv );
+        return;
+    }
 
-	const double t( fs->getReferenceTime() );
-	const double time( t - m_last_time );
-	if(time >= m_sound_manager->getUpdateFrequency())
+    const double t( fs->getReferenceTime() );
+    const double time( t - m_last_time );
+    if(time >= m_sound_manager->getUpdateFrequency())
     {
-		const osg::Matrix m( osg::computeLocalToWorld( nv->getNodePath() ) );
-		const osg::Vec3 pos = m.getTrans();
-		m_sound_state->setPosition(pos);
+        const osg::Matrix m( osg::computeLocalToWorld( nv->getNodePath() ) );
+        const osg::Vec3 pos = m.getTrans();
+        m_sound_state->setPosition(pos);
 
-		//Calculate velocity
-		osg::Vec3 velocity(0,0,0);
-		if (m_first_run)
+        //Calculate velocity
+        osg::Vec3 velocity(0,0,0);
+        if (m_first_run)
         {
-			m_first_run = false;
-			m_last_time = t;
-			m_last_pos = pos;
-		}
-		else
+            m_first_run = false;
+            m_last_time = t;
+            m_last_pos = pos;
+        }
+        else
         {
-			velocity = pos - m_last_pos;
-			m_last_pos = pos;
-			m_last_time = t;
-			velocity /= time;
-		}
+            velocity = pos - m_last_pos;
+            m_last_pos = pos;
+            m_last_time = t;
+            velocity /= time;
+        }
 
-		if(m_sound_manager->getClampVelocity())
+        if(m_sound_manager->getClampVelocity())
         {
-			float max_vel = m_sound_manager->getMaxVelocity();
-			float len = velocity.length();
-			if ( len > max_vel)
+            float max_vel = m_sound_manager->getMaxVelocity();
+            float len = velocity.length();
+            if ( len > max_vel)
             {
-				velocity.normalize();
-				velocity *= max_vel;
-			}
-		}
-		m_sound_state->setVelocity(velocity);
+                velocity.normalize();
+                velocity *= max_vel;
+            }
+        }
+        m_sound_state->setVelocity(velocity);
 
-		//Get new direction
+        //Get new direction
         osg::Vec3 dir = osg::Vec3( 0., 1., 0. ) * m;
-		dir.normalize();
-		m_sound_state->setDirection(dir);
+        dir.normalize();
+        m_sound_state->setDirection(dir);
 
-		// Only do occlusion calculations if the sound is playing
-		if (m_sound_state->getPlay() && m_occlude_callback.valid())
-			m_occlude_callback->apply(m_sound_manager->getListenerMatrix(), pos, m_sound_state.get());
-	} // if time to update
+        // Only do occlusion calculations if the sound is playing
+        if (m_sound_state->getPlay() && m_occlude_callback.valid())
+            m_occlude_callback->apply(m_sound_manager->getListenerMatrix(), pos, m_sound_state.get());
+    } // if time to update
 
-	traverse( node, nv );
+    traverse( node, nv );
 }

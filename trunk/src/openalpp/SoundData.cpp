@@ -27,43 +27,43 @@
 using namespace openalpp;
 
 SoundData::SoundBuffer::SoundBuffer() throw (NameError) : buffername_(0) {
-	alGenBuffers(1,&buffername_);
+    alGenBuffers(1,&buffername_);
 
-	if(alGetError()!=AL_FALSE)
-	{
-		throw NameError("Error generating buffer name");
-	}
+    if(alGetError()!=AL_FALSE)
+    {
+        throw NameError("Error generating buffer name");
+    }
 }
 
 SoundData::SoundBuffer::~SoundBuffer() {
-	alDeleteBuffers(1,&buffername_);
+    alDeleteBuffers(1,&buffername_);
 }
 
 
 SoundData::SoundData() throw (NameError,InitError) : AudioBase() {
-	buffer_=new SoundBuffer();
+    buffer_=new SoundBuffer();
 }
 
 
 
 SoundData::SoundData(const SoundData &sounddata)
 : AudioBase() {
-	buffer_=sounddata.buffer_;
+    buffer_=sounddata.buffer_;
 }
 
 SoundData::~SoundData() 
 {
-	buffer_ = 0;
+    buffer_ = 0;
 }
 
 ALuint SoundData::getAlBuffer() const {
-	return buffer_->getName();
+    return buffer_->getName();
 }
 
 SoundData &SoundData::operator=(const SoundData &sounddata) {
-	if(this!=&sounddata) {
-		buffer_=sounddata.buffer_;
-	}
-	return *this;
+    if(this!=&sounddata) {
+        buffer_=sounddata.buffer_;
+    }
+    return *this;
 }
 

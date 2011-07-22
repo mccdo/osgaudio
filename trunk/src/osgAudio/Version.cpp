@@ -58,5 +58,5 @@ osgAudio::getVersion()
 std::string
 osgAudio::getLibraryName()
 {
-	return "OpenSceneGraph Audio Library (osgAudio)";
+    return "OpenSceneGraph Audio Library (osgAudio)";
 }
