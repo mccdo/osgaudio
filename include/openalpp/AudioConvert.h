@@ -35,44 +35,44 @@
 
 namespace openalpp {
 
-	/**
-	* Class for converting audio.
-	*/
-	class OPENALPP_API AudioConvert {
-		unsigned short channels_,bits_;
-		unsigned int frequency_;
-		ALenum format_;
-	public:
-		/**
-		* Constructor.
-		* @param format is the (OpenAL) format that data will be converted to.
-		* @param frequency is the frequency the data will be converted to.
-		*/
-		AudioConvert(ALenum format,unsigned int frequency);
+    /**
+    * Class for converting audio.
+    */
+    class OPENALPP_API AudioConvert {
+        unsigned short channels_,bits_;
+        unsigned int frequency_;
+        ALenum format_;
+    public:
+        /**
+        * Constructor.
+        * @param format is the (OpenAL) format that data will be converted to.
+        * @param frequency is the frequency the data will be converted to.
+        */
+        AudioConvert(ALenum format,unsigned int frequency);
 
-		/**
-		* Apply the conversion to data.
-		* @param data is the data to convert.
-		* @param format is the (OpenAL) format of the data.
-		* @param frequency is the frequency of the data.
-		* @param size is the size of the data. It will be updated to the new size.
-		*/
-		void *apply(void *data,ALenum format,unsigned int frequency,unsigned int &size);
-	};
+        /**
+        * Apply the conversion to data.
+        * @param data is the data to convert.
+        * @param format is the (OpenAL) format of the data.
+        * @param frequency is the frequency of the data.
+        * @param size is the size of the data. It will be updated to the new size.
+        */
+        void *apply(void *data,ALenum format,unsigned int frequency,unsigned int &size);
+    };
 
-	typedef struct _acAudioCVT {
-		int needed;                     /* Set to 1 if conversion possible */
-		ALushort src_format;            /* Source audio format */
-		ALushort dst_format;            /* Target audio format */
-		double rate_incr;               /* Rate conversion increment */
-		void   *buf;                    /* Buffer to hold entire audio data */
-		int    len;                     /* Length of original audio buffer */
-		int    len_cvt;                 /* Length of converted audio buffer */
-		int    len_mult;                /* buffer must be len*len_mult big */
-		double len_ratio;       /* Given len, final size is len*len_ratio */
-		void (*filters[10])(struct _acAudioCVT *cvt, ALushort format);
-		int filter_index;               /* Current audio conversion function */
-	} acAudioCVT;
+    typedef struct _acAudioCVT {
+        int needed;                     /* Set to 1 if conversion possible */
+        ALushort src_format;            /* Source audio format */
+        ALushort dst_format;            /* Target audio format */
+        double rate_incr;               /* Rate conversion increment */
+        void   *buf;                    /* Buffer to hold entire audio data */
+        int    len;                     /* Length of original audio buffer */
+        int    len_cvt;                 /* Length of converted audio buffer */
+        int    len_mult;                /* buffer must be len*len_mult big */
+        double len_ratio;       /* Given len, final size is len*len_ratio */
+        void (*filters[10])(struct _acAudioCVT *cvt, ALushort format);
+        int filter_index;               /* Current audio conversion function */
+    } acAudioCVT;
 
 /* Audio format flags (defaults to LSB byte order) */
 #define AUDIO_U8        0x0008  /* Unsigned 8-bit samples */
@@ -121,43 +121,43 @@ namespace openalpp {
 #define MS_ADPCM_max ((1<<(16-1))-1)
 #define MS_ADPCM_min -(1<<(16-1))
 
-	typedef struct Chunk {
-		ALuint magic;
-		ALuint length;
-		void *data;
-	} Chunk;
+    typedef struct Chunk {
+        ALuint magic;
+        ALuint length;
+        void *data;
+    } Chunk;
 
-	struct MS_ADPCM_decodestate_FULL {
-		ALubyte hPredictor;
-		ALushort iDelta;
-		ALshort iSamp1;
-		ALshort iSamp2;
-	};
+    struct MS_ADPCM_decodestate_FULL {
+        ALubyte hPredictor;
+        ALushort iDelta;
+        ALshort iSamp1;
+        ALshort iSamp2;
+    };
 
-	typedef struct WaveFMT {
-		ALushort encoding;
-		ALushort channels;               /* 1 = mono, 2 = stereo */
-		ALuint frequency;              /* One of 11025, 22050, or 44100 Hz */
-		ALuint byterate;               /* Average bytes per second */
-		ALushort blockalign;             /* Bytes per sample block */
-		ALushort bitspersample;
-	} alWaveFMT_LOKI;
+    typedef struct WaveFMT {
+        ALushort encoding;
+        ALushort channels;               /* 1 = mono, 2 = stereo */
+        ALuint frequency;              /* One of 11025, 22050, or 44100 Hz */
+        ALuint byterate;               /* Average bytes per second */
+        ALushort blockalign;             /* Bytes per sample block */
+        ALushort bitspersample;
+    } alWaveFMT_LOKI;
 
-	typedef struct IMA_ADPCM_decodestate_s {
-		ALint valprev;  /* Previous output value */
-		ALbyte index;           /* Index into stepsize table */
-	} alIMAADPCM_decodestate_LOKI;
+    typedef struct IMA_ADPCM_decodestate_s {
+        ALint valprev;  /* Previous output value */
+        ALbyte index;           /* Index into stepsize table */
+    } alIMAADPCM_decodestate_LOKI;
 
-	typedef struct IMA_ADPCM_decoder {
-		alWaveFMT_LOKI wavefmt;
-		ALushort wSamplesPerBlock;
-		alIMAADPCM_decodestate_LOKI state[2];
-	} alIMAADPCM_state_LOKI;
-	/*
-	void *AudioConvert(ALvoid *data,
-	ALenum f_format, ALuint f_size, ALuint f_freq,
-	ALenum t_format, ALuint t_freq, ALuint *retsize);
-	*/
+    typedef struct IMA_ADPCM_decoder {
+        alWaveFMT_LOKI wavefmt;
+        ALushort wSamplesPerBlock;
+        alIMAADPCM_decodestate_LOKI state[2];
+    } alIMAADPCM_state_LOKI;
+    /*
+    void *AudioConvert(ALvoid *data,
+    ALenum f_format, ALuint f_size, ALuint f_freq,
+    ALenum t_format, ALuint t_freq, ALuint *retsize);
+    */
 }
 
 #endif // OPENALPP_AUDIOCONVERT_H

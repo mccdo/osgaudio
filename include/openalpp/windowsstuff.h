@@ -40,24 +40,24 @@
 
 #ifndef WIN32
   
-	#include <unistd.h>
+    #include <unistd.h>
 
 #else // WIN32
 
-	#ifdef _MSC_VER
-		// C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-		//#pragma warning( disable : 4290 )
-	#endif
+    #ifdef _MSC_VER
+        // C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+        //#pragma warning( disable : 4290 )
+    #endif
 
-	#include <openalpp/Export.h>
-	#include <windows.h>
+    #include <openalpp/Export.h>
+    #include <windows.h>
 
-	inline void usleep( int x ) { Sleep( x /1000 ); };
+    inline void usleep( int x ) { Sleep( x /1000 ); };
 
-	#include <AL/alut.h>
+    #include <AL/alut.h>
 
-	#define alGetSourceiv alGetSourcei
+    #define alGetSourceiv alGetSourcei
 
 #endif // WIN32
 
-#endif	// OPENALPP_WINDOWSSTUFF_H
+#endif    // OPENALPP_WINDOWSSTUFF_H

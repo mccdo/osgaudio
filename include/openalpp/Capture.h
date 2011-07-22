@@ -33,54 +33,54 @@
 
 namespace openalpp {
 
-	/**
-	* Class for capturing sound from input devices, like microphones.
-	*/
-	class OPENALPP_API Capture : public Stream {
-		static int nobjects_;
+    /**
+    * Class for capturing sound from input devices, like microphones.
+    */
+    class OPENALPP_API Capture : public Stream {
+        static int nobjects_;
 
-		/**
-		* Initialize input. Called by constructor(s).
-		*/
-		void init();
-	public:
-		/**
-		* Constructor.
-		*/
-		Capture();
+        /**
+        * Initialize input. Called by constructor(s).
+        */
+        void init();
+    public:
+        /**
+        * Constructor.
+        */
+        Capture();
 
-		/**
-		* Constructor.
-		* @param device is the device to open. -1 for default input.
-		* @param samplerate is the desired sample rate.
-		* @param buffersize is the desired buffer size _in samples_.
-		* @param format is the desired sample format.
-		*/
-		Capture(int device,unsigned int samplerate,unsigned int buffersize=1024, 
-			SampleFormat format=Mono16);
+        /**
+        * Constructor.
+        * @param device is the device to open. -1 for default input.
+        * @param samplerate is the desired sample rate.
+        * @param buffersize is the desired buffer size _in samples_.
+        * @param format is the desired sample format.
+        */
+        Capture(int device,unsigned int samplerate,unsigned int buffersize=1024, 
+            SampleFormat format=Mono16);
 
-		/**
-		* Copy constructor.
-		*/
-		Capture(const Capture &input);
+        /**
+        * Copy constructor.
+        */
+        Capture(const Capture &input);
 
-		/**
-		* Assignment operator.
-		*/
-		Capture &operator=(const Capture &input);
+        /**
+        * Assignment operator.
+        */
+        Capture &operator=(const Capture &input);
 
-	protected:
-		/**
-		* Destructor.
-		*/
-		virtual ~Capture();
+    protected:
+        /**
+        * Destructor.
+        */
+        virtual ~Capture();
 
-		ALCdevice		*pCaptureDevice_;
-		unsigned long bufferSize_;
-		unsigned long sampleRate_;
-		SampleFormat sampleFormat_;
+        ALCdevice        *pCaptureDevice_;
+        unsigned long bufferSize_;
+        unsigned long sampleRate_;
+        SampleFormat sampleFormat_;
 
-	};
+    };
 
 }
 

@@ -29,25 +29,25 @@
 using namespace osgAudio;
 
 Listener::Listener() {
-	_openalppListener = new openalpp::Listener ();
+    _openalppListener = new openalpp::Listener ();
 } // Listener::Listener
 
 Listener::Listener(const Listener &listener) {
-	_openalppListener = new openalpp::Listener (*listener.getInternalListener());
+    _openalppListener = new openalpp::Listener (*listener.getInternalListener());
 } // Listener::Listener
 
 Listener::Listener(float x,float y,float z,
-				   float directionx, float directiony, float directionz,
-				   float upx, float upy, float upz) {
+                   float directionx, float directiony, float directionz,
+                   float upx, float upy, float upz) {
 
-	_openalppListener = new openalpp::Listener (x, y, z,
-				   directionx, directiony, directionz,
-				   upx, upy, upz);
+    _openalppListener = new openalpp::Listener (x, y, z,
+                   directionx, directiony, directionz,
+                   upx, upy, upz);
 
 } // Listener::Listener
 
 Listener::Listener(float x, float y, float z) {
-	_openalppListener = new openalpp::Listener (x, y, z);
+    _openalppListener = new openalpp::Listener (x, y, z);
 } // Listener::Listener
 
 Listener::~Listener() {
@@ -55,44 +55,44 @@ Listener::~Listener() {
 } // Listener::~Listener
 
 void Listener::select() {
-	_openalppListener->select();
+    _openalppListener->select();
 }
 
 bool Listener::isSelected() {
-	return (_openalppListener->isSelected());
+    return (_openalppListener->isSelected());
 }
 
 void Listener::setOrientation(float directionx,float directiony,
-							  float directionz,
-							  float upx, float upy, float upz) {
-	_openalppListener->setOrientation(directionx, directiony, directionz, upx, upy, upz);
+                              float directionz,
+                              float upx, float upy, float upz) {
+    _openalppListener->setOrientation(directionx, directiony, directionz, upx, upy, upz);
 }
 
 void Listener::getOrientation(float &directionx,float &directiony,
-							  float &directionz,
-							  float &upx, float &upy, float &upz) const {
-	_openalppListener->getOrientation(directionx, directiony, directionz, upx, upy, upz);
+                              float &directionz,
+                              float &upx, float &upy, float &upz) const {
+    _openalppListener->getOrientation(directionx, directiony, directionz, upx, upy, upz);
 }
 
 Listener &Listener::operator=(const Listener &listener) {
-	if(this!=&listener) {
-	_openalppListener = new openalpp::Listener (*listener.getInternalListener());
-	}
-	return *this;
+    if(this!=&listener) {
+    _openalppListener = new openalpp::Listener (*listener.getInternalListener());
+    }
+    return *this;
 }
 
 void Listener::setPosition(float x, float y, float z) {
-	_openalppListener->setPosition(x, y, z);
+    _openalppListener->setPosition(x, y, z);
 }
 
 void Listener::getPosition(float &x, float &y, float &z) const {
-	_openalppListener->getPosition(x, y, z);
+    _openalppListener->getPosition(x, y, z);
 }
 
 void Listener::setVelocity(float vx, float vy, float vz) {
-	_openalppListener->setVelocity(vx, vy, vz);
+    _openalppListener->setVelocity(vx, vy, vz);
 }
 
 void Listener::getVelocity(float &vx, float &vy, float &vz) const {
-	_openalppListener->getVelocity(vx, vy, vz);
+    _openalppListener->getVelocity(vx, vy, vz);
 }

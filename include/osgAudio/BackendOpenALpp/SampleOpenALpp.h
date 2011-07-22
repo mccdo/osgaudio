@@ -36,66 +36,66 @@
 
 namespace osgAudio 
 {
-	/// A Sample is an audio waveform, typically a static file of some format, usually linear PCM like WAV.
-	/*!
-	This class offers a basic abstract API that adapts to various audio backends.
-	It is based on the Adapter Design pattern.
-	*/
+    /// A Sample is an audio waveform, typically a static file of some format, usually linear PCM like WAV.
+    /*!
+    This class offers a basic abstract API that adapts to various audio backends.
+    It is based on the Adapter Design pattern.
+    */
 
-	class OSGAUDIO_EXPORT Sample : public osg::Referenced {
-	public:
-		/**
-		* Constructor.
-		* @param filename is name of file to load.
-		*/
-		Sample(const std::string& filename ) throw (FileError,NameError);
+    class OSGAUDIO_EXPORT Sample : public osg::Referenced {
+    public:
+        /**
+        * Constructor.
+        * @param filename is name of file to load.
+        */
+        Sample(const std::string& filename ) throw (FileError,NameError);
 
-		/**
-		* Copy constructor.
-		*/
-		Sample(const Sample &sample);
+        /**
+        * Copy constructor.
+        */
+        Sample(const Sample &sample);
 
-		/**
-		* Constructor.
-		* @param format to use to create sample from data.
-		* @param data use to create sample.
-		* @param size of data.
-		* @param freq of data.
-		*/
-		// <<<>>> TODO: Create a portable way of specifying the format
-		//Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq) throw (FileError);
+        /**
+        * Constructor.
+        * @param format to use to create sample from data.
+        * @param data use to create sample.
+        * @param size of data.
+        * @param freq of data.
+        */
+        // <<<>>> TODO: Create a portable way of specifying the format
+        //Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq) throw (FileError);
 
-		/**
-		* Get file name of loaded file.
-		* @return file name.
-		*/
-		std::string getFilename() const;
+        /**
+        * Get file name of loaded file.
+        * @return file name.
+        */
+        std::string getFilename() const;
 
-		/**
-		* Assignment operator.
-		*/
-		Sample &operator=(const Sample &sample);
+        /**
+        * Assignment operator.
+        */
+        Sample &operator=(const Sample &sample);
 
-		/**
-		* Get internal openalpp Sample object (used only by osgAudio openalpp Adapter layer)
-		* @return openalp::Sample object wrapped by osgAudio.
-		*/
-		openalpp::Sample *getInternalSample(void);
-		const openalpp::Sample *getInternalSample(void) const;
+        /**
+        * Get internal openalpp Sample object (used only by osgAudio openalpp Adapter layer)
+        * @return openalp::Sample object wrapped by osgAudio.
+        */
+        openalpp::Sample *getInternalSample(void);
+        const openalpp::Sample *getInternalSample(void) const;
 
-	protected:
-		/**
-		* Destructor
-		*/
-		virtual ~Sample();
+    protected:
+        /**
+        * Destructor
+        */
+        virtual ~Sample();
 
-	private:
-		/**
-		* File name.
-		*/
-		osg::ref_ptr<openalpp::Sample> _openalppSample;
+    private:
+        /**
+        * File name.
+        */
+        osg::ref_ptr<openalpp::Sample> _openalppSample;
 
-	};
+    };
 
 } // namespace osgAudio
 

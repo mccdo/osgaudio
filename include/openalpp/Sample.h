@@ -34,62 +34,62 @@
 
 namespace openalpp {
 
-	/**
-	* Class for loading sampled files.
-	*/
-	class OPENALPP_API Sample : public SoundData {
-	public:
-		/**
-		* Constructor.
-		* @param filename is name of file to load.
-		*/
-		Sample(const std::string& filename ) throw (FileError);
+    /**
+    * Class for loading sampled files.
+    */
+    class OPENALPP_API Sample : public SoundData {
+    public:
+        /**
+        * Constructor.
+        * @param filename is name of file to load.
+        */
+        Sample(const std::string& filename ) throw (FileError);
 
-		/**
-		* Copy constructor.
-		*/
-		Sample(const Sample &sample);
+        /**
+        * Copy constructor.
+        */
+        Sample(const Sample &sample);
 
-		/**
-		* Constructor.
-		* @param format to use to create sample from data.
-		* @param data use to create sample.
-		* @param size of data.
-		* @param freq of data.
-		*/
-		Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq) throw (FileError);
+        /**
+        * Constructor.
+        * @param format to use to create sample from data.
+        * @param data use to create sample.
+        * @param size of data.
+        * @param freq of data.
+        */
+        Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq) throw (FileError);
 
 
-		/**
-		* Get file name of loaded file.
-		* @return file name.
-		*/
-		std::string getFileName() const;
+        /**
+        * Get file name of loaded file.
+        * @return file name.
+        */
+        std::string getFileName() const;
 
-		/**
-		* Assignment operator.
-		*/
-		Sample &operator=(const Sample &sample);
+        /**
+        * Assignment operator.
+        */
+        Sample &operator=(const Sample &sample);
 
-	protected:
-		/**
-		* Destructor
-		*/
-		virtual ~Sample();
+    protected:
+        /**
+        * Destructor
+        */
+        virtual ~Sample();
 
-	private:
-		/**
-		* File name.
-		*/
-		std::string filename_;
+    private:
+        /**
+        * File name.
+        */
+        std::string filename_;
 
-	};
+    };
 
-	/**
-	* Check how large a sample is in the given format.
-	*/
-	unsigned int sampleSize(SampleFormat format);
-	unsigned int sampleSize(ALenum format);
+    /**
+    * Check how large a sample is in the given format.
+    */
+    unsigned int sampleSize(SampleFormat format);
+    unsigned int sampleSize(ALenum format);
 }
 
 #endif /* OPENALPP_SAMPLE_H */

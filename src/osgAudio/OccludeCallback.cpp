@@ -48,89 +48,89 @@ m_was_occluded(false), m_delay(10)
 
 void OccludeCallback::operator()(double /*distance*/, osg::Node * /*occluder*/, bool left_occluded, bool /*right_occluded*/)
 {
-	osgAudio::SoundState *sound_state = m_sound_state;
+    osgAudio::SoundState *sound_state = m_sound_state;
 
-	// Sound node is occluded by something
-	if (left_occluded) {
+    // Sound node is occluded by something
+    if (left_occluded) {
 
-		// Was it not occluded last frame?
-		if (!m_was_occluded)
-			m_start_tick = osg::Timer::instance()->tick(); // Then start timer
+        // Was it not occluded last frame?
+        if (!m_was_occluded)
+            m_start_tick = osg::Timer::instance()->tick(); // Then start timer
 
-		// Linearly interpolate occlusion from 0 to max
-		double dt = m_delay*osg::Timer::instance()->delta_s(m_start_tick, osg::Timer::instance()->tick());
-		float scale = osgAudio::mix(1.0f, 0.0f, dt);
-		sound_state->setOccludeScale(scale);
-		m_sound_state->setOccluded(true);
-	}
-	else { // Is not occluded anymore
+        // Linearly interpolate occlusion from 0 to max
+        double dt = m_delay*osg::Timer::instance()->delta_s(m_start_tick, osg::Timer::instance()->tick());
+        float scale = osgAudio::mix(1.0f, 0.0f, dt);
+        sound_state->setOccludeScale(scale);
+        m_sound_state->setOccluded(true);
+    }
+    else { // Is not occluded anymore
 
-		// If occlusion is already shut of, do no more
-		if (!sound_state->getOccluded())
-			return;
+        // If occlusion is already shut of, do no more
+        if (!sound_state->getOccluded())
+            return;
 
-		if (m_was_occluded) // Was it occluded last frame, then start timer
-			m_start_tick = osg::Timer::instance()->tick();
+        if (m_was_occluded) // Was it occluded last frame, then start timer
+            m_start_tick = osg::Timer::instance()->tick();
 
-		// Interpolate from max to 0 damping
-		double dt = m_delay*osg::Timer::instance()->delta_s(m_start_tick, osg::Timer::instance()->tick());
-		float scale = osgAudio::mix(0.0f, 0.99f, dt);
-		sound_state->setOccludeScale(scale);
+        // Interpolate from max to 0 damping
+        double dt = m_delay*osg::Timer::instance()->delta_s(m_start_tick, osg::Timer::instance()->tick());
+        float scale = osgAudio::mix(0.0f, 0.99f, dt);
+        sound_state->setOccludeScale(scale);
 
-		// When enough time have passed, disable occlusion
-		if (dt > 1/m_delay)
-			m_sound_state->setOccluded(false);
-	}
+        // When enough time have passed, disable occlusion
+        if (dt > 1/m_delay)
+            m_sound_state->setOccluded(false);
+    }
 }
 
 void OccludeCallback::apply(const osg::Matrix& listener_matrix, const osg::Vec3& sound_pos, osgAudio::SoundState* sound_state)
 {
-	m_sound_state = sound_state;
+    m_sound_state = sound_state;
 
-	osg::Node *occluder=0;
-	double distance = 0;
+    osg::Node *occluder=0;
+    double distance = 0;
 
-	osg::Matrix m = listener_matrix.inverse(listener_matrix);
+    osg::Matrix m = listener_matrix.inverse(listener_matrix);
 
-	// Now shoot a ray from the ear to the source and see if it hits anything.
-	osgUtil::IntersectVisitor iv;
-	osg::ref_ptr<osg::LineSegment> left = new osg::LineSegment;
+    // Now shoot a ray from the ear to the source and see if it hits anything.
+    osgUtil::IntersectVisitor iv;
+    osg::ref_ptr<osg::LineSegment> left = new osg::LineSegment;
 
-	osg::Vec3 start(m.getTrans()), end(sound_pos);
-	osg::Vec3 dir = end-start;
-	distance = dir.length();
-	dir /= distance;
+    osg::Vec3 start(m.getTrans()), end(sound_pos);
+    osg::Vec3 dir = end-start;
+    distance = dir.length();
+    dir /= distance;
 
-	left->set(start,start+dir*distance);
+    left->set(start,start+dir*distance);
 
-	if(left->valid())
-		iv.addLineSegment(left.get());
+    if(left->valid())
+        iv.addLineSegment(left.get());
 
-	m_root->accept(iv);
-	bool occluded = false;
-	if (iv.hits()) {
-		osgUtil::IntersectVisitor::HitList::iterator hit = iv.getHitList( left.get() ).begin();
+    m_root->accept(iv);
+    bool occluded = false;
+    if (iv.hits()) {
+        osgUtil::IntersectVisitor::HitList::iterator hit = iv.getHitList( left.get() ).begin();
 
-		osg::Vec3 hit_point = hit->getWorldIntersectPoint();
-		double d = (hit_point - start).length();
-		double diff = fabs(d - distance);
+        osg::Vec3 hit_point = hit->getWorldIntersectPoint();
+        double d = (hit_point - start).length();
+        double diff = fabs(d - distance);
 
-		if ( diff > m_near_threshold) {
-			occluded = true;
+        if ( diff > m_near_threshold) {
+            occluded = true;
 
-			osg::NodePath &np = hit->_nodePath;
-			if (np.size())
-				occluder = *(np.begin());
+            osg::NodePath &np = hit->_nodePath;
+            if (np.size())
+                occluder = *(np.begin());
 
-			this->operator ()(d, occluder, true, true);
-		}
-	}
+            this->operator ()(d, occluder, true, true);
+        }
+    }
 
-	// If it is not occluded this frame but it was the previous, restore the state
-	if (!occluded)
-		this->operator ()(0, NULL, false, false);
+    // If it is not occluded this frame but it was the previous, restore the state
+    if (!occluded)
+        this->operator ()(0, NULL, false, false);
 
-	// save the state of the occlusion for next frame
-	m_was_occluded = occluded;    
+    // save the state of the occlusion for next frame
+    m_was_occluded = occluded;    
 }
 

@@ -39,7 +39,7 @@ using namespace osgAudio;
 // usleep stub
 #if defined(WIN32) && !defined (OPENALPP_WINDOWSSTUFF_H)
 #include <windows.h>
-	inline void usleep( int x ) { Sleep( x /1000 ); };
+    inline void usleep( int x ) { Sleep( x /1000 ); };
 #endif // defined(WIN32) && !defined (OPENALPP_WINDOWSSTUFF_H)
 
 int main() 

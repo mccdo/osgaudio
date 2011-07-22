@@ -28,10 +28,10 @@
 using namespace osgAudio;
 
 std::ostream &osgAudio::Error::put(std::ostream &stream) const {
-	return (stream << what());
+    return (stream << what());
 }
 
 std::ostream &osgAudio::operator<<(std::ostream &stream,const Error &error) {
-	return error.put(stream);
+    return error.put(stream);
 }
 

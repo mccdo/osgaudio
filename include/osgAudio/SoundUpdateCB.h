@@ -44,58 +44,58 @@
 
 namespace osgAudio
 {
-	class SoundManager;
+    class SoundManager;
 
-	/// Attache a sound to an OSG Node.
-	/**
-	This class is a thread-safe version of the deprecated SoundNode. It supports
+    /// Attache a sound to an OSG Node.
+    /**
+    This class is a thread-safe version of the deprecated SoundNode. It supports
     velocity, direction, and OccluderCallback for occluded sounds.
-	*/
-	class OSGAUDIO_EXPORT SoundUpdateCB: public osg::NodeCallback {
-	public:
+    */
+    class OSGAUDIO_EXPORT SoundUpdateCB: public osg::NodeCallback {
+    public:
 
-		SoundUpdateCB();
+        SoundUpdateCB();
         SoundUpdateCB( osgAudio::SoundState* sound_state );
         SoundUpdateCB( osgAudio::SoundState* sound_state, osgAudio::SoundManager* sound_manager );
-		SoundUpdateCB( const SoundUpdateCB& copy, const osg::CopyOp &copyop = osg::CopyOp::SHALLOW_COPY );
+        SoundUpdateCB( const SoundUpdateCB& copy, const osg::CopyOp &copyop = osg::CopyOp::SHALLOW_COPY );
 
-		META_Object( osgAudio, SoundUpdateCB );
+        META_Object( osgAudio, SoundUpdateCB );
 
         virtual void operator()( osg::Node* node, osg::NodeVisitor* nv );
 
-		void setSoundState(SoundState *sound_state) { m_sound_state = sound_state; }
-		SoundState *getSoundState() { return m_sound_state.get(); }
-		const SoundState *getSoundState() const { return m_sound_state.get(); }    
+        void setSoundState(SoundState *sound_state) { m_sound_state = sound_state; }
+        SoundState *getSoundState() { return m_sound_state.get(); }
+        const SoundState *getSoundState() const { return m_sound_state.get(); }    
 
-		void setOccludeCallback(OccludeCallback *cb) { m_occlude_callback = cb; }
-		OccludeCallback *getOccludeCallback() { return m_occlude_callback.get(); }  
-		const OccludeCallback *getOccludeCallback() const { return m_occlude_callback.get(); }  
+        void setOccludeCallback(OccludeCallback *cb) { m_occlude_callback = cb; }
+        OccludeCallback *getOccludeCallback() { return m_occlude_callback.get(); }  
+        const OccludeCallback *getOccludeCallback() const { return m_occlude_callback.get(); }  
 
     protected:
-		virtual ~SoundUpdateCB() {}
+        virtual ~SoundUpdateCB() {}
 
         osgAudio::SoundUpdateCB& operator=( const osgAudio::SoundUpdateCB &cb ); 
 
-		/*!@Todo: The SoundState should be referenced with a ref_ptr,
-		This currently causes problem, as the soundstate, and therefore any referenced soundsources
-		are held, until this node is deleted. Which can be by OpenSceneGraph model cache. The time of this event can
-		be late, outside the scope of main. This causes problems with OpenAL, which for some reason reports an invalid
-		context during the deletion of that source. Therefore, just an ordinary pointer. Memory is properly
-		deallocated by the SoundManager, so its not really a problem.
-		*/
+        /*!@Todo: The SoundState should be referenced with a ref_ptr,
+        This currently causes problem, as the soundstate, and therefore any referenced soundsources
+        are held, until this node is deleted. Which can be by OpenSceneGraph model cache. The time of this event can
+        be late, outside the scope of main. This causes problems with OpenAL, which for some reason reports an invalid
+        context during the deletion of that source. Therefore, just an ordinary pointer. Memory is properly
+        deallocated by the SoundManager, so its not really a problem.
+        */
         // PEM Use regular ref_ptr and assume app will remove these prior to shutdown.
         osg::ref_ptr< osgAudio::SoundState > m_sound_state;
-		//osg::ref_ptr<SoundState> m_sound_state;		// Sukender: I'm testing it with OpenAL-Soft and OSG 2.7+...
+        //osg::ref_ptr<SoundState> m_sound_state;        // Sukender: I'm testing it with OpenAL-Soft and OSG 2.7+...
 
-		osgAudio::SoundManager *m_sound_manager;
+        osgAudio::SoundManager *m_sound_manager;
 
-		osg::ref_ptr< osgAudio::OccludeCallback > m_occlude_callback;
+        osg::ref_ptr< osgAudio::OccludeCallback > m_occlude_callback;
 
-		double m_last_time;
-		bool m_first_run;
-		osg::Vec3 m_last_pos;
-		int m_last_traversal_number;
-	};
+        double m_last_time;
+        bool m_first_run;
+        osg::Vec3 m_last_pos;
+        int m_last_traversal_number;
+    };
 
 // namespace osgAudio
 }

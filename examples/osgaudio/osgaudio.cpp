@@ -259,7 +259,7 @@ osg::Node* createMovingModel(const osg::Vec3& center, float radius)
         glider->setUpdateCallback( soundCB.get() );
         group->addChild(positioned);
     
-        osg::PositionAttitudeTransform* xform = new osg::PositionAttitudeTransform;		 
+        osg::PositionAttitudeTransform* xform = new osg::PositionAttitudeTransform;         
         xform->setUpdateCallback(new osg::AnimationPathCallback(animationPath,0.0,1.0));
         xform->addChild(group.get());
     
@@ -397,7 +397,7 @@ int main( int argc, char **argv )
         osgAudio::SoundManager::instance()->init( 16 );
         osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance);
         osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(1);
-		osgAudio::SoundManager::instance()->getEnvironment()->setUnitScale(3.28);
+        osgAudio::SoundManager::instance()->getEnvironment()->setUnitScale(3.28);
 
         // Create ONE (only one, otherwise the transformation of the listener and update for SoundManager will be
         // called several times, which is not catastrophic, but unnecessary) 

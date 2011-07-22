@@ -36,18 +36,18 @@
 
 namespace osgAudio {
 
-	float _init_gain(void);
-	float _init_innerAngle(void);
-	float _init_outerAngle(void);
-	float _init_outerGain(void);
-	float _init_referenceDistance(void);
-	float _init_maxDistance(void);
-	float _init_rolloffFactor(void);
-	float _init_pitch(void);
-	float _init_occludeDampingFactor(void);
-	float _init_occludeScale(void);
-	float _init_reverbScale(void);
-	float _init_reverbDelay(void);
+    float _init_gain(void);
+    float _init_innerAngle(void);
+    float _init_outerAngle(void);
+    float _init_outerGain(void);
+    float _init_referenceDistance(void);
+    float _init_maxDistance(void);
+    float _init_rolloffFactor(void);
+    float _init_pitch(void);
+    float _init_occludeDampingFactor(void);
+    float _init_occludeScale(void);
+    float _init_reverbScale(void);
+    float _init_reverbDelay(void);
 
 } // Namespace osgAudio
 #endif // OSGAUDIO_SOUNDDEFAULTS_H

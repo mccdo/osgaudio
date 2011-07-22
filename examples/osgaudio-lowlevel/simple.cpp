@@ -47,10 +47,10 @@ int main(int argc,char **argv) {
     bgsound->stop();
     osg::ref_ptr<Sample> sample = new Sample(file);
     bgsound->setSound(sample.get());
-    bgsound->setGain(0.6f);	  // Lower gain (volume) 
+    bgsound->setGain(0.6f);      // Lower gain (volume) 
     bgsound->setLooping();
-    bgsound->setAmbient();	  // Make sound ambient (i.e. not attenuated)
-    bgsound->play();		  // Start playing
+    bgsound->setAmbient();      // Make sound ambient (i.e. not attenuated)
+    bgsound->play();          // Start playing
     
     
     std::cerr << "Press return to stop: " << std::endl;

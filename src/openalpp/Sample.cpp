@@ -35,46 +35,46 @@ using namespace openalpp;
 Sample::Sample(const std::string& filename) throw (FileError)
 : SoundData(),filename_(filename) {
 #if OPENAL_VERSION < 2007
-	ALsizei size;
+    ALsizei size;
 
-	ALsizei freq;
+    ALsizei freq;
 #  if OPENAL_VERSION < 2005
-	ALsizei bits;
-	ALboolean success;
+    ALsizei bits;
+    ALboolean success;
 #  endif // OPENAL_VERSION < 2005
-	ALenum format,error;
-	ALvoid* data;
-	ALboolean loop;
+    ALenum format,error;
+    ALvoid* data;
+    ALboolean loop;
 
 #  if OPENAL_VERSION < 2005
-	success=alutLoadWAV(filename.c_str(),&data,&format,&size,&bits,&freq);
-	if(success==AL_TRUE && data ) {
+    success=alutLoadWAV(filename.c_str(),&data,&format,&size,&bits,&freq);
+    if(success==AL_TRUE && data ) {
 #  else // OPENAL_VERSION < 2005
-	alutLoadWAVFile(const_cast<ALbyte *>(filename.c_str()),&format,&data,&size,&freq,&loop);
-	if(data) {
+    alutLoadWAVFile(const_cast<ALbyte *>(filename.c_str()),&format,&data,&size,&freq,&loop);
+    if(data) {
 #  endif // OPENAL_VERSION < 2005
-		alBufferData(buffer_->buffername_,format,data,size,freq);
-		if((error=alGetError())!=AL_FALSE)
-			throw FileError("Error buffering sound");
-		free(data);
-	} else {
-		std::ostringstream str;
-		str << "Unable to load file: " << filename << std::ends;
-		throw FileError(str.str().c_str());
-	}
+        alBufferData(buffer_->buffername_,format,data,size,freq);
+        if((error=alGetError())!=AL_FALSE)
+            throw FileError("Error buffering sound");
+        free(data);
+    } else {
+        std::ostringstream str;
+        str << "Unable to load file: " << filename << std::ends;
+        throw FileError(str.str().c_str());
+    }
 #else // OPENAL_VERSION < 2007
-	ALuint success = alutCreateBufferFromFile (filename.c_str());
+    ALuint success = alutCreateBufferFromFile (filename.c_str());
 
-	if(success!=AL_NONE) {
-		buffer_ = new SoundBuffer(success);
+    if(success!=AL_NONE) {
+        buffer_ = new SoundBuffer(success);
 
-	} else {
-		ALenum error = alutGetError ();
-		const char *error_str = alutGetErrorString (error);
-		std::ostringstream str;
-		str << "Error loading file: " << filename << ": " << error_str << std::ends;
-		throw FileError(str.str().c_str());
-	}
+    } else {
+        ALenum error = alutGetError ();
+        const char *error_str = alutGetErrorString (error);
+        std::ostringstream str;
+        str << "Error loading file: " << filename << ": " << error_str << std::ends;
+        throw FileError(str.str().c_str());
+    }
 #endif // OPENAL_VERSION < 2007
 }
 
@@ -84,15 +84,15 @@ Sample::Sample(const Sample &sample)
 
 Sample::Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq) throw (FileError)
 : SoundData() {
-	ALenum error;
+    ALenum error;
 
-	alBufferData(buffer_->getName(),format,data,size,freq);
-	if((error=alGetError())!=AL_FALSE)
-		throw FileError("Error buffering sound");
+    alBufferData(buffer_->getName(),format,data,size,freq);
+    if((error=alGetError())!=AL_FALSE)
+        throw FileError("Error buffering sound");
 }
 
 std::string Sample::getFileName() const {
-	return filename_;
+    return filename_;
 }
 
 
@@ -102,45 +102,45 @@ Sample::~Sample()
 }
 
 Sample &Sample::operator=(const Sample &sample) {
-	if(this!=&sample) {
-		SoundData::operator=(sample);
-		filename_=sample.filename_;
-	}
-	return *this;
+    if(this!=&sample) {
+        SoundData::operator=(sample);
+        filename_=sample.filename_;
+    }
+    return *this;
 }
 
 // A couple of utility functions. Might move them to their own file later...
 unsigned int openalpp::sampleSize(SampleFormat format) {
-	switch(format) {
-	case(Mono8):
-		return 1;
-		break;
-	case(Stereo8):
-	case(Mono16):
-		return 2;
-		break;
-	case(Stereo16):
-		return 4;
-		break;
-	default:
-		return 0;
-	}
+    switch(format) {
+    case(Mono8):
+        return 1;
+        break;
+    case(Stereo8):
+    case(Mono16):
+        return 2;
+        break;
+    case(Stereo16):
+        return 4;
+        break;
+    default:
+        return 0;
+    }
 }
 
 unsigned int openalpp::sampleSize(ALenum format) {
-	switch(format) {
-	case(AL_FORMAT_MONO8):
-		return 1;
-		break;
-	case(AL_FORMAT_STEREO8):
-	case(AL_FORMAT_MONO16):
-		return 2;
-		break;
-	case(AL_FORMAT_STEREO16):
-		return 4;
-		break;
-	default:
-		return 0;
-	}
+    switch(format) {
+    case(AL_FORMAT_MONO8):
+        return 1;
+        break;
+    case(AL_FORMAT_STEREO8):
+    case(AL_FORMAT_MONO16):
+        return 2;
+        break;
+    case(AL_FORMAT_STEREO16):
+        return 4;
+        break;
+    default:
+        return 0;
+    }
 }
 

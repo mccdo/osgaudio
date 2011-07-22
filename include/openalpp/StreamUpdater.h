@@ -52,146 +52,146 @@
 
 namespace openalpp {
 
-	/**
-	* Base class for (threaded) updating of stream buffers.
-	*/
-	class OPENALPP_API StreamUpdater : public OpenThreads::Thread, public OpenThreads::ReentrantMutex, public osg::Referenced {
+    /**
+    * Base class for (threaded) updating of stream buffers.
+    */
+    class OPENALPP_API StreamUpdater : public OpenThreads::Thread, public OpenThreads::ReentrantMutex, public osg::Referenced {
 
-	public:
-		/**
-		* Constructor.
-		* @param buffer1 and...
-		* @param buffer2 are the buffers used for double-buffered streaming.
-		* @param format is the (OpenAL) format of the sound.
-		* @param frequency is the frequency of the sound.
-		*/
-		StreamUpdater(ALuint buffer1,ALuint buffer2,
-			ALenum format,unsigned int frequency);
-
-
-		/**
-		* Add a source to the stream.
-		* @param sourcename is the OpenAL name of the source.
-		*/
-		void addSource(ALuint sourcename);
-
-		/**
-		* Remove a source from the stream.
-		* @param sourcename is the OpenAL name of the source.
-		*/
-		void removeSource(ALuint sourcename);
-
-		/**
-		* Seeks to specified time
-		*/
-		virtual void seek(float time_s) {};
+    public:
+        /**
+        * Constructor.
+        * @param buffer1 and...
+        * @param buffer2 are the buffers used for double-buffered streaming.
+        * @param format is the (OpenAL) format of the sound.
+        * @param frequency is the frequency of the sound.
+        */
+        StreamUpdater(ALuint buffer1,ALuint buffer2,
+            ALenum format,unsigned int frequency);
 
 
-		/**
-		* Tell this StreamUpdater thread to wait until some thread call its release
-		*/
-		void hold() { m_playEvent.reset(); } 
+        /**
+        * Add a source to the stream.
+        * @param sourcename is the OpenAL name of the source.
+        */
+        void addSource(ALuint sourcename);
 
-		/**
-		* Release this thread.
-		*/
-		void release() { m_playEvent.release(); }
+        /**
+        * Remove a source from the stream.
+        * @param sourcename is the OpenAL name of the source.
+        */
+        void removeSource(ALuint sourcename);
 
-		/**
-		* Update the stream.
-		* I.e. add new data to play.
-		* @param buffer is a pointer to sound data.
-		* @param length is the length of the sound data (in bytes).
-		* @return done flag. I.e. stoprunning_.
-		*/
-		bool update(void *buffer,unsigned int length); 
-
-		/**
-		Tell the thread to stop executing, also release it if it is waiting to play.
-		*/
-		virtual void stop() { stoprunning_ = true; release(); }
-
-		/**
-		@return true if the stop method has been called
-
-		*/
-		bool shouldStop() const { return stoprunning_; }
-
-		/**
-		* Inherited from Thread.
-		* Is called after run() finishes, and deletes this.
-		*/
-		void cancelCleanup();
-
-		/**
-		*/
-		void setSleepTime(int mseconds) { sleepTime_ = mseconds; }
-
-	protected:
-
-		/**
-		* Remove any sources that the user has scheduled for removal.
-		*/
-		void processRemovedSources();
-
-		/**
-		* Add any sources that the user has scheduled for adding.
-		*/
-		void processAddedSources();
-
-		/**
-		* Destructor.
-		*/
-		virtual ~StreamUpdater();
-
-		/**
-		*  Wait for someone to call release. This indicates that we should start playing a stream
-		*/
-		void waitForPlay() { m_playEvent.block(); }
-
-		/**
-		* Names of the buffers to update.
-		*/
-		ALuint buffers_[2];
-
-		/**
-		* OpenAL format of the sound data.
-		*/
-		ALenum format_;
-
-		/**
-		* Frequency of the sound data.
-		*/
-		unsigned int frequency_;
-
-		/**
-		* Source to update.
-		*/
-
-		std::vector<ALuint> sources_,newsources_,removesources_;
-		/**
-		* Flag for when Run should stop running.
-		*/ 
-		bool stoprunning_;
+        /**
+        * Seeks to specified time
+        */
+        virtual void seek(float time_s) {};
 
 
-		/**
-		* Mutex for stoprunning_.
-		*/
-		OpenThreads::ReentrantMutex runmutex_;
+        /**
+        * Tell this StreamUpdater thread to wait until some thread call its release
+        */
+        void hold() { m_playEvent.reset(); } 
 
-		/**
-		* Time to sleep in run method, i.e. sleeptime to reduce CPU usage
-		*/
-		int sleepTime_;
-		void sleep() { OpenThreads::Thread::microSleep(sleepTime_); }
+        /**
+        * Release this thread.
+        */
+        void release() { m_playEvent.release(); }
+
+        /**
+        * Update the stream.
+        * I.e. add new data to play.
+        * @param buffer is a pointer to sound data.
+        * @param length is the length of the sound data (in bytes).
+        * @return done flag. I.e. stoprunning_.
+        */
+        bool update(void *buffer,unsigned int length); 
+
+        /**
+        Tell the thread to stop executing, also release it if it is waiting to play.
+        */
+        virtual void stop() { stoprunning_ = true; release(); }
+
+        /**
+        @return true if the stop method has been called
+
+        */
+        bool shouldStop() const { return stoprunning_; }
+
+        /**
+        * Inherited from Thread.
+        * Is called after run() finishes, and deletes this.
+        */
+        void cancelCleanup();
+
+        /**
+        */
+        void setSleepTime(int mseconds) { sleepTime_ = mseconds; }
+
+    protected:
+
+        /**
+        * Remove any sources that the user has scheduled for removal.
+        */
+        void processRemovedSources();
+
+        /**
+        * Add any sources that the user has scheduled for adding.
+        */
+        void processAddedSources();
+
+        /**
+        * Destructor.
+        */
+        virtual ~StreamUpdater();
+
+        /**
+        *  Wait for someone to call release. This indicates that we should start playing a stream
+        */
+        void waitForPlay() { m_playEvent.block(); }
+
+        /**
+        * Names of the buffers to update.
+        */
+        ALuint buffers_[2];
+
+        /**
+        * OpenAL format of the sound data.
+        */
+        ALenum format_;
+
+        /**
+        * Frequency of the sound data.
+        */
+        unsigned int frequency_;
+
+        /**
+        * Source to update.
+        */
+
+        std::vector<ALuint> sources_,newsources_,removesources_;
+        /**
+        * Flag for when Run should stop running.
+        */ 
+        bool stoprunning_;
 
 
-		/** Event signaling that source is playing
-		*
-		*/
-		OpenThreads::Block m_playEvent;
-	};
+        /**
+        * Mutex for stoprunning_.
+        */
+        OpenThreads::ReentrantMutex runmutex_;
+
+        /**
+        * Time to sleep in run method, i.e. sleeptime to reduce CPU usage
+        */
+        int sleepTime_;
+        void sleep() { OpenThreads::Thread::microSleep(sleepTime_); }
+
+
+        /** Event signaling that source is playing
+        *
+        */
+        OpenThreads::Block m_playEvent;
+    };
 
 }
 

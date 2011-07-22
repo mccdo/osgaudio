@@ -31,52 +31,52 @@
 
 namespace openalpp {
 
-	/**
-	* Virtual base class for positioned objects.
-	* (I.e. listeners and sources).
-	*/
-	class OPENALPP_API PositionedObject : public AudioBase {
+    /**
+    * Virtual base class for positioned objects.
+    * (I.e. listeners and sources).
+    */
+    class OPENALPP_API PositionedObject : public AudioBase {
 
-	public:
+    public:
 
-		PositionedObject() {}
+        PositionedObject() {}
 
-		/**
-		* Set position.
-		* @param x x coordinate.
-		* @param y y coordinate.
-		* @param z z coordinate.
-		*/
-		virtual void setPosition(float x, float y, float z)=0;
+        /**
+        * Set position.
+        * @param x x coordinate.
+        * @param y y coordinate.
+        * @param z z coordinate.
+        */
+        virtual void setPosition(float x, float y, float z)=0;
 
-		/**
-		* Get position.
-		* @param x x coordinate.
-		* @param y y coordinate.
-		* @param z z coordinate.
-		*/
-		virtual void getPosition(float &x, float &y, float &z) const =0;
+        /**
+        * Get position.
+        * @param x x coordinate.
+        * @param y y coordinate.
+        * @param z z coordinate.
+        */
+        virtual void getPosition(float &x, float &y, float &z) const =0;
 
-		/**
-		* Set velocity.
-		* @param vx x member of velocity vector.
-		* @param vy y member of velocity vector.
-		* @param vz z member of velocity vector.
-		*/
-		virtual void setVelocity(float vx, float vy, float vz)=0;
+        /**
+        * Set velocity.
+        * @param vx x member of velocity vector.
+        * @param vy y member of velocity vector.
+        * @param vz z member of velocity vector.
+        */
+        virtual void setVelocity(float vx, float vy, float vz)=0;
 
-		/**
-		* Get velocity.
-		* @param vx x member of velocity vector.
-		* @param vy y member of velocity vector.
-		* @param vz z member of velocity vector.
-		*/
-		virtual void getVelocity(float &vx, float &vy, float &vz) const =0;
+        /**
+        * Get velocity.
+        * @param vx x member of velocity vector.
+        * @param vy y member of velocity vector.
+        * @param vz z member of velocity vector.
+        */
+        virtual void getVelocity(float &vx, float &vy, float &vz) const =0;
 
-	protected:
-		virtual ~PositionedObject() {}
+    protected:
+        virtual ~PositionedObject() {}
 
-	};
+    };
 
 }
 

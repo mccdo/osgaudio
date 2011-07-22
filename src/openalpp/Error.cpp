@@ -29,10 +29,10 @@ using namespace openalpp;
 
 //##ModelId=3BDD35A001D5
 std::ostream &openalpp::Error::put(std::ostream &stream) const {
-	return (stream << what());
+    return (stream << what());
 }
 
 std::ostream &openalpp::operator<<(std::ostream &stream,const Error &error) {
-	return error.put(stream);
+    return error.put(stream);
 }
 

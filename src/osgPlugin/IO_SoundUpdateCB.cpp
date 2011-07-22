@@ -51,53 +51,53 @@ RegisterDotOsgWrapperProxy SoundUpdateCBProxy
 
 bool SoundUpdateCB_readLocalData(osg::Object &obj, osgDB::Input &fr)
 {
-	SoundUpdateCB* cb = dynamic_cast<SoundUpdateCB*>( &obj );
+    SoundUpdateCB* cb = dynamic_cast<SoundUpdateCB*>( &obj );
 
-	/************************************************************************
-	* Using this code, apps like osgviewer could use this kind of nodes and work,
-	* but they will exit with crash !
-	************************************************************************/
+    /************************************************************************
+    * Using this code, apps like osgviewer could use this kind of nodes and work,
+    * but they will exit with crash !
+    ************************************************************************/
 
-	if(!SoundManager::instance()->initialized()) {
-		osg::notify(osg::WARN) << "osgdb_osgAudio::SoundUpdateCB_readLocalData(): WARNING!!! ";
-		osg::notify(osg::WARN) << "The osgAudio plugin is initializing the SoundManager. ";
-		osg::notify(osg::WARN) << "So surely nobody will shutdown it, and I will exit with a crash!" << std::endl;
-		osgAudio::SoundManager::instance()->init(16);
-		osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance);
-		osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(1);
-	}
+    if(!SoundManager::instance()->initialized()) {
+        osg::notify(osg::WARN) << "osgdb_osgAudio::SoundUpdateCB_readLocalData(): WARNING!!! ";
+        osg::notify(osg::WARN) << "The osgAudio plugin is initializing the SoundManager. ";
+        osg::notify(osg::WARN) << "So surely nobody will shutdown it, and I will exit with a crash!" << std::endl;
+        osgAudio::SoundManager::instance()->init(16);
+        osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance);
+        osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(1);
+    }
 
-	bool itAdvanced = false;
+    bool itAdvanced = false;
 
-	SoundState *ss = dynamic_cast<SoundState*>(fr.readObject());
-	if(ss != NULL) {
-		cb->setSoundState(ss);
-		itAdvanced = true;
-	}
+    SoundState *ss = dynamic_cast<SoundState*>(fr.readObject());
+    if(ss != NULL) {
+        cb->setSoundState(ss);
+        itAdvanced = true;
+    }
 
-	OccludeCallback *oc = dynamic_cast<OccludeCallback*>(fr.readObject());
-	if(oc != NULL) {
-		cb->setOccludeCallback(oc);
-		itAdvanced = true;
-	}
+    OccludeCallback *oc = dynamic_cast<OccludeCallback*>(fr.readObject());
+    if(oc != NULL) {
+        cb->setOccludeCallback(oc);
+        itAdvanced = true;
+    }
 
-	return itAdvanced;
+    return itAdvanced;
 }
 
 bool SoundUpdateCB_writeLocalData(const Object& obj, Output& fw)
 {
-	const SoundUpdateCB* cb = dynamic_cast<const SoundUpdateCB*>( &obj );
-	bool itAdvanced = false;
+    const SoundUpdateCB* cb = dynamic_cast<const SoundUpdateCB*>( &obj );
+    bool itAdvanced = false;
 
-	if(cb->getSoundState() != NULL)  {
-		fw.writeObject( *(cb->getSoundState()) );
-		itAdvanced = true;
-	}
+    if(cb->getSoundState() != NULL)  {
+        fw.writeObject( *(cb->getSoundState()) );
+        itAdvanced = true;
+    }
 
-	if(cb->getOccludeCallback() != NULL) {
-		fw.writeObject( *(cb->getOccludeCallback()) );
-		itAdvanced = true;
-	}
+    if(cb->getOccludeCallback() != NULL) {
+        fw.writeObject( *(cb->getOccludeCallback()) );
+        itAdvanced = true;
+    }
 
-	return itAdvanced;
+    return itAdvanced;
 }

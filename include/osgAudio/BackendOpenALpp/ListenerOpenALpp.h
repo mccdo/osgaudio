@@ -36,127 +36,127 @@
 
 namespace osgAudio 
 {
-	/// A Listener represents the location of an object that can collect audio from the 3D scene.
-	/*!
-	This class offers a basic abstract API that adapts to various audio backends.
-	It is based on the Adapter Design pattern.
-	*/
-	class OSGAUDIO_EXPORT Listener : public osg::Referenced {
+    /// A Listener represents the location of an object that can collect audio from the 3D scene.
+    /*!
+    This class offers a basic abstract API that adapts to various audio backends.
+    It is based on the Adapter Design pattern.
+    */
+    class OSGAUDIO_EXPORT Listener : public osg::Referenced {
 
-	public:
+    public:
 
-		/**
-		* Constructor.
-		* Creates the listener at the default position.
-		*/
-		Listener();
+        /**
+        * Constructor.
+        * Creates the listener at the default position.
+        */
+        Listener();
 
 
-		/**
-		* Copy constructor.
-		*/
-		Listener(const Listener &listener);
+        /**
+        * Copy constructor.
+        */
+        Listener(const Listener &listener);
 
-		/**
-		* Constructor.
-		* Creates the listener at the specified position and orientation.
-		* @param x x coordinate
-		* @param y y coordinate
-		* @param z z coordinate
-		* @param directionx x value of the direction vector
-		* @param directiony y value of the direction vector
-		* @param directionz z value of the direction vector
-		* @param upx x value of the up vector
-		* @param upy y value of the up vector
-		* @param upz z value of the up vector
-		*/
-		Listener(float x,float y,float z,
-			float directionx,float directiony,float directionz,
-			float upx,float upy,float upz);
+        /**
+        * Constructor.
+        * Creates the listener at the specified position and orientation.
+        * @param x x coordinate
+        * @param y y coordinate
+        * @param z z coordinate
+        * @param directionx x value of the direction vector
+        * @param directiony y value of the direction vector
+        * @param directionz z value of the direction vector
+        * @param upx x value of the up vector
+        * @param upy y value of the up vector
+        * @param upz z value of the up vector
+        */
+        Listener(float x,float y,float z,
+            float directionx,float directiony,float directionz,
+            float upx,float upy,float upz);
 
-		/**
-		* Constructor.
-		* Creates the listener at the specified position.
-		* @param x x coordinate
-		* @param y y coordinate
-		* @param z z coordinate
-		*/
-		Listener(float x, float y, float z);
+        /**
+        * Constructor.
+        * Creates the listener at the specified position.
+        * @param x x coordinate
+        * @param y y coordinate
+        * @param z z coordinate
+        */
+        Listener(float x, float y, float z);
 
-		/**
-		* Select this listener.
-		*/
-		void select();
+        /**
+        * Select this listener.
+        */
+        void select();
 
-		/**
-		* Check if this listener is currently selected.
-		* @return true if this listener is selected, false otherwise.
-		*/
-		bool isSelected();
+        /**
+        * Check if this listener is currently selected.
+        * @return true if this listener is selected, false otherwise.
+        */
+        bool isSelected();
 
-		/**
-		* Set the current orientation of this listener.
-		* @param directionx x value of the direction vector
-		* @param directiony y value of the direction vector
-		* @param directionz z value of the direction vector
-		* @param upx x value of the up vector
-		* @param upy y value of the up vector
-		* @param upz z value of the up vector
-		*/
-		void setOrientation(float directionx,float directiony,float directionz,
-			float upx, float upy, float upz);
+        /**
+        * Set the current orientation of this listener.
+        * @param directionx x value of the direction vector
+        * @param directiony y value of the direction vector
+        * @param directionz z value of the direction vector
+        * @param upx x value of the up vector
+        * @param upy y value of the up vector
+        * @param upz z value of the up vector
+        */
+        void setOrientation(float directionx,float directiony,float directionz,
+            float upx, float upy, float upz);
 
-		/**
-		* Get the current orientation of this listener.
-		* @param directionx x value of the direction vector
-		* @param directiony y value of the direction vector
-		* @param directionz z value of the direction vector
-		* @param upx x value of the up vector
-		* @param upy y value of the up vector
-		* @param upz z value of the up vector
-		*/
-		void getOrientation(float &directionx,float &directiony,float &directionz, 
-			float &upx, float &upy, float &upz) const;
+        /**
+        * Get the current orientation of this listener.
+        * @param directionx x value of the direction vector
+        * @param directiony y value of the direction vector
+        * @param directionz z value of the direction vector
+        * @param upx x value of the up vector
+        * @param upy y value of the up vector
+        * @param upz z value of the up vector
+        */
+        void getOrientation(float &directionx,float &directiony,float &directionz, 
+            float &upx, float &upy, float &upz) const;
 
-		/**
-		* Assignment operator.
-		* @param listener is the object to make a copy of.
-		*/
-		Listener &operator=(const Listener &listener);
+        /**
+        * Assignment operator.
+        * @param listener is the object to make a copy of.
+        */
+        Listener &operator=(const Listener &listener);
 
-		/**
-		* Inherited from PositionedObject.
-		*/
-		void setPosition(float x, float y, float z);
+        /**
+        * Inherited from PositionedObject.
+        */
+        void setPosition(float x, float y, float z);
 
-		/**
-		* Inherited from PositionedObject.
-		*/
-		void getPosition(float &x, float &y, float &z) const;
+        /**
+        * Inherited from PositionedObject.
+        */
+        void getPosition(float &x, float &y, float &z) const;
 
-		/**
-		* Inherited from PositionedObject.
-		*/
-		virtual void setVelocity(float vx, float vy, float vz);
+        /**
+        * Inherited from PositionedObject.
+        */
+        virtual void setVelocity(float vx, float vy, float vz);
 
-		/**
-		* Inherited from PositionedObject.
-		*/
-		void getVelocity(float &vx, float &vy, float &vz) const;
+        /**
+        * Inherited from PositionedObject.
+        */
+        void getVelocity(float &vx, float &vy, float &vz) const;
 
-	protected:
-		/**
-		* Destructor.
-		*/
-		virtual ~Listener();
+    protected:
+        /**
+        * Destructor.
+        */
+        virtual ~Listener();
 
-	private:
-		osg::ref_ptr<openalpp::Listener> _openalppListener;
+    private:
+        osg::ref_ptr<openalpp::Listener> _openalppListener;
 
-		openalpp::Listener *getInternalListener(void) {return(_openalppListener.get());};
-		const openalpp::Listener *getInternalListener(void) const {return(_openalppListener.get());};
+        openalpp::Listener *getInternalListener(void) {return(_openalppListener.get());};
+        const openalpp::Listener *getInternalListener(void) const {return(_openalppListener.get());};
 
-		}; // Listener
+        }; // Listener
 
 } // namespace osgAudio
 

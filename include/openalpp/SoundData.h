@@ -41,65 +41,65 @@
 
 namespace openalpp {
 
-	/**
-	* Base class for sound data.
-	*/
-	class OPENALPP_API SoundData : public AudioBase {
-	protected:
-		/**
-		* Protected class to handle generation/deletion of OpenAL buffers correctly.
-		*/
-		class SoundBuffer : public osg::Referenced {
-			ALuint buffername_;
-		protected:
-			virtual ~SoundBuffer();
+    /**
+    * Base class for sound data.
+    */
+    class OPENALPP_API SoundData : public AudioBase {
+    protected:
+        /**
+        * Protected class to handle generation/deletion of OpenAL buffers correctly.
+        */
+        class SoundBuffer : public osg::Referenced {
+            ALuint buffername_;
+        protected:
+            virtual ~SoundBuffer();
 
-		public:
-			SoundBuffer() throw (NameError);
-			SoundBuffer(ALuint buffer_id) throw (NameError) { buffername_ = buffer_id; }
-			ALuint getName() {return buffername_;}
-		};
-	public:
-		/**
-		* Get the OpenAL name for the buffer.
-		* @return the OpenAL name.
-		*/
-		ALuint getAlBuffer() const;
+        public:
+            SoundBuffer() throw (NameError);
+            SoundBuffer(ALuint buffer_id) throw (NameError) { buffername_ = buffer_id; }
+            ALuint getName() {return buffername_;}
+        };
+    public:
+        /**
+        * Get the OpenAL name for the buffer.
+        * @return the OpenAL name.
+        */
+        ALuint getAlBuffer() const;
 
-		/**
-		* Constructor.
-		*/
-		SoundData() throw (NameError,InitError);
+        /**
+        * Constructor.
+        */
+        SoundData() throw (NameError,InitError);
 
 
 
-		/**
-		* Copy constructor.
-		*/
-		SoundData(const SoundData &sounddata);
+        /**
+        * Copy constructor.
+        */
+        SoundData(const SoundData &sounddata);
 
-		/**
-		* Assignment operator.
-		*/
-		SoundData &operator=(const SoundData &sounddata);
+        /**
+        * Assignment operator.
+        */
+        SoundData &operator=(const SoundData &sounddata);
 
-	protected:
+    protected:
 
-		/**
-		* Destructor.
-		*/
-		virtual ~SoundData();
+        /**
+        * Destructor.
+        */
+        virtual ~SoundData();
 
-		/**
-		* See class SoundBuffer comment.
-		*/
-		osg::ref_ptr<SoundBuffer> buffer_;
+        /**
+        * See class SoundBuffer comment.
+        */
+        osg::ref_ptr<SoundBuffer> buffer_;
 
-		/**
-		* OpenAL name for the buffer.
-		*/
-		//ALuint buffername_;
-	};
+        /**
+        * OpenAL name for the buffer.
+        */
+        //ALuint buffername_;
+    };
 
 }
 

@@ -4,85 +4,85 @@ SET(OSGAUDIO_USER_DEFINED_DYNAMIC_OR_STATIC SHARED)
 
 IF(0_ENABLE_SUBSYSTEM_FMOD)
   SET(LIB_PUBLIC_HEADERS_SUBSYSTEM
-	${HEADER_PATH}/BackendFMOD/AudioEnvironmentFMOD.h
-	${HEADER_PATH}/BackendFMOD/FileStreamFMOD.h
-	${HEADER_PATH}/BackendFMOD/ListenerFMOD.h
-	${HEADER_PATH}/BackendFMOD/SampleFMOD.h
-	${HEADER_PATH}/BackendFMOD/SourceFMOD.h
-	${HEADER_PATH}/BackendFMOD/StreamFMOD.h
-	${HEADER_PATH}/BackendFMOD/SoundFMOD.h
+    ${HEADER_PATH}/BackendFMOD/AudioEnvironmentFMOD.h
+    ${HEADER_PATH}/BackendFMOD/FileStreamFMOD.h
+    ${HEADER_PATH}/BackendFMOD/ListenerFMOD.h
+    ${HEADER_PATH}/BackendFMOD/SampleFMOD.h
+    ${HEADER_PATH}/BackendFMOD/SourceFMOD.h
+    ${HEADER_PATH}/BackendFMOD/StreamFMOD.h
+    ${HEADER_PATH}/BackendFMOD/SoundFMOD.h
   )
   SET(LIB_PUBLIC_SOURCES_SUBSYSTEM
-	BackendFMOD/AudioEnvironmentFMOD.cpp
-	BackendFMOD/FileStreamFMOD.cpp
-	BackendFMOD/ListenerFMOD.cpp
-	BackendFMOD/SampleFMOD.cpp
-	BackendFMOD/SourceFMOD.cpp
-	BackendFMOD/StreamFMOD.cpp
+    BackendFMOD/AudioEnvironmentFMOD.cpp
+    BackendFMOD/FileStreamFMOD.cpp
+    BackendFMOD/ListenerFMOD.cpp
+    BackendFMOD/SampleFMOD.cpp
+    BackendFMOD/SourceFMOD.cpp
+    BackendFMOD/StreamFMOD.cpp
   )
 ENDIF(0_ENABLE_SUBSYSTEM_FMOD)
 
 IF(0_ENABLE_SUBSYSTEM_OPENAL)
   SET(LIB_PUBLIC_HEADERS_SUBSYSTEM
-	${HEADER_PATH}/BackendOpenALpp/AudioEnvironmentOpenALpp.h
-	${HEADER_PATH}/BackendOpenALpp/FileStreamOpenALpp.h
-	${HEADER_PATH}/BackendOpenALpp/ListenerOpenALpp.h
-	${HEADER_PATH}/BackendOpenALpp/SampleOpenALpp.h
-	${HEADER_PATH}/BackendOpenALpp/SourceOpenALpp.h
-	${HEADER_PATH}/BackendOpenALpp/StreamOpenALpp.h
+    ${HEADER_PATH}/BackendOpenALpp/AudioEnvironmentOpenALpp.h
+    ${HEADER_PATH}/BackendOpenALpp/FileStreamOpenALpp.h
+    ${HEADER_PATH}/BackendOpenALpp/ListenerOpenALpp.h
+    ${HEADER_PATH}/BackendOpenALpp/SampleOpenALpp.h
+    ${HEADER_PATH}/BackendOpenALpp/SourceOpenALpp.h
+    ${HEADER_PATH}/BackendOpenALpp/StreamOpenALpp.h
   )
   SET(LIB_PUBLIC_SOURCES_SUBSYSTEM
-	BackendOpenALpp/AudioEnvironmentOpenALpp.cpp
-	BackendOpenALpp/FileStreamOpenALpp.cpp
-	BackendOpenALpp/ListenerOpenALpp.cpp
-	BackendOpenALpp/SampleOpenALpp.cpp
-	BackendOpenALpp/SourceOpenALpp.cpp
-	BackendOpenALpp/StreamOpenALpp.cpp
+    BackendOpenALpp/AudioEnvironmentOpenALpp.cpp
+    BackendOpenALpp/FileStreamOpenALpp.cpp
+    BackendOpenALpp/ListenerOpenALpp.cpp
+    BackendOpenALpp/SampleOpenALpp.cpp
+    BackendOpenALpp/SourceOpenALpp.cpp
+    BackendOpenALpp/StreamOpenALpp.cpp
   )
 ENDIF(0_ENABLE_SUBSYSTEM_OPENAL)
 
 
 SET(LIB_PUBLIC_HEADERS
-	${HEADER_PATH}/AudioEnvironment.h
-	${HEADER_PATH}/Config.h
-	${HEADER_PATH}/Error.h
-	${HEADER_PATH}/Export.h
-	${HEADER_PATH}/FileStream.h
-	${HEADER_PATH}/Listener.h
-	${HEADER_PATH}/OccludeCallback.h
-	${HEADER_PATH}/Sample.h
-	${HEADER_PATH}/SoundDefaults.h
-	${HEADER_PATH}/SoundManager.h
-	${HEADER_PATH}/SoundNode.h
-	${HEADER_PATH}/SoundUpdateCB.h
-	${HEADER_PATH}/SoundRoot.h
-	${HEADER_PATH}/SoundState.h
-	${HEADER_PATH}/Source.h
-	${HEADER_PATH}/SourceBase.h
-	${HEADER_PATH}/Stream.h
-	${HEADER_PATH}/Version.h
+    ${HEADER_PATH}/AudioEnvironment.h
+    ${HEADER_PATH}/Config.h
+    ${HEADER_PATH}/Error.h
+    ${HEADER_PATH}/Export.h
+    ${HEADER_PATH}/FileStream.h
+    ${HEADER_PATH}/Listener.h
+    ${HEADER_PATH}/OccludeCallback.h
+    ${HEADER_PATH}/Sample.h
+    ${HEADER_PATH}/SoundDefaults.h
+    ${HEADER_PATH}/SoundManager.h
+    ${HEADER_PATH}/SoundNode.h
+    ${HEADER_PATH}/SoundUpdateCB.h
+    ${HEADER_PATH}/SoundRoot.h
+    ${HEADER_PATH}/SoundState.h
+    ${HEADER_PATH}/Source.h
+    ${HEADER_PATH}/SourceBase.h
+    ${HEADER_PATH}/Stream.h
+    ${HEADER_PATH}/Version.h
 )
 
 ADD_LIBRARY(
-	${LIB_NAME}
-	${OSGAUDIO_USER_DEFINED_DYNAMIC_OR_STATIC}
-	${LIB_PUBLIC_HEADERS}
-	${LIB_PUBLIC_HEADERS_SUBSYSTEM}
-	${LIB_PUBLIC_SOURCES_SUBSYSTEM}
-	Error.cpp
-	FileStream.cpp
-	Listener.cpp
-	OccludeCallback.cpp
-	Sample.cpp
-	SoundDefaults.cpp
-	SoundManager.cpp
-	SoundNode.cpp
-	SoundUpdateCB.cpp
-	SoundRoot.cpp
-	SoundState.cpp
-	Source.cpp
-	Stream.cpp
-	Version.cpp
+    ${LIB_NAME}
+    ${OSGAUDIO_USER_DEFINED_DYNAMIC_OR_STATIC}
+    ${LIB_PUBLIC_HEADERS}
+    ${LIB_PUBLIC_HEADERS_SUBSYSTEM}
+    ${LIB_PUBLIC_SOURCES_SUBSYSTEM}
+    Error.cpp
+    FileStream.cpp
+    Listener.cpp
+    OccludeCallback.cpp
+    Sample.cpp
+    SoundDefaults.cpp
+    SoundManager.cpp
+    SoundNode.cpp
+    SoundUpdateCB.cpp
+    SoundRoot.cpp
+    SoundState.cpp
+    Source.cpp
+    Stream.cpp
+    Version.cpp
 )
 
 add_definitions( 
@@ -98,9 +98,9 @@ TARGET_LINK_LIBRARIES( ${LIB_NAME} ${OSG_LIBRARIES} )
 TARGET_LINK_LIBRARIES( ${LIB_NAME} ${SUBSYSTEM_TARGET_LINKS} )
 
 IF(MSVC_IDE)
-	# Ugly workaround to remove the "/debug" or "/release" in each output
-	SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES PREFIX "../")
-	SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES IMPORT_PREFIX "../")
+    # Ugly workaround to remove the "/debug" or "/release" in each output
+    SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES PREFIX "../")
+    SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES IMPORT_PREFIX "../")
 ENDIF()
-	
+    
 INCLUDE(ModuleInstall OPTIONAL)
