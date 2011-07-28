@@ -431,7 +431,12 @@ float Source::getRolloffFactor() const {
 		_FMODChannel->getReverbProperties(&prop);
 	} // if
 
+#if( FMOD_VERSION >= 0x00043600 )
+    // RolloffFactor no longer a memver of FMOD_REVERB_CHANNELPROPERTIES?!?
+    return( 1.f );
+#else
 	return(prop.RolloffFactor);
+#endif
 }
 
 void Source::initPitchSupport(void)
