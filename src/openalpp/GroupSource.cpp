@@ -306,7 +306,10 @@ ALshort *GroupSource::applyFilters(Source *source,ALshort *buffer,
                                            ALfloat index=0.0;
                                            for(unsigned int i=0;i<(nsize/(2*sizeof(ALshort)));i++) {
                                                if(index*2>(size/sizeof(ALshort)))
+                                               {
+                                                   free(nbuffer);
                                                    throw FatalError("index>size - we're all doomed!");
+                                               }
                                                int iindex=(int)index;
                                                float fracindex=index-(float)iindex;
                                                unsigned int destl=i*2,destr=i*2+1;
