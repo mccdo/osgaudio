@@ -1,7 +1,7 @@
 /* -*-c++-*- $Id: osgaudioviewer.cpp,v 1.2 */
 /**
  * osgAudio - OpenSceneGraph Audio Library
- * (C) Copyright 2009-2011 by Kenneth Mark Bryden
+ * (C) Copyright 2009-2012 byKenneth Mark Bryden
  * (programming by Chris 'Xenon' Hanson, AlphaPixel, LLC xenon at alphapixel.com)
  * based on a fork of:
  * Osg AL - OpenSceneGraph Audio Library
