@@ -4,7 +4,6 @@
 # TODO:
 # Check on Mac OSX
 # Copy includes in out-of-the-source builds ?
-# Add documentation subproject ?
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8 FATAL_ERROR)
 
@@ -208,3 +207,23 @@ ADD_SUBDIRECTORY(src)
 IF(0_BUILD_EXAMPLES_OSGAUDIO)
     ADD_SUBDIRECTORY(examples)
 ENDIF(0_BUILD_EXAMPLES_OSGAUDIO)
+
+
+#
+# Doxygen
+find_package( Doxygen )
+if( DOXYGEN_FOUND )
+    set( HAVE_DOT "NO" )
+    if( DOXYGEN_DOT_PATH )
+        set( HAVE_DOT "YES" )
+    endif()
+    
+    configure_file( ${PROJECT_SOURCE_DIR}/doc/doxyfile.cmake
+        ${PROJECT_BINARY_DIR}/doc/doxyfile
+    )
+    add_custom_target( Documentation ${DOXYGEN_EXECUTABLE}
+        ${PROJECT_BINARY_DIR}/doc/doxyfile
+    )
+
+    add_subdirectory( doc )
+endif()
