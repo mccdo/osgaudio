@@ -5,14 +5,16 @@
 # Check on Mac OSX
 # Copy includes in out-of-the-source builds ?
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8 FATAL_ERROR)
 
 project( osgAudio )
+# Note: These values are used by include/osgwTools/Version.in
+# to generate the Version.h file.
 SET(OSGAUDIO_MAJOR_VERSION 2)
 SET(OSGAUDIO_MINOR_VERSION 0)
-SET(OSGAUDIO_PATCH_VERSION 0)
+SET(OSGAUDIO_SUB_VERSION 0)
 
-SET(OSGAUDIO_VERSION ${OSGAUDIO_MAJOR_VERSION}.${OSGAUDIO_MINOR_VERSION}.${OSGAUDIO_PATCH_VERSION})
+SET(OSGAUDIO_VERSION ${OSGAUDIO_MAJOR_VERSION}.${OSGAUDIO_MINOR_VERSION}.${OSGAUDIO_SUB_VERSION})
 
 # We have some custom .cmake scripts not in the official distribution.
 SET(CMAKE_MODULE_PATH "${osgAudio_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
@@ -68,16 +70,6 @@ IF(0_ENABLE_SUBSYSTEM_FMOD)
     MESSAGE("FMOD not found. Consider using OpenAL instead, using 0_ENABLE_SUBSYSTEM_OPENAL option")
   ENDIF()
 ENDIF(0_ENABLE_SUBSYSTEM_FMOD)
-
-# this is probably not the proper way to do this, twice.
-configure_file (
-  ${PROJECT_SOURCE_DIR}/include/osgAudio/Config.h.in
-  ${PROJECT_SOURCE_DIR}/include/osgAudio/Config.h
-  )
-configure_file (
-  ${PROJECT_SOURCE_DIR}/include/osgAudio/Config.h.in
-  ${PROJECT_BINARY_DIR}/include/osgAudio/Config.h
-  )
 
 OPTION(0_BUILD_EXAMPLES_OSGAUDIO "Set to ON to build osgAudio examples." ON)
 OPTION(0_BUILD_EXAMPLES_OSGAUDIO_LOWLEVEL "Set to ON to build osgAudio low-level examples." ON)
