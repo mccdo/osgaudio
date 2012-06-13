@@ -1,7 +1,7 @@
 /* -*-c++-*- */
 /**
  * osgAudio - OpenSceneGraph Audio Library
- * (C) Copyright 2009-2012 byKenneth Mark Bryden
+ * (C) Copyright 2009-2011 by Kenneth Mark Bryden
  * (programming by Chris 'Xenon' Hanson, AlphaPixel, LLC xenon at alphapixel.com)
  * based on a fork of:
  * Osg AL - OpenSceneGraph Audio Library
@@ -40,9 +40,9 @@
  *
  */
 
-#define OSGAUDIO_MAJOR_VERSION 2
-#define OSGAUDIO_MINOR_VERSION 0
-#define OSGAUDIO_SUB_VERSION 0
+#define OSGAUDIO_MAJOR_VERSION (@OSGAUDIO_MAJOR_VERSION@)
+#define OSGAUDIO_MINOR_VERSION (@OSGAUDIO_MINOR_VERSION@)
+#define OSGAUDIO_SUB_VERSION (@OSGAUDIO_SUB_VERSION@)
 
 // C preprocessor integrated version number.
 // The form is Mmmss, where:
@@ -58,6 +58,7 @@
         ( OSGAUDIO_MINOR_VERSION * 100 ) + \
         OSGAUDIO_SUB_VERSION )
 
+///Define whether we are using OpenAL or FMOD
 
 /// Integration of 3D Sound into OpenSceneGraph.
 namespace osgAudio {
