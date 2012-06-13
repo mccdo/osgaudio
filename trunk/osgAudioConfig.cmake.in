@@ -1,0 +1,31 @@
+# - Config file for the osgAudio package
+# It defines the following variables
+#  OSGAUDIO_INCLUDE_DIRS - include directories for osgAudio
+#  OSGAUDIO_LIBRARIES    - libraries to link against
+#  OSGAUDIO_EXECUTABLE   - the bar executable
+
+@PACKAGE_INIT@
+
+# These are IMPORTED targets created by osgWorksLibraryDepends.cmake
+set(OSGAUDIO_LIBRARIES "osgAudio" )
+#set(OSGWORKS_EXECUTABLE test)
+
+# Compute paths
+if(EXISTS "${PACKAGE_PREFIX_DIR}/CMakeCache.txt")
+    # In build tree
+    include("${PACKAGE_PREFIX_DIR}/lib/osgAudioBuildTreeSettings.cmake")
+    # Our library dependencies (contains definitions for IMPORTED targets)
+    include("${PACKAGE_PREFIX_DIR}/lib/osgAudioLibraryDepends.cmake")
+else()
+    set_and_check(OSGAUDIO_INCLUDE_DIRS "${PACKAGE_PREFIX_DIR}/include")
+    # The osgAudio targets file.
+    if(EXISTS "${PACKAGE_PREFIX_DIR}/lib/osgaudio-targets.cmake")
+        include("${PACKAGE_PREFIX_DIR}/lib/osgaudio-targets.cmake")
+    endif()
+endif()
+
+# The location of the UseosgAudio.cmake file.
+set(osgAudio_USE_FILE "${PACKAGE_PREFIX_DIR}/lib/UseosgAudio.cmake")
+
+set(ENABLE_SUBSYSTEM_OPENAL @ENABLE_SUBSYSTEM_OPENAL@)
+set(ENABLE_SUBSYSTEM_FMOD @ENABLE_SUBSYSTEM_FMOD@)

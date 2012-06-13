@@ -2,7 +2,6 @@
 # modified Jan 2010 from osgAL CMake script by Sukender (Benoit Neil), from OSG CMake script
 
 # TODO:
-# Check on Mac OSX
 # Copy includes in out-of-the-source builds ?
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8 FATAL_ERROR)
@@ -30,6 +29,9 @@ SET(SUBSYSTEM_TARGET_LINKS )
 # determine audio subsystem support
 OPTION(0_ENABLE_SUBSYSTEM_OPENAL "Set to ON to build support for OpenAL/OpenAL++ audio subsystem." OFF)
 OPTION(0_ENABLE_SUBSYSTEM_FMOD "Set to ON to build support for FMOD Ex audio subsystem." ON)
+
+SET(ENABLE_SUBSYSTEM_FMOD FALSE)
+SET(ENABLE_SUBSYSTEM_OPENAL FALSE)
 
 # OpenAL/OpenAL++ audio subsystem support
 IF(0_ENABLE_SUBSYSTEM_OPENAL)
@@ -219,3 +221,62 @@ if( DOXYGEN_FOUND )
 
     add_subdirectory( doc )
 endif()
+
+# On windows provide the user with the pdb files 
+# for debugging if they are present
+if(MSVC)
+    install(
+        DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/\${CMAKE_INSTALL_CONFIG_NAME}/
+        DESTINATION lib
+        USE_SOURCE_PERMISSIONS
+        COMPONENT libosgaudio-dev
+        FILES_MATCHING PATTERN "*.pdb"
+    )
+endif(MSVC)
+
+# Install the CMake find script for osgWorks
+install( FILES "extra/FindosgAudio.cmake"
+    DESTINATION "share/${CMAKE_PROJECT_NAME}/extra"
+    COMPONENT libosgaudio
+)
+
+#
+# Create and install all of the auto find tools
+# =============================================
+
+# Add all targets to the build-tree export set
+export(TARGETS osgAudio
+  FILE "${PROJECT_BINARY_DIR}/lib/osgWorksLibraryDepends.cmake")
+
+# Export the package for use from the build-tree
+# (this registers the build-tree with a global CMake-registry)
+export(PACKAGE osgAudio)
+
+# Create a osgWorksBuildTreeSettings.cmake file for the use from the build tree
+configure_file(osgAudioBuildTreeSettings.cmake.in
+  "${PROJECT_BINARY_DIR}/lib/osgAudioBuildTreeSettings.cmake" @ONLY)
+
+#configure_file(osgAudioConfig.cmake.in
+#  "${PROJECT_BINARY_DIR}/lib/osgAudioConfig.cmake" @ONLY)
+configure_file(osgAudioConfigVersion.cmake.in
+  "${PROJECT_BINARY_DIR}/lib/osgAudioConfigVersion.cmake" @ONLY)
+configure_file(UseosgAudio.cmake.in
+  "${PROJECT_BINARY_DIR}/lib/UseosgAudio.cmake" @ONLY)
+
+# Install the export set for use with the install-tree
+install(EXPORT osgaudio-targets DESTINATION lib)
+
+include( CMakePackageConfigHelpers )
+# Create the osgAudioConfig.cmake and osgAudioConfigVersion files
+#file(RELATIVE_PATH CONF_REL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/lib"
+#   "${CMAKE_INSTALL_PREFIX}/include")
+
+configure_package_config_file( 
+    osgAudioConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/lib/osgAudioConfig.cmake
+    INSTALL_DESTINATION lib
+    PATH_VARS ENABLE_SUBSYSTEM_OPENAL ENABLE_SUBSYSTEM_FMOD )
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/lib/osgAudioConfig.cmake 
+              ${CMAKE_CURRENT_BINARY_DIR}/lib/osgAudioConfigVersion.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/lib/UseosgAudio.cmake
+        DESTINATION lib )
