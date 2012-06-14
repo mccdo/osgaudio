@@ -17,6 +17,46 @@
 #             or the lib directory.  This is the 
 #             only cache entry.
 
+# To use osgAudio in a 3rd party project something like this can be used:
+#
+# ======================================================
+# osgAudio setup and dependency setup
+
+# find_package( osgAudio )
+# if( osgAudio_FOUND )
+#    include(${osgAudio_USE_FILE})
+# endif()
+
+# OpenAL/OpenAL++ audio subsystem support
+
+# IF(ENABLE_SUBSYSTEM_OPENAL)
+#     SET(ALUT_USE_AL_SUBDIR ON)
+#     FIND_PACKAGE(ALUT)
+#     if(ALUT_FOUND)
+#         include_directories(${ALUT_INCLUDE_DIR})
+#     endif(ALUT_FOUND)
+#     FIND_PACKAGE(OpenAL)
+#     if(OPENAL_FOUND)
+#         include_directories(${OPENAL_INCLUDE_DIR})
+#     endif(OPENAL_FOUND)
+#     FIND_PACKAGE(OGG)
+#     FIND_PACKAGE(Vorbis)
+#     if(VORBIS_FOUND)
+#         include_directories(${VORBIS_INCLUDE_DIR})
+#     endif(VORBIS_FOUND)
+#     FIND_PACKAGE(VorbisFile)
+# ENDIF(ENABLE_SUBSYSTEM_OPENAL)
+
+# FMOD Ex support
+
+# IF(ENABLE_SUBSYSTEM_FMOD)
+#     FIND_PACKAGE(FMOD)
+#     if( FMOD_FOUND )
+#         include_directories(${FMOD_INCLUDE_DIR})
+#     endif(FMOD_FOUND)
+# ENDIF(ENABLE_SUBSYSTEM_FMOD)
+
+# ======================================================
 
 # Assume not found.
 SET(osgAudio_FOUND 0)
