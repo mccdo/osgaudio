@@ -247,10 +247,10 @@ install( FILES "extra/FindosgAudio.cmake"
 # Add all targets to the build-tree export set
 IF(0_ENABLE_SUBSYSTEM_OPENAL)
     export(TARGETS osgAudio openalpp
-        FILE "${PROJECT_BINARY_DIR}/lib/osgWorksLibraryDepends.cmake")
+        FILE "${PROJECT_BINARY_DIR}/lib/osgAudioLibraryDepends.cmake")
 ELSE(0_ENABLE_SUBSYSTEM_OPENAL)
     export(TARGETS osgAudio
-        FILE "${PROJECT_BINARY_DIR}/lib/osgWorksLibraryDepends.cmake")
+        FILE "${PROJECT_BINARY_DIR}/lib/osgAudioLibraryDepends.cmake")
 ENDIF(0_ENABLE_SUBSYSTEM_OPENAL)
 
 # Export the package for use from the build-tree
