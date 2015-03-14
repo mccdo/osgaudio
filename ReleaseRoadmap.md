@@ -1,0 +1,11 @@
+
+
+# v2.x #
+
+**Status:** Not currently planned.
+
+# v2.0 #
+
+**Released 11 Sept 2010**
+
+First official release of osgAudio (after its previous life as osgAL).

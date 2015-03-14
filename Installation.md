@@ -1,0 +1,61 @@
+# Introduction #
+
+**osgAudio** requires [OpenSceneGraph](http://www.openscenegraph.org)
+
+**osgAudio** needs one audio back end selected at CMake configuration time. Currently [OpenAL](http://connect.creativelabs.com/openal/default.aspx) and [FMOD](http://www.fmod.org/) are supported.
+
+# Installing osgAudio #
+
+Once you have built osgAudio it is possible to install osgAudio into a directory that will contain a bin, lib, and include directory with the 'install' target for GNUMake. The location of this directory can be set via the CMake variable CMAKE\_INSTALL\_PREFIX. After you have installed osgAudio, be sure to point your (DY)LD\_LIBRARY\_PATH at the lib directory and your PATH at the bin directory. This will enable your applications to load the appropriate osgAudio libraries and plugins.
+
+# Details #
+
+## Dependencies ##
+
+Compatible versions of OSG: v2.6.1, v2.8.1, v2.8.2, and v2.8.3.
+
+OpenAL subsystem:
+  * [OpenAL](http://connect.creativelabs.com/openal/default.aspx)
+    * Portable low level sound library. Similar to OpenGL.
+    * OpenAL also depends on OggVorbis.
+  * [freeALUT](http://connect.creativelabs.com/openal/Downloads/Forms/AllItems.aspx)
+    * RootFolder=/openal/Downloads/ALUT
+    * Utility library for OpenAL
+  * [OggVorbis](http://www.vorbis.com/)
+    * Portable library for reading/writing ogg/vorbis files, which are similar to MP3 in quality and compression, but FREE.
+    * Both the libogg and libvorbis libraries are required.
+
+FMOD subsystem:
+  * [FMOD Ex](http://www.fmod.org/index.php/download)
+
+## Download ##
+
+To build **osgAudio** you first need to download and install OpenSceneGraph as well as the dependencies for your chosen audio subsystem.
+
+## Cross-platform build (using CMake) ##
+
+These instructions should work for a large range of platforms:
+  * Download and unzip or install [CMake](http://www.cmake.org).
+  * Follow CMake guides to prepare project files (Such as makefiles, MS-VisualC++ project files...). Basically :
+    * Run the GUI or the command line to configure
+    * Change cache values (Using the GUI or in CMakeCache.txt) according to what is necessary
+    * Repeat until everything is okay
+    * Generate project files
+  * Compile using your favorite compiler/IDE.
+
+### CMake settings ###
+  * All the boolean user-controlled options are prefixed with `0_` to force CMake to sort them to the top of the list. One of either `0_ENABLE_SUBSYSTEM_OPENAL` or `0_ENABLE_SUBSYSTEM_FMOD` should be checked, but not both.
+  * `0_BUILD_EXAMPLES_OSGAUDIO` builds the high-level OSG-integrated demo examples and is recommended.
+  * `0_BUILD_EXAMPLES_OSGAUDIO_LOWLEVEL` builds the low-level non-OSG-dependent examples that mimic the original OpenAL++ low-level examples, but use the **osgAudio** abstraction layer. Recommended.
+  * `0_BUILD_EXAMPLES_OPENALPP` builds the original low-level non-OSG-dependent examples that use the OpenAL++ API directly and not the **osgAudio** abstraction layer. These will only build if you compile with the OpenAL++ backend enabled. Recommended if you build with OpenAL++.
+
+## Unimplemented ##
+Audio recording, live audio input streams, and grouped audio sources are unimplemented in FMOD. Some more esoteric settings (such as reverb) may not be implemented in FMOD if a mapping between the original functionality and FMOD's API couldn't be found.
+
+## Testing ##
+If you are building for OpenAL++, first test the OpenAL++ low-level examples (`example_oalpp_*`).
+If you are using FMOD, or if that step passes, then test the **osgAudio** low-level example/demo programs (`example_osgaudiolow_*`). When those run ok, try the **osgAudio** high-level OSG-integrated examples (`example_osgaudio_*`).
+
+## Other platforms ##
+
+**osgAudio** has not been tested on platforms other than Linux and Windows. If you get it to work on another platform, contact us with information on how you did, and we'll add information to this file. Be sure to tell us about any changes you made to **osgAudio** to get it to work.
