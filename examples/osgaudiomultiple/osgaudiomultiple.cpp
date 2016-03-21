@@ -135,16 +135,16 @@ osg::Node* createBase(const osg::Vec3& center,float radius)
     normals->push_back(osg::Vec3(0.0f,0.0f,1.0f));
     
 
-    osg::Geometry* geom = new osg::Geometry;
+    deprecated_osg::Geometry* geom = new deprecated_osg::Geometry;
     geom->setVertexArray(coords);
     geom->setVertexIndices(coordIndices);
     
     geom->setColorArray(colors);
     geom->setColorIndices(colorIndices);
-    geom->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
+    geom->setColorBinding(deprecated_osg::Geometry::BIND_PER_PRIMITIVE);
     
     geom->setNormalArray(normals);
-    geom->setNormalBinding(osg::Geometry::BIND_OVERALL);
+    geom->setNormalBinding(deprecated_osg::Geometry::BIND_OVERALL);
     
     geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS,0,coordIndices->size()));
     
