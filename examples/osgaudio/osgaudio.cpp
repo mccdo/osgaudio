@@ -20,7 +20,7 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
 
@@ -211,16 +211,16 @@ osg::Node* createBase(const osg::Vec3& center,float radius)
     osg::Vec3Array* normals = new osg::Vec3Array;
     normals->push_back(osg::Vec3(0.0f,0.0f,1.0f));
 
-    osg::Geometry* geom = new osg::Geometry;
+    deprecated_osg::Geometry* geom = new deprecated_osg::Geometry;
     geom->setVertexArray(coords);
     geom->setVertexIndices(coordIndices);
 
     geom->setColorArray(colors);
     geom->setColorIndices(colorIndices);
-    geom->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
+    geom->setColorBinding(deprecated_osg::Geometry::BIND_PER_PRIMITIVE);
 
     geom->setNormalArray(normals);
-    geom->setNormalBinding(osg::Geometry::BIND_OVERALL);
+    geom->setNormalBinding(deprecated_osg::Geometry::BIND_OVERALL);
 
     geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS,0,coordIndices->size()));
 
