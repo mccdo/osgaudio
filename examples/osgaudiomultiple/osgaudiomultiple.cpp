@@ -31,6 +31,7 @@
 #include <osg/Geometry>
 #include <osg/Geode>
 #include <osg/ShapeDrawable>
+#include <osg/Version>
 #include <osgUtil/Optimizer>
 #include <osgDB/Registry>
 #include <osgDB/ReadFile>
@@ -134,18 +135,31 @@ osg::Node* createBase(const osg::Vec3& center,float radius)
     osg::Vec3Array* normals = new osg::Vec3Array;
     normals->push_back(osg::Vec3(0.0f,0.0f,1.0f));
     
-
+#if OSG_VERSION_GREATER_THAN(3,2,0)
     deprecated_osg::Geometry* geom = new deprecated_osg::Geometry;
+#else
+    osg::Geometry* geom = new osg::Geometry;
+#endif
     geom->setVertexArray(coords);
     geom->setVertexIndices(coordIndices);
     
     geom->setColorArray(colors);
     geom->setColorIndices(colorIndices);
+
+#if OSG_VERSION_GREATER_THAN(3,2,0)
     geom->setColorBinding(deprecated_osg::Geometry::BIND_PER_PRIMITIVE);
-    
+#else
+    geom->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
+#endif
+
     geom->setNormalArray(normals);
+
+#if OSG_VERSION_GREATER_THAN(3,2,0)
     geom->setNormalBinding(deprecated_osg::Geometry::BIND_OVERALL);
-    
+#else
+    geom->setNormalBinding(osg::Geometry::BIND_OVERALL);
+#endif
+
     geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS,0,coordIndices->size()));
     
     osg::Geode* geode = new osg::Geode;
