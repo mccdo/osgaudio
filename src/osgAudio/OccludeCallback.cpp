@@ -25,7 +25,12 @@
 
 #include <iostream>
 
+#include <osg/Version>
+#if OSG_VERSION_LESS_THAN(3,7,0)
 #include <osgUtil/IntersectVisitor>
+#else
+#include <osgUtil/LineSegmentIntersector>
+#endif
 
 #include <osgAudio/OccludeCallback.h>
 #include <osgAudio/SoundState.h>
@@ -92,6 +97,7 @@ void OccludeCallback::apply(const osg::Matrix& listener_matrix, const osg::Vec3&
 
     osg::Matrix m = listener_matrix.inverse(listener_matrix);
 
+#if OSG_VERSION_LESS_THAN(3,7,0)
     // Now shoot a ray from the ear to the source and see if it hits anything.
     osgUtil::IntersectVisitor iv;
     osg::ref_ptr<osg::LineSegment> left = new osg::LineSegment;
@@ -112,13 +118,25 @@ void OccludeCallback::apply(const osg::Matrix& listener_matrix, const osg::Vec3&
         osgUtil::IntersectVisitor::HitList::iterator hit = iv.getHitList( left.get() ).begin();
 
         osg::Vec3 hit_point = hit->getWorldIntersectPoint();
+        osg::NodePath &np = hit->_nodePath;
+#else
+    osg::Vec3 start(m.getTrans()), end(sound_pos);
+    osg::ref_ptr<osgUtil::LineSegmentIntersector> intersector = new osgUtil::LineSegmentIntersector(start, end);
+    intersector->setIntersectionLimit(osgUtil::LineSegmentIntersector::LIMIT_NEAREST);
+    osgUtil::IntersectionVisitor intersectVisitor(intersector.get());
+    m_root->accept(intersectVisitor);
+    bool occluded = false;
+    if (intersector->containsIntersections()) {
+        osgUtil::LineSegmentIntersector::Intersection hit = intersector->getFirstIntersection();
+        osg::Vec3 hit_point = hit.getWorldIntersectPoint();
+        osg::NodePath &np = hit.nodePath;
+#endif
         double d = (hit_point - start).length();
         double diff = fabs(d - distance);
 
         if ( diff > m_near_threshold) {
             occluded = true;
 
-            osg::NodePath &np = hit->_nodePath;
             if (np.size())
                 occluder = *(np.begin());
 
