@@ -107,60 +107,69 @@ osg::Node* createBase(const osg::Vec3& center,float radius)
     
     //Just two colours - black and white.
     osg::Vec4Array* colors = new osg::Vec4Array;
-    colors->push_back(osg::Vec4(1.0f,1.0f,1.0f,1.0f)); // white
-    colors->push_back(osg::Vec4(0.0f,0.0f,0.0f,1.0f)); // black
-    int numColors=colors->size();
     
-    
+    osg::Vec4 availableColours[2]=
+    {
+        osg::Vec4(1.0f,1.0f,1.0f,1.0f),
+        osg::Vec4(0.0f,0.0f,0.0f,1.0f)
+    };
+    int numColors=2;
     int numIndicesPerRow=numTilesX+1;
     osg::UByteArray* coordIndices = new osg::UByteArray; // assumes we are using less than 256 points...
     osg::UByteArray* colorIndices = new osg::UByteArray;
+    osg::DrawElements * primSet = new osg::DrawElementsUByte(osg::PrimitiveSet::TRIANGLES);
     for(iy=0;iy<numTilesY;++iy)
     {
         for(int ix=0;ix<numTilesX;++ix)
         {
             // four vertices per quad.
-            coordIndices->push_back(ix    +(iy+1)*numIndicesPerRow);
-            coordIndices->push_back(ix    +iy*numIndicesPerRow);
-            coordIndices->push_back((ix+1)+iy*numIndicesPerRow);
-            coordIndices->push_back((ix+1)+(iy+1)*numIndicesPerRow);
+            // three vertices per triangle.
+            // first triangle.
+            primSet->addElement(ix    +(iy+1)*numIndicesPerRow);
+            primSet->addElement(ix    +iy*numIndicesPerRow);
+            primSet->addElement((ix+1)+iy*numIndicesPerRow);
+            // second triangle.
+            primSet->addElement((ix+1)+iy*numIndicesPerRow);
+            primSet->addElement((ix+1)+(iy+1)*numIndicesPerRow);
+            primSet->addElement(ix    +(iy+1)*numIndicesPerRow);
             
             // one color per quad
-            colorIndices->push_back((ix+iy)%numColors);
+//            colorIndices->push_back((ix+iy)%numColors);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
         }
     }
-    
 
     // set up a single normal
     osg::Vec3Array* normals = new osg::Vec3Array;
     normals->push_back(osg::Vec3(0.0f,0.0f,1.0f));
     
 #if OSG_VERSION_GREATER_THAN(3,2,0)
-    deprecated_osg::Geometry* geom = new deprecated_osg::Geometry;
+    osg::Geometry* geom = new osg::Geometry;
 #else
     osg::Geometry* geom = new osg::Geometry;
 #endif
     geom->setVertexArray(coords);
-    geom->setVertexIndices(coordIndices);
     
     geom->setColorArray(colors);
-    geom->setColorIndices(colorIndices);
-
 #if OSG_VERSION_GREATER_THAN(3,2,0)
-    geom->setColorBinding(deprecated_osg::Geometry::BIND_PER_PRIMITIVE);
+    geom->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
 #else
-    geom->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
+    geom->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
 #endif
 
     geom->setNormalArray(normals);
-
 #if OSG_VERSION_GREATER_THAN(3,2,0)
-    geom->setNormalBinding(deprecated_osg::Geometry::BIND_OVERALL);
+    geom->setNormalBinding(osg::Geometry::BIND_OVERALL);
 #else
     geom->setNormalBinding(osg::Geometry::BIND_OVERALL);
 #endif
 
-    geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS,0,coordIndices->size()));
+    geom->addPrimitiveSet(primSet);
     
     osg::Geode* geode = new osg::Geode;
     geode->addDrawable(geom);

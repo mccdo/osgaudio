@@ -66,11 +66,11 @@ public:
     {
         if (ea.getEventType() == osgGA::GUIEventAdapter::KEYDOWN)
         {
-            if (ea.getKey() == 32) 
+            if (ea.getKey() == 32)
             {
 
                 // Now push the soundstate to the queue so it will be played.
-                // Set any of the parameters that will be activated when it 
+                // Set any of the parameters that will be activated when it
                 // is head of the queue when the sound manager processes the soundstates later on.
 
                 // Get the current position of the listener
@@ -80,7 +80,7 @@ public:
                 m_sound_state->setPosition(osg::Vec3(x,y,z));
 
                 m_sound_state->setPlay(true); // It will play!
-                m_sound_state->setPitch(1); 
+                m_sound_state->setPitch(1);
 
                 // Now push the event to the sound manager so it can play it whenever this
                 // event reaches the top of the queue. A higher priority will move it to the top
@@ -89,7 +89,7 @@ public:
                 osgAudio::SoundManager::instance()->pushSoundEvent(m_sound_state.get(), priority);
                 return true;
             }
-            else if (ea.getKey() == 'm') 
+            else if (ea.getKey() == 'm')
             {
 
                 // Toggle looping ambient music
@@ -136,7 +136,7 @@ private:
 
 osg::AnimationPath* createAnimationPath(const osg::Vec3& center,float radius,double looptime)
 {
-    // set up the animation path 
+    // set up the animation path
     osg::AnimationPath* animationPath = new osg::AnimationPath;
     animationPath->setLoopMode(osg::AnimationPath::LOOP);
 
@@ -157,7 +157,7 @@ osg::AnimationPath* createAnimationPath(const osg::Vec3& center,float radius,dou
         yaw += yaw_delta;
         time += time_delta;
     }
-    return animationPath;    
+    return animationPath;
 }
 
 osg::Node* createBase(const osg::Vec3& center,float radius)
@@ -185,26 +185,40 @@ osg::Node* createBase(const osg::Vec3& center,float radius)
 
     //Just two colours - black and white.
     osg::Vec4Array* colors = new osg::Vec4Array;
-    colors->push_back(osg::Vec4(1.0f,1.0f,1.0f,1.0f)); // white
-    colors->push_back(osg::Vec4(0.0f,0.0f,0.0f,1.0f)); // black
-    int numColors=colors->size();
 
-
+    osg::Vec4 availableColours[2]=
+    {
+        osg::Vec4(1.0f,1.0f,1.0f,1.0f),
+        osg::Vec4(0.0f,0.0f,0.0f,1.0f)
+    };
+    int numColors=2;
     int numIndicesPerRow=numTilesX+1;
     osg::UByteArray* coordIndices = new osg::UByteArray; // assumes we are using less than 256 points...
     osg::UByteArray* colorIndices = new osg::UByteArray;
+    osg::DrawElements * primSet = new osg::DrawElementsUByte(osg::PrimitiveSet::TRIANGLES);
     for(iy=0;iy<numTilesY;++iy)
     {
         for(int ix=0;ix<numTilesX;++ix)
         {
             // four vertices per quad.
-            coordIndices->push_back(ix    +(iy+1)*numIndicesPerRow);
-            coordIndices->push_back(ix    +iy*numIndicesPerRow);
-            coordIndices->push_back((ix+1)+iy*numIndicesPerRow);
-            coordIndices->push_back((ix+1)+(iy+1)*numIndicesPerRow);
+            // three vertices per triangle.
+            // first triangle.
+            primSet->addElement(ix    +(iy+1)*numIndicesPerRow);
+            primSet->addElement(ix    +iy*numIndicesPerRow);
+            primSet->addElement((ix+1)+iy*numIndicesPerRow);
+            // second triangle.
+            primSet->addElement((ix+1)+iy*numIndicesPerRow);
+            primSet->addElement((ix+1)+(iy+1)*numIndicesPerRow);
+            primSet->addElement(ix    +(iy+1)*numIndicesPerRow);
 
             // one color per quad
-            colorIndices->push_back((ix+iy)%numColors);
+//            colorIndices->push_back((ix+iy)%numColors);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
+            colors->push_back(availableColours[(ix+iy)%numColors]);
         }
     }
 
@@ -213,29 +227,27 @@ osg::Node* createBase(const osg::Vec3& center,float radius)
     normals->push_back(osg::Vec3(0.0f,0.0f,1.0f));
 
 #if OSG_VERSION_GREATER_THAN(3,2,0)
-    deprecated_osg::Geometry* geom = new deprecated_osg::Geometry;
+    osg::Geometry* geom = new osg::Geometry;
 #else
     osg::Geometry* geom = new osg::Geometry;
 #endif
     geom->setVertexArray(coords);
-    geom->setVertexIndices(coordIndices);
 
     geom->setColorArray(colors);
-    geom->setColorIndices(colorIndices);
 #if OSG_VERSION_GREATER_THAN(3,2,0)
-    geom->setColorBinding(deprecated_osg::Geometry::BIND_PER_PRIMITIVE);
+    geom->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
 #else
-    geom->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE);
+    geom->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
 #endif
 
     geom->setNormalArray(normals);
 #if OSG_VERSION_GREATER_THAN(3,2,0)
-    geom->setNormalBinding(deprecated_osg::Geometry::BIND_OVERALL);
+    geom->setNormalBinding(osg::Geometry::BIND_OVERALL);
 #else
     geom->setNormalBinding(osg::Geometry::BIND_OVERALL);
 #endif
 
-    geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS,0,coordIndices->size()));
+    geom->addPrimitiveSet(primSet);
 
     osg::Geode* geode = new osg::Geode;
     geode->addDrawable(geom);
@@ -271,14 +283,14 @@ osg::Node* createMovingModel(const osg::Vec3& center, float radius)
         soundCB->setSoundState( createSoundState("bee.wav") );
         glider->setUpdateCallback( soundCB.get() );
         group->addChild(positioned);
-    
-        osg::PositionAttitudeTransform* xform = new osg::PositionAttitudeTransform;         
+
+        osg::PositionAttitudeTransform* xform = new osg::PositionAttitudeTransform;
         xform->setUpdateCallback(new osg::AnimationPathCallback(animationPath,0.0,1.0));
         xform->addChild(group.get());
-    
+
         model->addChild(xform);
     }
-    
+
     osg::Node* cessna = osgDB::readNodeFile("cessna.osg");
     if (cessna)
     {
@@ -306,7 +318,7 @@ osg::Node* createMovingModel(const osg::Vec3& center, float radius)
 osgAudio::SoundState* createSoundState(const std::string& file)
 {
     // Create a sample, load a .wav file.
-    osgAudio::Sample* sample = 
+    osgAudio::Sample* sample =
         osgAudio::SoundManager::instance()->getSample(file.c_str(), false);
     // Create a named sound state.
     osgAudio::SoundState* sound_state = new osgAudio::SoundState( file );
@@ -317,7 +329,7 @@ osgAudio::SoundState* createSoundState(const std::string& file)
 
     // Set its gain (volume) to 0.9
     sound_state->setGain(0.9f);
-    
+
     sound_state->setReferenceDistance(70);
 
     // Set its pitch to 1 (normal speed)
@@ -358,7 +370,7 @@ int main( int argc, char **argv )
     osg::notify(osg::NOTICE) << "Version: " << osgAudio::getVersion() << "\n\n" << std::endl;
     osg::notify(osg::NOTICE) << "\nPress space to play a sound once...\n" << std::endl;
 
-    try 
+    try
     {
         // use an ArgumentParser object to manage the program arguments.
         osg::ArgumentParser arguments(&argc,argv);
@@ -379,7 +391,7 @@ int main( int argc, char **argv )
 
         // add the help handler
         viewer.addEventHandler(new osgViewer::HelpHandler(arguments.getApplicationUsage()));
-        
+
         osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> keyswitchManipulator = new osgGA::KeySwitchMatrixManipulator;
         keyswitchManipulator->addMatrixManipulator( '1', "Trackball", new osgGA::TrackballManipulator() );
         viewer.setCameraManipulator( keyswitchManipulator.get() );
@@ -413,25 +425,25 @@ int main( int argc, char **argv )
         osgAudio::SoundManager::instance()->getEnvironment()->setUnitScale(3.28);
 
         // Create ONE (only one, otherwise the transformation of the listener and update for SoundManager will be
-        // called several times, which is not catastrophic, but unnecessary) 
+        // called several times, which is not catastrophic, but unnecessary)
         // SoundRoot that will make sure the listener is updated and
         // to keep the internal state of the SoundManager updated
         // This could also be done manually, this is just a handy way of doing it.
         osg::ref_ptr<osgAudio::SoundRoot> sound_root = new osgAudio::SoundRoot;
-        
+
         // Specify the camera from our viewer. The view matrix from this camera
         // will be used during update to set the Listener position. Note this
         // will not work if the viewer is rendering to multiple displays; will
         // need to select a slave camera.
         sound_root->setCamera( viewer.getCamera() );
-        
+
         // The position in the scenegraph of this node is not important.
         // Just as long as the cull traversal should be called after any changes to the SoundManager are made.
         // tilt the scene so the default eye position is looking down on the model.
         osg::MatrixTransform* rootnode = new osg::MatrixTransform;
         rootnode->setMatrix(osg::Matrix::rotate(osg::inDegrees(30.0f),1.0f,0.0f,0.0f));
         rootnode->addChild(sound_root.get());
-        
+
         // load the nodes from the commandline arguments.
         osg::Node* model = createModel();
         if (!model)
@@ -457,7 +469,7 @@ int main( int argc, char **argv )
         viewer.getEventHandlers().push_front(new KeyboardHandler(sound_state.get()));
 
 
-        // run optimization over the scene graph after the soundnodes are added 
+        // run optimization over the scene graph after the soundnodes are added
         // otherwise in this case the transformation added earlier would dissapear.
         osgUtil::Optimizer optimzer;
         optimzer.optimize(rootnode);
@@ -476,7 +488,7 @@ int main( int argc, char **argv )
     }
 
     // Very important to call before end of main!
-    if (osg::Referenced::getDeleteHandler()) 
+    if (osg::Referenced::getDeleteHandler())
     {
         osg::Referenced::getDeleteHandler()->setNumFramesToRetainObjects(0);
         osg::Referenced::getDeleteHandler()->flushAll();
