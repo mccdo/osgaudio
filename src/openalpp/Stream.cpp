@@ -28,7 +28,7 @@
 
 using namespace openalpp;
 
-Stream::Stream() throw (NameError) : SoundData(), isRecording_(false) {
+Stream::Stream() : SoundData(), isRecording_(false) {
     buffer2_=new SoundData();
     updater_=NULL;
 }

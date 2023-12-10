@@ -1,8 +1,7 @@
 /* -*-c++-*- */
 /**
  * osgAudio - OpenSceneGraph Audio Library
- * (C) Copyright 2009-2012 by Kenneth Mark Bryden
- * (programming by Chris 'Xenon' Hanson, AlphaPixel, LLC xenon at alphapixel.com)
+ * Copyright (C) 2010 AlphaPixel, LLC
  * based on a fork of:
  * Osg AL - OpenSceneGraph Audio Library
  * Copyright (C) 2004 VRlab, Umeå University
@@ -22,48 +21,15 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#include <openalpp/SoundData.h>
-
-using namespace openalpp;
-
-SoundData::SoundBuffer::SoundBuffer() : buffername_(0) {
-    alGenBuffers(1,&buffername_);
-
-    if(alGetError()!=AL_FALSE)
-    {
-        throw NameError("Error generating buffer name");
-    }
-}
-
-SoundData::SoundBuffer::~SoundBuffer() {
-    alDeleteBuffers(1,&buffername_);
-}
 
 
-SoundData::SoundData() : AudioBase() {
-    buffer_=new SoundBuffer();
-}
+#ifndef OSGAUDIO_CONFIG_H
+#define OSGAUDIO_CONFIG_H 1
 
+// we like the 0_ prefix in the CMake control UI,
+// but C++ dislikes it, so this maps it over to unprefixed version
 
+#define ENABLE_SUBSYSTEM_OPENAL
+/* #undef ENABLE_SUBSYSTEM_FMOD */
 
-SoundData::SoundData(const SoundData &sounddata)
-: AudioBase() {
-    buffer_=sounddata.buffer_;
-}
-
-SoundData::~SoundData() 
-{
-    buffer_ = 0;
-}
-
-ALuint SoundData::getAlBuffer() const {
-    return buffer_->getName();
-}
-
-SoundData &SoundData::operator=(const SoundData &sounddata) {
-    if(this!=&sounddata) {
-        buffer_=sounddata.buffer_;
-    }
-    return *this;
-}
-
+#endif /* OSGAUDIO_CONFIG_H */

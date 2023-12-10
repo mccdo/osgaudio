@@ -30,7 +30,6 @@
 using namespace osgAudio;
 
 FileStream::FileStream(const std::string& filename,const int buffersize)
-throw (NameError,InitError,FileError) 
 : Stream(0) {
     try {
     _openalppStream = new openalpp::FileStream (filename, buffersize);

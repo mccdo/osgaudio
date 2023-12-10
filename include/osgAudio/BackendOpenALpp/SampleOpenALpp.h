@@ -48,7 +48,7 @@ namespace osgAudio
         * Constructor.
         * @param filename is name of file to load.
         */
-        Sample(const std::string& filename ) throw (FileError,NameError);
+        Sample(const std::string& filename );
 
         /**
         * Copy constructor.
@@ -63,7 +63,7 @@ namespace osgAudio
         * @param freq of data.
         */
         // <<<>>> TODO: Create a portable way of specifying the format
-        //Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq) throw (FileError);
+        //Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq);
 
         /**
         * Get file name of loaded file.

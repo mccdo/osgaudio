@@ -288,7 +288,7 @@ float Source::getPitch() const {
     return _openalppSource->getPitch();
 }
 
-void Source::setReverbScale(float scale) throw (InitError,ValueError) {
+void Source::setReverbScale(float scale) {
     try {
     _openalppSource->setReverbScale(scale);
     }
@@ -296,7 +296,7 @@ void Source::setReverbScale(float scale) throw (InitError,ValueError) {
     catch(openalpp::InitError error) { throw InitError(error.what()); }
 }
 
-void Source::setReverbDelay(float delay) throw (InitError,ValueError) {
+void Source::setReverbDelay(float delay) {
     try {
     _openalppSource->setReverbDelay(delay);
     }
@@ -304,14 +304,14 @@ void Source::setReverbDelay(float delay) throw (InitError,ValueError) {
     catch(openalpp::InitError error) { throw InitError(error.what()); }
 }
 
-float Source::getReverbScale() throw (InitError) {
+float Source::getReverbScale() {
     try {
     return _openalppSource->getReverbScale();
     }
     catch(openalpp::InitError error) { throw InitError(error.what()); }
 }
 
-float Source::getReverbDelay() throw (InitError) {
+float Source::getReverbDelay() {
     try {
     return _openalppSource->getReverbDelay();
     }
@@ -320,21 +320,21 @@ float Source::getReverbDelay() throw (InitError) {
 
 // <<<>>> May need to re-engineer
 /*
-unsigned int Source::link(const SourceBase *source) throw (MemoryError) {
+unsigned int Source::link(const SourceBase *source) {
     try {
     return _openalppSource->link(source);
     }
     catch(openalpp::MemoryError error) { throw MemoryError(error.what()); }
 }
 
-void Source::unlink(const SourceBase *source) throw (NameError) {
+void Source::unlink(const SourceBase *source) {
     try {
     return _openalppSource->link(source);
     }
     catch(openalpp::MemoryError error) { throw MemoryError(error.what()); }
 }
 
-void Source::unlink(const unsigned int name) throw (NameError) {
+void Source::unlink(const unsigned int name) {
     try {
     _openalppSource->unlink(name);
     }

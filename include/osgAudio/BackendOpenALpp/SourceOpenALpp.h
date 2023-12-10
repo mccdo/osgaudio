@@ -361,7 +361,7 @@ namespace osgAudio
         * AudioEnviroment::InitiateReverb() must be called before this.
         * @param scale is the reverb scale [0.0-1.0].
         */
-        virtual void setReverbScale(float scale) throw (InitError,ValueError);
+        virtual void setReverbScale(float scale);
 
         /**
         * Set reverb delay for this source.
@@ -369,19 +369,19 @@ namespace osgAudio
         * This is how many seconds back in time the echo will be.
         * @param delay is the delay [0.0-2.0] in seconds.
         */
-        virtual void setReverbDelay(float delay) throw (InitError,ValueError);
+        virtual void setReverbDelay(float delay);
 
         /**
         * Get reverb delay for this source.
         * @return the delay.
         */
-        virtual float getReverbDelay() throw (InitError);
+        virtual float getReverbDelay();
 
         /**
         * Get reverb scale for this source.
         * @return the scale.
         */
-        virtual float getReverbScale() throw (InitError);
+        virtual float getReverbScale();
 
         /**
         * Link this source to another.
@@ -392,21 +392,21 @@ namespace osgAudio
         * it.
         */
         // <<<>>> May need to re-engineer
-        //virtual ALuint link(const SourceBase *source) throw (MemoryError);
+        //virtual ALuint link(const SourceBase *source);
 
         /**
         * Unlink this source from another.
         * @param source is the source to unlink.
         */
         // <<<>>> May need to re-engineer
-        //virtual void unlink(const SourceBase *source) throw (NameError);
+        //virtual void unlink(const SourceBase *source);
 
         /**
         * Unlink this source from another.
         * @param name is the name of the source to unlink.
         */
         // <<<>>> May need to re-engineer
-        //virtual void unlink(const ALuint name) throw (NameError);
+        //virtual void unlink(const ALuint name);
 
         /**
         * Unlink all sources from this.

@@ -30,7 +30,7 @@
 using namespace osgAudio;
 
 
-Sample::Sample(const std::string& filename) throw (FileError,NameError) {
+Sample::Sample(const std::string& filename) {
     try {
     _openalppSample = new openalpp::Sample (filename);
     }
@@ -44,7 +44,7 @@ Sample::Sample(const Sample &sample) {
 
 // <<<>>> TODO: Create a portable way of specifying the format
 /*
-Sample::Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq) throw (FileError)
+Sample::Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq)
 : SoundData() {
 //        throw FileError("Error buffering sound");
 }

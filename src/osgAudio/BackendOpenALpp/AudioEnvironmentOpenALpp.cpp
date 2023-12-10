@@ -50,7 +50,7 @@ AudioEnvironment* AudioEnvironment::instance()
     return s_audioEnvironment;
 }
 
-void AudioEnvironment::init( bool displayInitMsgs ) throw (InitError) 
+void AudioEnvironment::init( bool displayInitMsgs )
 {
     try 
     {
@@ -63,7 +63,6 @@ void AudioEnvironment::init( bool displayInitMsgs ) throw (InitError)
 }
 
 void AudioEnvironment::init(int frequency,int refresh,bool synchronous,bool displayInitMsgs)
-throw (InitError) 
 {
     try 
     {
@@ -75,7 +74,7 @@ throw (InitError)
     }
 }
 
-void AudioEnvironment::init(int frequency,int refresh) throw (InitError)
+void AudioEnvironment::init(int frequency,int refresh)
 {
     try 
     {
@@ -103,7 +102,7 @@ void AudioEnvironment::shutdown()
     }
 }
 
-void AudioEnvironment::setSoundVelocity(float speed) throw(ValueError,FatalError){
+void AudioEnvironment::setSoundVelocity(float speed) {
     try {
     _openalppAudioEnvironment->setSoundVelocity (speed);
     }
@@ -111,7 +110,7 @@ void AudioEnvironment::setSoundVelocity(float speed) throw(ValueError,FatalError
     catch(openalpp::FatalError error) { throw FatalError(error.what()); }
 }
 
-float AudioEnvironment::getSoundVelocity() throw (FatalError) {
+float AudioEnvironment::getSoundVelocity() {
     float speed;
     try {
     speed = _openalppAudioEnvironment->getSoundVelocity();
@@ -121,7 +120,7 @@ float AudioEnvironment::getSoundVelocity() throw (FatalError) {
 }
 
 void AudioEnvironment::setDopplerFactor(float factor) 
-throw (ValueError,FatalError) {
+{
     try {
     _openalppAudioEnvironment->setDopplerFactor (factor);
     }
@@ -129,7 +128,7 @@ throw (ValueError,FatalError) {
     catch(openalpp::FatalError error) { throw FatalError(error.what()); }
 }
 
-float AudioEnvironment::getDopplerFactor() throw (FatalError) {
+float AudioEnvironment::getDopplerFactor() {
     float factor;
     try {
     factor = _openalppAudioEnvironment->getDopplerFactor();
@@ -138,11 +137,11 @@ float AudioEnvironment::getDopplerFactor() throw (FatalError) {
     return factor;
 }
 
-void AudioEnvironment::setUnitScale(float scale) throw (ValueError,FatalError) {
+void AudioEnvironment::setUnitScale(float scale) {
     _dummyUnitScale = scale;
 } 
 
-float AudioEnvironment::getUnitScale() throw (FatalError) {
+float AudioEnvironment::getUnitScale() {
     return(_dummyUnitScale);
 }
 
@@ -154,7 +153,7 @@ void AudioEnvironment::setGain(float gain) {
     catch(openalpp::FatalError error) { throw FatalError(error.what()); }
 }
 
-float AudioEnvironment::getGain() throw (FatalError) {  
+float AudioEnvironment::getGain() {  
     float gain;
     try {
     gain = _openalppAudioEnvironment->getGain();
@@ -164,14 +163,14 @@ float AudioEnvironment::getGain() throw (FatalError) {
 }
 
 void AudioEnvironment::setDistanceModel(DistanceModel model)
-throw (FatalError){
+{
     try {
     _openalppAudioEnvironment->setDistanceModel (_openalppDistanceModelTranslate[model]);
     }
     catch(openalpp::FatalError error) { throw FatalError(error.what()); }
 }
 
-DistanceModel AudioEnvironment::getDistanceModel() throw (FatalError) {
+DistanceModel AudioEnvironment::getDistanceModel() {
     DistanceModel dmodel;
     try {
     dmodel = _osgAudioDistanceModelTranslate[_openalppAudioEnvironment->getDistanceModel()];
@@ -181,7 +180,7 @@ DistanceModel AudioEnvironment::getDistanceModel() throw (FatalError) {
 }
 
 
-void AudioEnvironment::initiateReverb() throw (InitError) {
+void AudioEnvironment::initiateReverb() {
     try {
     _openalppAudioEnvironment->initiateReverb();
     }

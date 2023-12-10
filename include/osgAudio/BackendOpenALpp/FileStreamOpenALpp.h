@@ -52,8 +52,7 @@ namespace osgAudio
         * @param buffersize is an optional parameter specifying how large the
         * buffer should be (in samples per second).
         */
-        FileStream(const std::string& filename,const int buffersize=4096) 
-            throw (NameError,InitError,FileError);
+        FileStream(const std::string& filename,const int buffersize=4096);
 
         /**
         * Copy constructor.

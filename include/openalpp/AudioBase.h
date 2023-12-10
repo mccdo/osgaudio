@@ -89,8 +89,7 @@ namespace openalpp {
         * @param is a flag for synchronous context. Values <0 indicates that the
         * default should be used.
         */
-        AudioBase(int frequency=-1,int refresh=-1,int synchronous=-1, bool displayInitMsgs=false )
-            throw (InitError);
+        AudioBase(int frequency=-1,int refresh=-1,int synchronous=-1, bool displayInitMsgs=false );
 
         /**
         * Destructor.

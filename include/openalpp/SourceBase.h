@@ -254,7 +254,7 @@ namespace openalpp {
         * AudioEnviroment::InitiateReverb() must be called before this.
         * @param scale is the reverb scale [0.0-1.0].
         */
-        void setReverbScale(float scale) throw (InitError,ValueError);
+        void setReverbScale(float scale);
 
         /**
         * Set reverb delay for this source.
@@ -262,19 +262,19 @@ namespace openalpp {
         * This is how many seconds back in time the echo will be.
         * @param delay is the delay [0.0-2.0] in seconds.
         */
-        void setReverbDelay(float delay) throw (InitError,ValueError);
+        void setReverbDelay(float delay);
 
         /**
         * Get reverb delay for this source.
         * @return the delay.
         */
-        float getReverbDelay() throw (InitError);
+        float getReverbDelay();
 
         /**
         * Get reverb scale for this source.
         * @return the scale.
         */
-        float getReverbScale() throw (InitError);
+        float getReverbScale();
 
         /**
         * Link this source to another.
@@ -284,19 +284,19 @@ namespace openalpp {
         * @return identifier for the linked source. This is also the OpenAL name for
         * it.
         */
-        ALuint link(const SourceBase *source) throw (MemoryError);
+        ALuint link(const SourceBase *source);
 
         /**
         * Unlink this source from another.
         * @param source is the source to unlink.
         */
-        void unlink(const SourceBase *source) throw (NameError);
+        void unlink(const SourceBase *source);
 
         /**
         * Unlink this source from another.
         * @param name is the name of the source to unlink.
         */
-        void unlink(const ALuint name) throw (NameError);
+        void unlink(const ALuint name);
 
         /**
         * Unlink all sources from this.
@@ -343,7 +343,7 @@ namespace openalpp {
         /**
         * Constructor.
         */
-        SourceBase() throw (MemoryError,NameError);
+        SourceBase();
 
         /**
         * Constructor.
@@ -351,7 +351,7 @@ namespace openalpp {
         * @param y y coordinate.
         * @param z z coordinate.
         */
-        SourceBase(float x,float y,float z) throw (MemoryError,NameError);
+        SourceBase(float x,float y,float z);
 
         /**
         * Copy constructor.
@@ -372,7 +372,7 @@ namespace openalpp {
         * Initiate source.
         * Used by constructors.
         */
-        void init() throw (MemoryError,NameError);
+        void init();
 
         /**
         * Pointer to array of linked sources.
