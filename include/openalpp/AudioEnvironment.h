@@ -73,7 +73,7 @@ namespace openalpp {
         * Constructor.
         * @param displayInitMsgs When true, writes init messages to console.
         */
-        AudioEnvironment( bool displayInitMsgs=false ) throw (InitError);
+        AudioEnvironment( bool displayInitMsgs=false );
 
         /**
         * Constructor.
@@ -84,8 +84,7 @@ namespace openalpp {
         * @param synchronous is true if the environment is synchronous
         * @param displayInitMsgs When true, writes init messages to console.
         */
-        AudioEnvironment(int frequency,int refresh,bool synchronous,bool displayInitMsgs)
-            throw (InitError);
+        AudioEnvironment(int frequency,int refresh,bool synchronous,bool displayInitMsgs);
 
 
         /**
@@ -95,21 +94,20 @@ namespace openalpp {
         * @param frequency is the playing frequency of the environment (in Hz)
         * @param refresh is the refresh rate of the environment (in Hz)
         */
-        AudioEnvironment(int frequency,int refresh=-1)
-            throw (InitError);
+        AudioEnvironment(int frequency,int refresh=-1);
 
         /**
         * Sets the speed of sound in the environment.
         * This is used in Doppler calculations.
         * @param speed is the speed of sound in length units per second.
         */
-        void setSoundVelocity(float speed) throw (ValueError,FatalError);
+        void setSoundVelocity(float speed);
 
         /**
         * Get the speed of sound in the environment.
         * @return speed of sound in length units per second.
         */
-        float getSoundVelocity() throw (FatalError);
+        float getSoundVelocity();
 
         /**
         * Sets the Doppler factor.
@@ -117,13 +115,13 @@ namespace openalpp {
         * Doppler effect.
         * @param factor has a default value of one.
         */
-        void setDopplerFactor(float factor) throw (ValueError,FatalError);
+        void setDopplerFactor(float factor);
 
         /**
         * Gets the Doppler factor.
         * @return Doppler factor.
         */
-        float getDopplerFactor() throw (FatalError);
+        float getDopplerFactor();
 
         /**
         * Sets global gain (volume).
@@ -139,24 +137,24 @@ namespace openalpp {
         * Gets the global gain
         * @return global gain
         */
-        float getGain() throw (FatalError);
+        float getGain();
 
         /**
         * Sets the distance model used in attenuation calculations.
         * @param model is one of: None, InverseDistance, InverseDistanceClamped.
         */
-        void setDistanceModel(DistanceModel model) throw (FatalError);
+        void setDistanceModel(DistanceModel model);
 
         /**
         * Gets the distance model used in attenuation calculations.
         * @return the model.
         */
-        DistanceModel getDistanceModel() throw (FatalError);
+        DistanceModel getDistanceModel();
 
         /**
         * Initiates Loki's reverb implementation.
         */
-        void initiateReverb() throw (InitError);
+        void initiateReverb();
     };
 
 }

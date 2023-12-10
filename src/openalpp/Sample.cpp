@@ -32,7 +32,7 @@
 
 using namespace openalpp;
 
-Sample::Sample(const std::string& filename) throw (FileError)
+Sample::Sample(const std::string& filename)
 : SoundData(),filename_(filename) {
 #if OPENAL_VERSION < 2007
     ALsizei size;
@@ -82,7 +82,7 @@ Sample::Sample(const Sample &sample)
 : SoundData(sample), filename_(sample.filename_) {
 }
 
-Sample::Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq) throw (FileError)
+Sample::Sample(ALenum format,ALvoid* data,ALsizei size,ALsizei freq)
 : SoundData() {
     ALenum error;
 

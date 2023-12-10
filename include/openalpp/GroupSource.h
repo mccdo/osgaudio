@@ -98,13 +98,13 @@ namespace openalpp {
         * @param y y coordinate.
         * @param z z coordinate.
         */
-        GroupSource(float x = 0.0, float y = 0.0, float z = 0.0) throw (NameError);
+        GroupSource(float x = 0.0, float y = 0.0, float z = 0.0);
 
         /**
         * Same as SourceBase::Play, except that this mixes the sources in the
         * group if it haven't been done yet.
         */
-        void play() throw (InitError,FileError);
+        void play();
 
         /**
         * Mix all added sources into one. This function will be called by
@@ -114,8 +114,7 @@ namespace openalpp {
         * separately
         * @param frequency is the frequency that will be used when mixing.
         */
-        void mixSources(unsigned int frequency=22050) 
-            throw (InitError,FileError,FatalError,MemoryError,ValueError);
+        void mixSources(unsigned int frequency=22050);
 
         /**
         * Includes a source in the group.
@@ -124,21 +123,21 @@ namespace openalpp {
         * @param source is (a pointer to) the source to include.
         * @return identifier for the source.
         */
-        ALuint includeSource(Source *source) throw (ValueError);
+        ALuint includeSource(Source *source);
 
         /**
         * Removes a source from the group.
         * This will of course require the remaining sources to be mixed again.
         * @param source is the source to exclude.
         */
-        void excludeSource(const Source &source) throw (NameError);
+        void excludeSource(const Source &source);
 
         /**
         * Removes a source from the group.
         * This will of course require the remaining sources to be mixed again.
         * @param source is the identifier of the source to exclude.
         */
-        void excludeSource(ALuint source) throw (NameError);
+        void excludeSource(ALuint source);
 
         /**
         * Copy constructor.

@@ -107,7 +107,7 @@ End of Vorbis callback functions
 using namespace openalpp;
 
 FileStream::FileStream(const std::string& filename,const int buffersize)
-throw (NameError,InitError,FileError) : Stream() , filename_(filename)
+: Stream() , filename_(filename)
 {
     FILE *filehandle=fopen(filename.c_str(),"rb");
     if(!filehandle)

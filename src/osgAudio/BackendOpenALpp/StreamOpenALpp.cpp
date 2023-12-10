@@ -28,7 +28,7 @@
 
 using namespace osgAudio;
 
-Stream::Stream() throw (NameError) {
+Stream::Stream() {
     try {
     _openalppStream = new openalpp::Stream ();
     }

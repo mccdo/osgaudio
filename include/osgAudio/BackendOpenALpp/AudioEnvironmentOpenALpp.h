@@ -59,7 +59,7 @@ namespace osgAudio
          * Initialize the OpenALpp environment.
          * @param displayInitMsgs When set to true, init messages are written to console.
          */
-        void init( bool displayInitMsgs=false ) throw (InitError);
+        void init( bool displayInitMsgs=false );
 
         /**
          * Initialize the OpenALpp environment.
@@ -70,8 +70,7 @@ namespace osgAudio
          * @param synchronous is true if the environment is synchronous
          * @param displayInitMsgs When set to true, init messages are written to console.
          */
-        void init(int frequency,int refresh,bool synchronous,bool displayInitMsgs=false )
-            throw (InitError);
+        void init(int frequency,int refresh,bool synchronous,bool displayInitMsgs=false );
 
 
         /**
@@ -81,21 +80,20 @@ namespace osgAudio
          * @param frequency is the playing frequency of the environment (in Hz)
          * @param refresh is the refresh rate of the environment (in Hz)
          */
-        void init(int frequency,int refresh=-1)
-            throw (InitError);
+        void init(int frequency,int refresh=-1);
 
         /**
          * Sets the speed of sound in the environment.
          * This is used in Doppler calculations.
          * @param speed is the speed of sound in length units per second.
          */
-        void setSoundVelocity(float speed) throw (ValueError,FatalError);
+        void setSoundVelocity(float speed);
 
         /**
          * Get the speed of sound in the environment.
          * @return speed of sound in length units per second.
          */
-        float getSoundVelocity() throw (FatalError);
+        float getSoundVelocity();
 
         /**
          * Sets the Doppler factor.
@@ -103,13 +101,13 @@ namespace osgAudio
          * Doppler effect.
          * @param factor has a default value of one.
          */
-        void setDopplerFactor(float factor) throw (ValueError,FatalError);
+        void setDopplerFactor(float factor);
 
         /**
          * Gets the Doppler factor.
          * @return Doppler factor.
          */
-        float getDopplerFactor() throw (FatalError);
+        float getDopplerFactor();
 
         /**
          * Sets the unit scale. Not used by OpenAL.
@@ -118,13 +116,13 @@ namespace osgAudio
          * "This only affects doppler! If you keep your min/max distance, custom rolloff curves and positions in scale relative to each other the volume rolloff will not change. If you set this, the mindistance of a sound will automatically set itself to this value when it is created in case the user forgets to set the mindistance to match the new distancefactor."
          * @param factor has a default value of one.
          */
-        void setUnitScale(float scale) throw (ValueError,FatalError);
+        void setUnitScale(float scale);
 
         /**
          * Gets the unit scale.  Not used by OpenAL.
          * @return Unit scale.
          */
-        float getUnitScale() throw (FatalError);
+        float getUnitScale();
 
         /**
          * Sets global gain (volume).
@@ -139,24 +137,24 @@ namespace osgAudio
          * Gets the global gain
          * @return global gain
          */
-        float getGain() throw (FatalError);
+        float getGain();
 
         /**
          * Sets the distance model used in attenuation calculations.
          * @param model is one of: None, InverseDistance, InverseDistanceClamped.
          */
-        void setDistanceModel(DistanceModel model) throw (FatalError);
+        void setDistanceModel(DistanceModel model);
 
         /**
          * Gets the distance model used in attenuation calculations.
          * @return the model.
          */
-        DistanceModel getDistanceModel() throw (FatalError);
+        DistanceModel getDistanceModel();
 
         /**
          * Initiates reverb implementation.
          */
-        void initiateReverb() throw (InitError);
+        void initiateReverb();
 
         /**
          * Some audio subsystems require explicit periodic "update" calls to keep

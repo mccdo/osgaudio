@@ -256,7 +256,7 @@ namespace osgAudio {
         * AudioEnviroment::InitiateReverb() must be called before this.
         * @param scale is the reverb scale [0.0-1.0].
         */
-        virtual void setReverbScale(float scale) throw (InitError,ValueError) = 0;
+        virtual void setReverbScale(float scale) = 0;
 
         /**
         * Set reverb delay for this source.
@@ -264,19 +264,19 @@ namespace osgAudio {
         * This is how many seconds back in time the echo will be.
         * @param delay is the delay [0.0-2.0] in seconds.
         */
-        virtual void setReverbDelay(float delay) throw (InitError,ValueError) = 0;
+        virtual void setReverbDelay(float delay) = 0;
 
         /**
         * Get reverb delay for this source.
         * @return the delay.
         */
-        virtual float getReverbDelay() throw (InitError) = 0;
+        virtual float getReverbDelay() = 0;
 
         /**
         * Get reverb scale for this source.
         * @return the scale.
         */
-        virtual float getReverbScale() throw (InitError) = 0;
+        virtual float getReverbScale() = 0;
 
         /**
         * Link this source to another.
@@ -287,21 +287,21 @@ namespace osgAudio {
         * it.
         */
         // <<<>>> May need to re-engineer
-        //virtual unsigned int link(const SourceBase *source) throw (MemoryError) = 0;
+        //virtual unsigned int link(const SourceBase *source) = 0;
 
         /**
         * Unlink this source from another.
         * @param source is the source to unlink.
         */
         // <<<>>> May need to re-engineer
-        //virtual void unlink(const SourceBase *source) throw (NameError) = 0;
+        //virtual void unlink(const SourceBase *source) = 0;
 
         /**
         * Unlink this source from another.
         * @param name is the name of the source to unlink.
         */
         // <<<>>> May need to re-engineer
-        //virtual void unlink(const unsigned int name) throw (NameError) = 0;
+        //virtual void unlink(const unsigned int name) = 0;
 
         /**
         * Unlink all sources from this.
@@ -350,7 +350,7 @@ namespace osgAudio {
         /**
         * Constructor.
         */
-        //SourceBase() throw (MemoryError,NameError);
+        //SourceBase() 
 
         /**
         * Constructor.
@@ -358,7 +358,7 @@ namespace osgAudio {
         * @param y y coordinate.
         * @param z z coordinate.
         */
-        //SourceBase(float x,float y,float z) throw (MemoryError,NameError);
+        //SourceBase(float x,float y,float z);
 
         /**
         * Copy constructor.

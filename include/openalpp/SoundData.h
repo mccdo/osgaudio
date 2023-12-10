@@ -55,8 +55,8 @@ namespace openalpp {
             virtual ~SoundBuffer();
 
         public:
-            SoundBuffer() throw (NameError);
-            SoundBuffer(ALuint buffer_id) throw (NameError) { buffername_ = buffer_id; }
+            SoundBuffer();
+            SoundBuffer(ALuint buffer_id) { buffername_ = buffer_id; }
             ALuint getName() {return buffername_;}
         };
     public:
@@ -69,7 +69,7 @@ namespace openalpp {
         /**
         * Constructor.
         */
-        SoundData() throw (NameError,InitError);
+        SoundData();
 
 
 

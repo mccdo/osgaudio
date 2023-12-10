@@ -30,9 +30,7 @@
 
 using namespace openalpp;
 
-AudioBase::AudioBase(int frequency,int refresh,int synchronous, bool displayInitMsgs )
-throw (InitError)
-{
+AudioBase::AudioBase(int frequency,int refresh,int synchronous, bool displayInitMsgs ) {
     if( displayInitMsgs )
         std::cout << "Initializing OpenAL." << std::endl;
 

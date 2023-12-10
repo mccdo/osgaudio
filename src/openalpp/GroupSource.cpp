@@ -30,7 +30,7 @@
 
 using namespace openalpp;
 
-GroupSource::GroupSource(float x,float y,float z) throw (NameError)
+GroupSource::GroupSource(float x,float y,float z)
 : SourceBase(x,y,z),mixed_(false) {
     alGenBuffers(1,&buffer_);
     if(alGetError()!=AL_FALSE)
@@ -38,7 +38,7 @@ GroupSource::GroupSource(float x,float y,float z) throw (NameError)
     alSourcei(sourcename_,AL_BUFFER,buffer_);
 }
 
-void GroupSource::play() throw (InitError,FileError) {
+void GroupSource::play() {
     try {
         if(!mixed_)
             mixSources();
@@ -363,8 +363,7 @@ ALshort *GroupSource::applyFilters(Source *source,ALshort *buffer,
                                        return buffer;
 }
 
-void GroupSource::mixSources(unsigned int frequency)
-throw (InitError,FileError,FatalError,MemoryError,ValueError) {
+void GroupSource::mixSources(unsigned int frequency) {
     ALsizei bsize=0,size=0,loadsize=0;
     ALenum format;
     ALboolean success;
@@ -496,19 +495,19 @@ throw (InitError,FileError,FatalError,MemoryError,ValueError) {
     free(bdata);
 }
 
-ALuint GroupSource::includeSource(Source *source) throw (ValueError) {
+ALuint GroupSource::includeSource(Source *source) {
     if(source->isStreaming())
         throw ValueError("Can't include streaming sources in group.");
     sources_.push_back(source);
     return source->getAlSource();
 }
 
-void GroupSource::excludeSource(const Source &source) throw (NameError) {
+void GroupSource::excludeSource(const Source &source) {
     ALuint sourcename=source.getAlSource();
     excludeSource(sourcename);
 }
 
-void GroupSource::excludeSource(ALuint sourcename) throw (NameError) {
+void GroupSource::excludeSource(ALuint sourcename) {
     for(unsigned int i=0;i<sources_.size();i++) {
         if(sourcename==sources_[i]->getAlSource()) {
             sources_[i]=sources_[sources_.size()-1];

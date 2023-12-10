@@ -57,7 +57,7 @@ namespace openalpp {
         /**
         * Default constructor.
         */
-        Stream() throw (NameError);
+        Stream();
 
         /**
         * Copy constructor.
